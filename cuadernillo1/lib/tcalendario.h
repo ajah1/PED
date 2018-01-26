@@ -1,0 +1,38 @@
+#pragma once
+
+class TCalendario {
+
+	private:
+	
+	int _dia;
+	int _mes;
+	int _anyo;
+	
+	char* _mensaje;
+
+
+	public:
+	
+	//Constructor por defecto: inicializa dia, mes y anyo a 1/1/1900 y mensaje a NULL
+	TCalendario ();
+	//Constructor que inicializa calendario con parámetros pasados
+	TCalendario (int, int, int, char*);
+	//Constructor copia
+	TCalendario (TCalendario &);
+	//Destructor
+	~TCalendario ();
+	// Sobrecarga del operador asignación
+	// TCalendario & operator = (TCalendario &);
+	
+	// Sobrecarga del operador igualdad;
+	bool operator == (TCalendario &);
+	// Sobrecarga del operador desigualdad;
+	// bool operator != (TCalendario &);
+	// Sobrecarga del operador >; (ver ACLARACIÓN sobre ORDENACIÓN)
+	bool operator > (TCalendario &);	
+	// Sobrecarga del operador <; (ver ACLARACIÓN sobre ORDENACIÓN)
+	bool operator < (TCalendario &);
+	
+	// Sobrecarga del operador salida
+	//friend ostream & operator << (ostream &, TCalendario &);
+};
