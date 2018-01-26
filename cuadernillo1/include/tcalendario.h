@@ -25,13 +25,23 @@ class TCalendario {
 	// TCalendario & operator = (TCalendario &);
 	
 	// Sobrecarga del operador igualdad;
-	bool operator == (TCalendario &);
+	bool operator == (const TCalendario &);
 	// Sobrecarga del operador desigualdad;
 	// bool operator != (TCalendario &);
 	// Sobrecarga del operador >; (ver ACLARACIÓN sobre ORDENACIÓN)
-	bool operator > (TCalendario &);	
+	bool operator > (const TCalendario &);	
 	// Sobrecarga del operador <; (ver ACLARACIÓN sobre ORDENACIÓN)
-	bool operator < (TCalendario &);
+	bool operator < (const TCalendario &);
+	
+	// Devuelve el día del calendario;
+	int Dia()  const {return _dia;};
+	// Devuelve el mes del calendario;
+	int Mes()  const {return _mes;};
+	// Devuelve el año del calendario;
+	int Anyo() const {return _anyo;};
+	// Devuelve el mensaje del calendario;
+	char* Mensaje() const {return _mensaje;};
+
 	
 	// Sobrecarga del operador salida
 	//friend ostream & operator << (ostream &, TCalendario &);
