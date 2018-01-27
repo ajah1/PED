@@ -4,40 +4,45 @@
 
 namespace operar
 {
-    int8_t mayorFecha (TCalendario& t1, const TCalendario& t2)
+    bool mayorFecha (TCalendario& t1, const TCalendario& t2)
     {
         if ( t1.Anyo() > t2.Anyo() )
-            return 1;
-            
-        else if ( t2.Anyo() > t1.Anyo() )
-            return 2;
+            return true;
     
         else if ( t1.Anyo() == t2.Anyo() )
         {
             if ( t1.Mes() > t2.Mes() )
-                return 1;
-                
-            else if ( t2.Mes() > t1.Mes() )
-                return 2;
+                return true;
                 
             else if ( t1.Dia() > t2.Dia() )
-                return 1;
-                
-            else if ( t2.Dia() > t1.Dia() )
-                return 2;
+                return true;
         }
         
-        return 0;
+        return false;
     }
-    
-    int8_t mayorMensaje (char c1, char c2)
+  
+    bool mayorMensaje (char* c1, char* c2)
     {
         
-        if ( !c1 && c2 )
-            return 1;
+        bool c2vacio = c2 && c2 == "" && c2 == " ";
+        bool c1vacio = c1 && c1 == "" && c1 == " ";
+        bool otro = (c2 == "" && c1 == " ");
         
-        else if  
+        if ( !c1vacio && c2vacio )
+            return true;
+            
+        else if ( !c1vacio && !c2vacio )
+            if (  *c1 > *c2 )
+                return true;
+                
+        else if ( otro || (c2 == " " && !c1vacio) )
+            return true;
     
-        return 0;
+        return false;
     }
 }
+
+
+
+
+

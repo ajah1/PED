@@ -14,13 +14,13 @@ class TCalendario {
 	public:
 	
 	//Constructor por defecto: inicializa dia, mes y anyo a 1/1/1900 y mensaje a NULL
-	TCalendario ();
+	inline TCalendario ();
 	//Constructor que inicializa calendario con parámetros pasados
 	TCalendario (int, int, int, char*);
 	//Constructor copia
-	TCalendario (TCalendario &);
+	inline TCalendario (TCalendario &);
 	//Destructor
-	~TCalendario ();
+	inline ~TCalendario ();
 	// Sobrecarga del operador asignación
 	// TCalendario & operator = (TCalendario &);
 	
@@ -46,3 +46,18 @@ class TCalendario {
 	// Sobrecarga del operador salida
 	//friend ostream & operator << (ostream &, TCalendario &);
 };
+
+TCalendario::TCalendario () :
+	_dia(1),
+	_mes(1), 
+	_anyo(1900),
+	_mensaje(nullptr)
+{}
+
+TCalendario::~TCalendario ()
+{
+	_dia = 1;
+	_mes = 1;
+	_anyo = 1900;
+	_mensaje = nullptr;
+}

@@ -9,5 +9,5 @@ namespace operar
     int8_t mayorFecha (TCalendario&, const TCalendario&);
     
     // devuelve 1 si el mesanje es mayor
-    int8_t mayorMensaje (char, char);
+    bool mayorMensaje (char*, char*);
 }

@@ -4,13 +4,7 @@
 #include <iostream>
 #include <inttypes.h>
 
-TCalendario::TCalendario () :
-	_dia(1),
-	_mes(1), 
-	_anyo(1900),
-	_mensaje(nullptr)
-{}
-
+//  CONTROLAR FECHA CORRECTA
 TCalendario::TCalendario (int dia, int mes, int anyo, char* msj) :
 	_dia(dia),
 	_mes(mes), 
@@ -18,18 +12,9 @@ TCalendario::TCalendario (int dia, int mes, int anyo, char* msj) :
 	_mensaje(msj)
 {}
 
-TCalendario::~TCalendario ()
-{
-	_dia = 1;
-	_mes = 1;
-	_anyo = 1900;
-	_mensaje = nullptr;
-}
-
 bool 
 TCalendario::operator == (const TCalendario& c)
 {
-
 	bool fecha = (c.Dia()  == _dia) && 
 				 (c.Mes()  == _mes) &&
 				 (c.Anyo() == _anyo); 
@@ -37,33 +22,32 @@ TCalendario::operator == (const TCalendario& c)
 	bool mensaje = (*c.Mensaje() == *_mensaje);
 	
 	return fecha && mensaje;
-
 }
 
 bool
 TCalendario::operator > (const TCalendario& c)
 {
-	// T1 > T2 cuando ...
-	
-	/*
-		1. T1 posterior T2
-		2. t1 == t2, t1.ms > t2.ms
-			----> t1 == t2, t1.ms == t2.ms <--- FALSE
-		3. null < "" < " " < otra
-	*/
-	
-    int8_t rf = operar::mayorFecha(*this, c);
-    int8_t rm = operar::mayorMensaje(*_mensaje, *c.Mensaje());
+    bool rf  = operar::mayorFecha (*this, c);
+    bool rms = operar::mayorMensaje (_mensaje, c.Mensaje());
     
-    if (rf == 1)
+    if (*this == c)
+        return false;
+    if (rf)
         return true;
-           
-   else if (rm == 1)
+    else if (rms)
         return true;
            
 	return false;
 }	
 
+bool
+TCalendario::operator < (const TCalendario& c)
+{
+    if ( (*this > c) || (*this == c) )
+        return false;
+        
+    return true;
+}
 
 
 

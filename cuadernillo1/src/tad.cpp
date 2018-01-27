@@ -4,24 +4,17 @@ using namespace std;
 
 #include "tcalendario.h"
 
-
 int
 main()
 {
-	 TCalendario c0();
-   TCalendario c1(1,1,1, (char*) "");
-   TCalendario c2(1,1,1, (char*) "");
+   char fi[] = "Fecha incorrecta";
+   char fc[] = "Fecha correcta";
    
-   
-   //if (c1==c2) cout<<"IGUALES"<<endl;
-   if (c1>c2) cout<<"c1 mayor c2"<<endl;
-   else cout << "error" << endl;
-   //if (c1<c2) cout<<"ERROR2"<<endl;
-    
-    /* 
-   c2.ModMensaje(NULL);
-   if (c1==c2) cout<<"ERROR1"<<endl;
-   if (c1>c2) cout<<"MAYOR"<<endl;
-   if (c1<c2) cout<<"ERROR2"<<endl;
- */
+   TCalendario cal1(29,2,2006, fi);
+   TCalendario cal2(20,11,1880, fi);
+   TCalendario cal3(1,12,2006, fc);
+ 
+   cout<<cal1<<endl;
+   cout<<cal2<<endl;
+   cout<<cal3<<endl;
 }
