@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 class TCalendario {
 
 	private:
@@ -22,7 +24,12 @@ class TCalendario {
 	//Destructor
 	inline ~TCalendario ();
 	// Sobrecarga del operador asignación
-	// TCalendario & operator = (TCalendario &);
+	TCalendario & operator = (const TCalendario&);
+	
+	// Modifica la fecha
+    // bool ModFecha (int, int, int);
+    // Modifica el mensaje
+    bool ModMensaje (char *);
 	
 	// Sobrecarga del operador igualdad;
 	bool operator == (const TCalendario &);
@@ -32,6 +39,12 @@ class TCalendario {
 	bool operator > (const TCalendario &);	
 	// Sobrecarga del operador <; (ver ACLARACIÓN sobre ORDENACIÓN)
 	bool operator < (const TCalendario &);
+	
+	
+    // Modifica la fecha decrementándola en un dia (con postdecremento);
+    TCalendario operator--(int);
+    // Modifica la fecha decrementándola en un día (con predecremento);
+    TCalendario & operator--();
 	
 	// Devuelve el día del calendario;
 	int Dia()  const {return _dia;};
@@ -44,7 +57,7 @@ class TCalendario {
 
 	
 	// Sobrecarga del operador salida
-	//friend ostream & operator << (ostream &, TCalendario &);
+	friend std::ostream & operator << (std::ostream &, const TCalendario &);
 };
 
 TCalendario::TCalendario () :

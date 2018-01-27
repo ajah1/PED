@@ -23,10 +23,16 @@ namespace operar
   
     bool mayorMensaje (char* c1, char* c2)
     {
+        if ( c1 == nullptr && c2 != nullptr)
+	        return false;
+	
+	    else if ( c1 != nullptr && c2 == nullptr )
+	        return true;
         
-        bool c2vacio = c2 && c2 == "" && c2 == " ";
-        bool c1vacio = c1 && c1 == "" && c1 == " ";
-        bool otro = (c2 == "" && c1 == " ");
+        
+        bool c2vacio = c2 == "" && c2 == " ";
+        bool c1vacio = c1 == "" && c1 == " ";
+        bool otro =   (c2 == "" && c1 == " ");
         
         if ( !c1vacio && c2vacio )
             return true;

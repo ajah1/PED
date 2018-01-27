@@ -4,17 +4,22 @@ using namespace std;
 
 #include "tcalendario.h"
 
+
 int
 main()
 {
-   char fi[] = "Fecha incorrecta";
-   char fc[] = "Fecha correcta";
+
+
+
+   TCalendario c1(14,12,1966, (char*) "Fecha correcta");
+   TCalendario c2(02,01,1900, (char*) "Fecha correcta");
+  
+   c1=c2--;
+   cout<<c1<<endl;
+   cout<<c2<<endl;
    
-   TCalendario cal1(29,2,2006, fi);
-   TCalendario cal2(20,11,1880, fi);
-   TCalendario cal3(1,12,2006, fc);
- 
-   cout<<cal1<<endl;
-   cout<<cal2<<endl;
-   cout<<cal3<<endl;
+   //c1=--c2;
+   //cout<<c1<<endl;
+   //cout<<c2<<endl;
+   
 }
