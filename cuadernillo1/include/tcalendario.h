@@ -7,7 +7,7 @@ class TCalendario {
 	int _dia;
 	int _mes;
 	int _anyo;
-	
+
 	char* _mensaje;
 
 

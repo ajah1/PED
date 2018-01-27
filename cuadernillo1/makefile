@@ -1,11 +1,11 @@
 .PHONY= doc clean
 
-CC=g++
+CC=g++ -std=c++11
 OPTIONS= -g 
 DEBUG= #-D DEBUG
 LIBDIR=lib
 INCLUDEDIR=include
-_OBJ= tcalendario.o
+_OBJ= tcalendario.o operar.o
 OBJ = $(patsubst %,$(LIBDIR)/%,$(_OBJ))
 
 tad:    src/tad.cpp $(OBJ)

@@ -1,6 +1,8 @@
 #include "tcalendario.h"
+#include "operar.h"
 
 #include <iostream>
+#include <inttypes.h>
 
 TCalendario::TCalendario () :
 	_dia(1),
@@ -38,18 +40,27 @@ TCalendario::operator == (const TCalendario& c)
 
 }
 
-bool 
+bool
 TCalendario::operator > (const TCalendario& c)
 {
-	// T1 > F2 cuando ...
+	// T1 > T2 cuando ...
 	
 	/*
 		1. T1 posterior T2
-		2. t1 == t2, t1.m > t2.m
-			----> t1 == t2, t1.m == t2.m <--- FALSE
+		2. t1 == t2, t1.ms > t2.ms
+			----> t1 == t2, t1.ms == t2.ms <--- FALSE
 		3. null < "" < " " < otra
 	*/
-
+	
+    int8_t rf = operar::mayorFecha(*this, c);
+    int8_t rm = operar::mayorMensaje(*_mensaje, *c.Mensaje());
+    
+    if (rf == 1)
+        return true;
+           
+   else if (rm == 1)
+        return true;
+           
 	return false;
 }	
 
