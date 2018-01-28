@@ -4,13 +4,24 @@
 #include <iostream>
 #include <inttypes.h>
 
-//  **********+ CONTROLAR FECHA CORRECTA *****+
-TCalendario::TCalendario (int dia, int mes, int anyo, char* msj) :
-	_dia(dia),
-	_mes(mes), 
-	_anyo(anyo),
-	_mensaje(msj)
-{}
+
+TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
+{
+    if ( operar::comprobarFecha(dia,mes,anyo) )
+    {
+        _dia = dia;
+        _mes = mes;
+        _anyo = anyo;
+        _mensaje = msj;
+    }
+    else
+    {
+    	_dia = 1;
+	    _mes = 1;
+	    _anyo = 1900;
+	    _mensaje = nullptr;
+    }
+}
 
 
 bool 
@@ -84,10 +95,15 @@ std::ostream
         os << c.Mes() << "/";
         
     os << c.Anyo() << " ";
-    os << c.Mensaje();
+    
+    if (c.Mensaje() == nullptr)
+        os << '"' << '"';
+    else    
+        os << '"' << c.Mensaje() << '"';
     
     return os;
 }
+
 
 TCalendario& 
 TCalendario::operator = (const TCalendario& c)
@@ -100,10 +116,18 @@ TCalendario::operator = (const TCalendario& c)
     return *this;
 }
 
+/* 
+TCalendario::TCalendario operator--(int)
+{
+    TCalendario original(_dia,_mes,_anyo,_mensaje);
+    
+    
+    
+    return original;
+}
 
 
-
-
+*/
 
 
 

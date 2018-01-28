@@ -32,7 +32,7 @@ namespace operar
         
         bool c2vacio = c2 == "" && c2 == " ";
         bool c1vacio = c1 == "" && c1 == " ";
-        bool otro =   (c2 == "" && c1 == " ");
+        bool otro    = c2 == "" && c1 == " ";
         
         if ( !c1vacio && c2vacio )
             return true;
@@ -46,7 +46,49 @@ namespace operar
     
         return false;
     }
+    
+    bool comprobarFecha (int d, int m, int a)
+    {
+        bool low  = d < 1  || m < 1;
+        bool pass = d > 31 || m > 12;
+        
+        if (low || pass || a < 1900)
+            return false;
+    
+        bool bisiesto = a % 4 == 0;
+        bool mesPar   = m % 2 == 0;
+        
+        // bisiesto
+        if (bisiesto && m == 2 && d > 29)
+            return false;
+        
+        else if (m == 2 && d > 28)
+            return false;
+        else if (m == 8 && d > 31)
+            return false;
+        else if (m == 9 && d > 30)
+            return false;
+            
+        else if (mesPar && d > 30)
+            return false;
+        else if (!mesPar && d > 31)
+            return false;
+                    
+        return true;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

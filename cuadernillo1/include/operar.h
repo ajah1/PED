@@ -10,4 +10,7 @@ namespace operar
     
     // devuelve 1 si el mesanje es mayor
     bool mayorMensaje (char*, char*);
+    
+    // devuelve true si la fecha es correcta
+    bool comprobarFecha (int, int, int);
 }
