@@ -8,9 +8,12 @@ using namespace std;
 int
 main()
 {
-
-   TCalendario cal1(29,02,2008, (char*) "Fecha correcta");
+   char fi[] = "Fecha incorrecta";
+   char fc[] = "Fecha correcta";
+      
+   TCalendario c1(14,12,1966, fc);
    
-   cout<<cal1-30<<endl;
-  
+   if (c1.Dia()==14) cout<<"Funcion Dia correcta"<<endl;
+   if (c1.Mes()==12) cout<<"Funcion Mes correcta"<<endl;
+   if (c1.Anyo()==1966) cout<<"Funcion Anyo correcta"<<endl;         
 }

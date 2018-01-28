@@ -3,6 +3,11 @@
 
 #include <iostream>
 #include <inttypes.h>
+#include <string.h>
+
+/*control de años bisiestos (es decir: los años que sean divisibles por 4 serán bisiestos;
+aunque no serán bisiestos si son divisibles entre 100 (como los años 1700, 1800, 1900 y
+2100) a no ser que sean divisibles por 400 (como los años 1600, 2000 ó 2400) .*/
 
 void
 TCalendario::Vacio ()
@@ -13,13 +18,24 @@ TCalendario::Vacio ()
     _mensaje = nullptr;
 }
 
-//  **********+ CONTROLAR FECHA CORRECTA *****+
-TCalendario::TCalendario (int dia, int mes, int anyo, char* msj) :
-	_dia(dia),
-	_mes(mes), 
-	_anyo(anyo),
-	_mensaje(msj)
-{}
+TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
+{
+    if ( true )
+    {
+        _dia = dia;
+        _mes = mes;
+        _anyo = anyo;
+
+        if (msj == nullptr)
+            _mensaje = nullptr;
+        else {
+            _mensaje = new char[strlen(msj) + 1];
+            strcpy(_mensaje, msj);
+        }
+    }
+    else
+        Vacio();
+}
 
 
 bool 
@@ -107,16 +123,19 @@ std::ostream
     return os;
 }
 
+
 TCalendario& 
-TCalendario::operator = (const TCalendario& c)
+TCalendario::operator= (const TCalendario& c)
 {
+    //(*this).~TCalendario();
     _dia = c.Dia();
     _mes = c.Mes();
-    _anyo = c.Anyo();
+    _anyo = c.Anyo();   
     _mensaje = c.Mensaje();
-
+        
     return *this;
 }
+
 
 TCalendario
 TCalendario::operator-- (int)
@@ -192,9 +211,6 @@ TCalendario::ModFecha (int d, int m, int a)
     
     return ok;
 }
-
-
-
 
 TCalendario
 TCalendario::operator++ (int)
@@ -288,5 +304,29 @@ TCalendario::operator- (int num)
     
     return aux;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
