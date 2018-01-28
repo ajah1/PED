@@ -20,14 +20,14 @@ class TCalendario {
 	//Constructor que inicializa calendario con parámetros pasados
 	TCalendario (int, int, int, char*);
 	//Constructor copia
-	inline TCalendario (TCalendario &);
+	//inline TCalendario (TCalendario &);
 	//Destructor
 	inline ~TCalendario ();
 	// Sobrecarga del operador asignación
-	TCalendario & operator = (const TCalendario&);
+	TCalendario& operator = (const TCalendario&);
 	
 	// Modifica la fecha
-    // bool ModFecha (int, int, int);
+    bool ModFecha (int, int, int);
     // Modifica el mensaje
     bool ModMensaje (char *);
 	
@@ -44,7 +44,7 @@ class TCalendario {
     // Modifica la fecha decrementándola en un dia (con postdecremento);
     TCalendario operator--(int);
     // Modifica la fecha decrementándola en un día (con predecremento);
-    TCalendario & operator--();
+    TCalendario& operator--();
 	
 	// Devuelve el día del calendario;
 	int Dia()  const {return _dia;};
@@ -57,7 +57,10 @@ class TCalendario {
 
 	
 	// Sobrecarga del operador salida
-	friend std::ostream & operator << (std::ostream &, const TCalendario &);
+	friend std::ostream& operator << (std::ostream&, const TCalendario&);
+	
+	// poner los valores del calendario por defecto
+	void Vacio ();
 };
 
 TCalendario::TCalendario () :

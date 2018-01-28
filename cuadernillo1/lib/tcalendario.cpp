@@ -5,6 +5,15 @@
 #include <inttypes.h>
 
 
+void
+TCalendario::Vacio ()
+{
+	_dia = 1;
+    _mes = 1;
+    _anyo = 1900;
+    _mensaje = nullptr;
+}
+
 TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
 {
     if ( operar::comprobarFecha(dia,mes,anyo) )
@@ -15,12 +24,7 @@ TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
         _mensaje = msj;
     }
     else
-    {
-    	_dia = 1;
-	    _mes = 1;
-	    _anyo = 1900;
-	    _mensaje = nullptr;
-    }
+        Vacio();
 }
 
 
@@ -106,7 +110,7 @@ std::ostream
 
 
 TCalendario& 
-TCalendario::operator = (const TCalendario& c)
+TCalendario::operator= (const TCalendario& c)
 {
     _dia = c.Dia();
     _mes = c.Mes();
@@ -116,21 +120,66 @@ TCalendario::operator = (const TCalendario& c)
     return *this;
 }
 
-/* 
-TCalendario::TCalendario operator--(int)
+
+TCalendario
+TCalendario::operator-- (int)
 {
     TCalendario original(_dia,_mes,_anyo,_mensaje);
     
+    bool bisiesto = _anyo % 4 == 0;
     
+    if (_dia == 1 && _mes == 1 && _anyo == 1900)
+        Vacio();
+    
+    else if (_dia == 1 && _mes == 1)
+    {
+        _anyo--;
+        _mes = 12;
+        _dia = 31;
+    }
+    
+    else if (_dia == 1)
+    {
+        _mes--;
+        _dia = operar::diasMes(_mes);
+        
+        if (bisiesto && _mes == 2) 
+            _dia++;
+    }
+    else
+        _dia--;
     
     return original;
 }
 
+TCalendario&
+TCalendario::operator-- ()
+{
+     bool bisiesto = _anyo % 4 == 0;
 
-*/
+    if (_dia == 1 && _mes == 1 && _anyo == 1900)
+        Vacio();
+    
+    else if (_dia == 1 && _mes == 1)
+    {
+        _anyo--;
+        _mes = 12;
+        _dia = 31;
+    }
+    
+    else if (_dia == 1)
+    {
+        _mes--;
+        _dia = operar::diasMes(_mes);
+        
+        if (bisiesto && _mes == 2) 
+            _dia++;
+    }
+    else
+        _dia--;
 
-
-
+    return *this;
+}
 
 
 

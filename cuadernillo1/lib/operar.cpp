@@ -23,10 +23,10 @@ namespace operar
   
     bool mayorMensaje (char* c1, char* c2)
     {
-        if ( c1 == nullptr && c2 != nullptr)
+        if (c1 == nullptr && c2 != nullptr)
 	        return false;
 	
-	    else if ( c1 != nullptr && c2 == nullptr )
+	    else if (c1 != nullptr && c2 == nullptr)
 	        return true;
         
         
@@ -34,14 +34,14 @@ namespace operar
         bool c1vacio = c1 == "" && c1 == " ";
         bool otro    = c2 == "" && c1 == " ";
         
-        if ( !c1vacio && c2vacio )
+        if (!c1vacio && c2vacio)
             return true;
             
-        else if ( !c1vacio && !c2vacio )
-            if (  *c1 > *c2 )
+        else if (!c1vacio && !c2vacio)
+            if ( *c1 > *c2)
                 return true;
                 
-        else if ( otro || (c2 == " " && !c1vacio) )
+        else if (otro || (c2 == " " && !c1vacio))
             return true;
     
         return false;
@@ -58,7 +58,7 @@ namespace operar
         bool bisiesto = a % 4 == 0;
         bool mesPar   = m % 2 == 0;
         
-        // bisiesto
+        
         if (bisiesto && m == 2 && d > 29)
             return false;
         
@@ -75,6 +75,12 @@ namespace operar
             return false;
                     
         return true;
+    }
+    
+    int8_t diasMes(int m)
+    {
+        int8_t dias_mes[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+        return dias_mes[m-1];
     }
 }
 

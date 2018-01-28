@@ -13,4 +13,7 @@ namespace operar
     
     // devuelve true si la fecha es correcta
     bool comprobarFecha (int, int, int);
+    
+    // dias que tiene el mes
+    int8_t diasMes (int);
 }
