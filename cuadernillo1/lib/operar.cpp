@@ -21,6 +21,7 @@ namespace operar
         return false;
     }
   
+  
     bool mayorMensaje (char* c1, char* c2)
     {
         if (c1 == nullptr && c2 != nullptr)
@@ -47,6 +48,7 @@ namespace operar
         return false;
     }
     
+    
     bool comprobarFecha (int d, int m, int a)
     {
         bool low  = d < 1  || m < 1;
@@ -61,21 +63,18 @@ namespace operar
         
         if (bisiesto && m == 2 && d > 29)
             return false;
-        
-        else if (m == 2 && d > 28)
-            return false;
-        else if (m == 8 && d > 31)
-            return false;
-        else if (m == 9 && d > 30)
+            
+        else if (!bisiesto && m == 2 && d > 28)
             return false;
             
-        else if (mesPar && d > 30)
+        else if (mesPar && m < 8 && d > 30)
             return false;
-        else if (!mesPar && d > 31)
+        else if (!mesPar && m > 7 && d > 30)
             return false;
-                    
+                  
         return true;
     }
+    
     
     int8_t diasMes(int m)
     {

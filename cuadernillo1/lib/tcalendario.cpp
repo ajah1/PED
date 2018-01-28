@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <inttypes.h>
+#include <string.h>
 
 /*control de años bisiestos (es decir: los años que sean divisibles por 4 serán bisiestos;
 aunque no serán bisiestos si son divisibles entre 100 (como los años 1700, 1800, 1900 y
@@ -24,7 +25,8 @@ TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
         _dia = dia;
         _mes = mes;
         _anyo = anyo;
-        _mensaje = msj;
+        _mensaje = new char[strlen(msj) + 1];
+        strcpy(_mensaje, msj);
     }
     else
         Vacio();
@@ -117,7 +119,7 @@ TCalendario::operator= (const TCalendario& c)
 {
     _dia = c.Dia();
     _mes = c.Mes();
-    _anyo = c.Anyo();
+    _anyo = c.Anyo();   
     _mensaje = c.Mensaje();
 
     return *this;
@@ -158,7 +160,7 @@ TCalendario::operator-- (int)
 TCalendario&
 TCalendario::operator-- ()
 {
-     bool bisiesto = _anyo % 4 == 0;
+    bool bisiesto = _anyo % 4 == 0;
 
     if (_dia == 1 && _mes == 1 && _anyo == 1900)
         Vacio();
@@ -198,6 +200,55 @@ TCalendario::ModFecha (int d, int m, int a)
     
     return ok;
 }
+
+TCalendario
+TCalendario::operator++ (int)
+{
+    TCalendario original(_dia,_mes,_anyo,_mensaje);
+    
+    bool bisiesto = _anyo % 4 == 0;
+    
+    // ultima dia del año
+    if (_dia == 31 && _mes == 12)
+    {
+        _anyo++;
+        _mes = 1;
+        _dia = 1;
+    }
+    
+    else if (bisiesto && _mes == 2 && _dia == 29)
+    {   
+        _dia = 1;
+        _mes++;
+    }
+    
+    else if (!bisiesto && _mes == 2 && _dia == 28)
+    {
+        _dia = 1;
+        _mes++;
+    }
+    else
+        _dia++;
+    
+    return original;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

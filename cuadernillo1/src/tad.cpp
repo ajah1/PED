@@ -8,12 +8,18 @@ using namespace std;
 int
 main()
 {
-   char fi[] = "Fecha incorrecta";
-   char fc[] = "Fecha correcta";
+   char* fi = (char*) "Fecha incorrecta";
+   char* fc = (char*) "Fecha correcta";
       
-   TCalendario c1(14,12,1966, fc);
+   TCalendario cal1(31,12,2006, fc);
+   TCalendario cal2(05,01,1900, fi);
    
-   if (c1.Dia()==14) cout<<"Funcion Dia correcta"<<endl;
-   if (c1.Mes()==12) cout<<"Funcion Mes correcta"<<endl;
-   if (c1.Anyo()==1966) cout<<"Funcion Anyo correcta"<<endl;         
+   cal2=cal1++;
+   cout<<cal2<<endl;
+   cout<<cal1<<endl;
+   
+   /*
+   cal2=++cal1;
+   cout<<cal2<<endl;
+   cout<<cal1<<endl;*/
 }
