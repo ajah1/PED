@@ -4,6 +4,8 @@
 #include <iostream>
 #include <inttypes.h>
 
+
+
 void
 TCalendario::Vacio ()
 {
@@ -13,13 +15,33 @@ TCalendario::Vacio ()
     _mensaje = nullptr;
 }
 
-//  **********+ CONTROLAR FECHA CORRECTA *****+
-TCalendario::TCalendario (int dia, int mes, int anyo, char* msj) :
-	_dia(dia),
-	_mes(mes), 
-	_anyo(anyo),
-	_mensaje(msj)
-{}
+
+TCalendario::TCalendario (TCalendario& c)
+{
+    if ( operar::comprobarFecha(c.Dia(),c.Mes(),c.Anyo()) )
+    {
+	    _dia = c.Dia();
+	    _mes = c.Mes(); 
+	    _anyo = c.Anyo();
+	    _mensaje = c.Mensaje();
+    }
+    else
+        Vacio();
+}
+
+
+TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
+{
+    if ( operar::comprobarFecha(dia,mes,anyo) )
+    {
+	    _dia = dia;
+	    _mes = mes; 
+	    _anyo = anyo;
+	    _mensaje = msj;
+    }
+    else
+        Vacio();
+}
 
 
 bool 
@@ -42,11 +64,13 @@ TCalendario::operator == (const TCalendario& c)
 	return fecha && mensaje;
 }
 
+
 bool 
 TCalendario::operator != (const TCalendario& c)
 {
     return !(*this == c);
 }
+
 
 bool
 TCalendario::operator > (const TCalendario& c)
@@ -107,6 +131,7 @@ std::ostream
     return os;
 }
 
+
 TCalendario& 
 TCalendario::operator = (const TCalendario& c)
 {
@@ -117,6 +142,7 @@ TCalendario::operator = (const TCalendario& c)
 
     return *this;
 }
+
 
 TCalendario
 TCalendario::operator-- (int)
@@ -149,6 +175,7 @@ TCalendario::operator-- (int)
     return original;
 }
 
+
 TCalendario&
 TCalendario::operator-- ()
 {
@@ -178,6 +205,7 @@ TCalendario::operator-- ()
     return *this;
 }
 
+
 bool 
 TCalendario::ModFecha (int d, int m, int a)
 {
@@ -192,8 +220,6 @@ TCalendario::ModFecha (int d, int m, int a)
     
     return ok;
 }
-
-
 
 
 TCalendario
@@ -226,6 +252,7 @@ TCalendario::operator++ (int)
     return original;
 }
 
+
 TCalendario&
 TCalendario::operator++ ()
 {
@@ -253,6 +280,7 @@ TCalendario::operator++ ()
 
     return *this;
 }
+
 
 TCalendario
 TCalendario::operator+ (int num)
