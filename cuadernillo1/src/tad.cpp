@@ -8,27 +8,12 @@ using namespace std;
 int
 main()
 {
-
-   TCalendario c1;
-
-   if (c1.ModFecha(29,02,2006))  
-	   cout<<c1<<endl;
-   else
-	   cout<<"ModFecha NO EJECUTA"<<endl;
-
-   if (c1.ModFecha(1,1,1900))
-	   cout<<c1<<endl;
-   else
-	   cout<<"ModFecha NO EJECUTA"<<endl;
-
-   if (c1.ModFecha(31,12,1899))
-	   cout<<c1<<endl;
-   else
-	   cout<<"ModFecha NO EJECUTA"<<endl;
-
-   if (c1.ModFecha(40,10,1900))
-	   cout<<c1<<endl;
-   else
-	   cout<<"ModFecha NO EJECUTA"<<endl;
+   char fi[] = "Fecha incorrecta";
+   char fc[] = "Fecha correcta";
+      
+   TCalendario c1(14,12,1966, fc);
    
+   if (c1.Dia()==14) cout<<"Funcion Dia correcta"<<endl;
+   if (c1.Mes()==12) cout<<"Funcion Mes correcta"<<endl;
+   if (c1.Anyo()==1966) cout<<"Funcion Anyo correcta"<<endl;         
 }

@@ -83,20 +83,3 @@ namespace operar
         return dias_mes[m-1];
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
