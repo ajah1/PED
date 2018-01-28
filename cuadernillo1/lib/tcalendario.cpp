@@ -53,6 +53,11 @@ TCalendario::operator == (const TCalendario& c)
 	return fecha && mensaje;
 }
 
+bool 
+TCalendario::operator != (const TCalendario& c)
+{
+    return !(*this == c);
+}
 
 bool
 TCalendario::operator > (const TCalendario& c)
@@ -117,6 +122,7 @@ std::ostream
 TCalendario& 
 TCalendario::operator= (const TCalendario& c)
 {
+    this->~TCalendario();
     _dia = c.Dia();
     _mes = c.Mes();
     _anyo = c.Anyo();   
@@ -215,17 +221,15 @@ TCalendario::operator++ (int)
         _mes = 1;
         _dia = 1;
     }
-    
     else if (bisiesto && _mes == 2 && _dia == 29)
     {   
         _dia = 1;
         _mes++;
     }
-    
-    else if (!bisiesto && _mes == 2 && _dia == 28)
+    else if (_dia == operar::diasMes(_mes))
     {
-        _dia = 1;
         _mes++;
+        _dia = 1;
     }
     else
         _dia++;
@@ -233,11 +237,68 @@ TCalendario::operator++ (int)
     return original;
 }
 
+TCalendario&
+TCalendario::operator++ ()
+{
+    bool bisiesto = _anyo % 4 == 0;
+    
+    // ultima dia del año
+    if (_dia == 31 && _mes == 12)
+    {
+        _anyo++;
+        _mes = 1;
+        _dia = 1;
+    }
+    else if (bisiesto && _mes == 2 && _dia == 29)
+    {   
+        _dia = 1;
+        _mes++;
+    }
+    else if (_dia == operar::diasMes(_mes))
+    {
+        _mes++;
+        _dia = 1;
+    }
+    else
+        _dia++;
+
+    return *this;
+}
+
+TCalendario
+TCalendario::operator+ (int num)
+{
+    TCalendario aux(_dia,_mes,_anyo,_mensaje);
+
+    if (num > 0)
+    {
+        while (num > 0)
+        {
+            ++aux;
+            num--;
+        }
+    }
+    
+    return aux;
+}
 
 
+TCalendario
+TCalendario::operator- (int num)
+{
+    TCalendario aux(_dia,_mes,_anyo,_mensaje);
 
-
-
+    if (num > 0)
+    {
+        while (num > 0)
+        {
+            --aux;
+            num--;
+        }
+    }
+    
+    return aux;
+}
 
 
 

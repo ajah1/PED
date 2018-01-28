@@ -18,7 +18,7 @@ class TCalendario {
 	    inline TCalendario ();
 	    TCalendario (int, int, int, char*);
 	    //Constructor copia
-	    //inline TCalendario (TCalendario &);
+	    inline TCalendario (TCalendario& );
 	    inline ~TCalendario ();
 	    TCalendario& operator = (const TCalendario&);
 	
@@ -29,16 +29,20 @@ class TCalendario {
 	
 	    bool operator == (const TCalendario &);
 	    // Sobrecarga del operador desigualdad;
-	    //bool operator != (TCalendario &);
+	    bool operator != (const TCalendario &);
 	    bool operator > (const TCalendario &);
 	    bool operator < (const TCalendario &);
 	
 	
+        // Sobrecarga del operador SUMA de fecha + un número de dias;
+        TCalendario operator+(int);
+        // Sobrecarga del operador RESTA de fecha - un número de dias;
+        TCalendario operator-(int);
+	
         TCalendario operator-- (int);
         TCalendario& operator-- ();
-        // Modifica la fecha incrementandola en un dia (con postincremento);
+        
         TCalendario operator++(int);
-        // Modifica la fecha incrementandola en un dia (con preincremento);
         TCalendario& operator++();
 	
 	
@@ -61,12 +65,23 @@ TCalendario::TCalendario () :
 	_mensaje(nullptr)
 {}
 
+TCalendario::TCalendario (TCalendario& c) :
+    _dia(c.Dia()),
+    _mes(c.Mes()),
+    _anyo(c.Anyo()),
+    _mensaje(c.Mensaje())
+{}
+
 TCalendario::~TCalendario ()
 {
 	_dia = 1;
 	_mes = 1;
 	_anyo = 1900;
 	
-	delete[] _mensaje;
-	_mensaje = nullptr;
+	if (_mensaje != nullptr)
+    	delete[] _mensaje;
+	else
+	    _mensaje = nullptr;
 }
+
+
