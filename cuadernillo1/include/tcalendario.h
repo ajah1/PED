@@ -59,13 +59,12 @@ TCalendario::TCalendario () :
 	_mensaje(nullptr)
 {}
 
-TCalendario::~TCalendario ()
-{
-	_dia = 1;
-	_mes = 1;
-	_anyo = 1900;
-	_mensaje = nullptr;
-}
+TCalendario::~TCalendario () :
+	_dia(1),
+	_mes(1), 
+	_anyo(1900),
+	_mensaje(nullptr)
+{}
 
 
 
