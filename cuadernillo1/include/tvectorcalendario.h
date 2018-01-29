@@ -25,6 +25,9 @@ class TVectorCalendario {
 	// Destructor
 	inline ~TVectorCalendario();
 	
+	// Tamaño del vector (posiciones TOTALES)
+	int const Tamano() {return _tamano;};
+	
 	// Sobrecarga del operador salida
 	friend std::ostream& operator << (std::ostream&, const TVectorCalendario&);
 	
