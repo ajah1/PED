@@ -8,8 +8,9 @@ int
 main(void)
 {
    TVectorCalendario a, b(-3), c(4);
-   cout << a << endl;
-   cout << b << endl;
-   cout << c << endl;
+   cout << a.Tamano() << endl;
+   cout << b.Tamano() << endl;
+   cout << c.Tamano() << endl;
+   cout << c.Ocupadas() << endl;
    return 0;
 }

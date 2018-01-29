@@ -1,22 +1,29 @@
-#include <iostream>
-
 #include "tvectorcalendario.h"
+
+
+TCalendario 
+TVectorCalendario::operator[] (int pos) const
+{
+    TCalendario vacio;
+
+    if (pos < _tamano && _c != nullptr && pos >= 1)
+        return _c[pos - 1];
+    else
+        return vacio;
+}
 
 std::ostream& 
 operator << (std::ostream& os, const TVectorCalendario& v)
 {
 	os << "[";
 	
-	int aux = 0;
-	while (aux < v.Tamano())
+    for (int i = 0; i < v._tamano; ++i)
 	{
-		os << "(" << aux+1 << ") ";
-		//os << v[aux];
+		os << "(" << i+1 << ") ";
+		os << v[i];
 		
-		if (aux != < tamano-1)
+		if (i < v._tamano-1)
 			os << ", ";
-		
-		aux--;
 	}
 	
 	os << "]";

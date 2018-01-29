@@ -6,7 +6,10 @@
 
 class TVectorCalendario {
 
-	private:
+    // Sobrecarga del operador salida
+    friend std::ostream& operator << (std::ostream&, const TVectorCalendario&);
+
+private:
 
 	TCalendario* _c;
 	TCalendario _error;
@@ -14,7 +17,7 @@ class TVectorCalendario {
 	int _tamano;
 		
 
-	public:
+public:
 	
 	// Constructor por defecto
 	inline TVectorCalendario();
@@ -25,11 +28,15 @@ class TVectorCalendario {
 	// Destructor
 	inline ~TVectorCalendario();
 	
-	// Tamaño del vector (posiciones TOTALES)
-	int const Tamano() {return _tamano;};
+	// Sobrecarga del operador corchete (parte DERECHA)
+    TCalendario operator[](int) const;
 	
-	// Sobrecarga del operador salida
-	friend std::ostream& operator << (std::ostream&, const TVectorCalendario&);
+	// Tamaño del vector (posiciones TOTALES)
+	int Tamano() {return _tamano;};
+	
+	// Cantidad de posiciones OCUPADAS (no vacías) en el vector
+    int Ocupadas();
+	
 	
 	
 };
@@ -37,26 +44,30 @@ class TVectorCalendario {
 TVectorCalendario::TVectorCalendario ()
 {
 	_tamano = 0;
-	_c = new TCalendario[_tamano];
+	_c = nullptr;
 }
 
 TVectorCalendario::TVectorCalendario (int size)
 {
 	if (size <= 0)
+	{
+	    _c = nullptr;
 		_tamano = 0;
-	
-	_c = new TCalendario[_tamano];
+	}
+	else
+	{
+	    _tamano = size;
+	    _c = new TCalendario[_tamano];
+    }
 }
 
 TVectorCalendario::~TVectorCalendario ()
 {
-	_tamano = 0;
-
 	if (_c != nullptr)
-	{
 		delete[] _c;
-		_c = nullptr;
-	}
+		
+	_c = nullptr;
+	_tamano = 0;
 }
 
 
