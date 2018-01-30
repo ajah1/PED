@@ -6,8 +6,9 @@ TVectorCalendario::operator[] (int pos) const
 {
     TCalendario vacio;
 
-    if (pos < _tamano && _c != nullptr && pos >= 1)
-        return _c[pos - 1];
+    bool rango = pos >= 1 && pos <= _tamano;
+    if ( rango && _c != nullptr)
+        return _c[pos-1];
     else
         return vacio;
 }
@@ -30,3 +31,46 @@ operator << (std::ostream& os, const TVectorCalendario& v)
 
 	return os;
 }
+
+int 
+TVectorCalendario::Ocupadas() const
+{
+    int ocupa = 0;
+ 
+    TCalendario vacio;   
+    for (int i = 0; i < _tamano; ++i)
+    {
+        if (_c[i] == vacio)
+            ocupa++;
+    }
+
+    return ocupa; 
+}
+
+TCalendario&
+TVectorCalendario::operator[] (int pos)
+{
+    bool rango = pos >= 1 && pos <= _tamano;
+    
+    if (rango && _c != nullptr)
+        return _c[pos-1];
+    else
+        return _error;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

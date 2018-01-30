@@ -19,6 +19,9 @@ private:
 
 public:
 	
+	// Cantidad de posiciones OCUPADAS (no vacías) en el vector
+    int Ocupadas() const;
+	
 	// Constructor por defecto
 	inline TVectorCalendario();
 	// Constructor a partir de un tamaño
@@ -27,17 +30,16 @@ public:
 	//TVectorCalendario(TVectorCalendario &);
 	// Destructor
 	inline ~TVectorCalendario();
+	// Sobrecarga del operador asignación
+    TVectorCalendario & operator=(TVectorCalendario &);
 	
 	// Sobrecarga del operador corchete (parte DERECHA)
     TCalendario operator[](int) const;
+    
+    TCalendario& operator[](int);
 	
 	// Tamaño del vector (posiciones TOTALES)
 	int Tamano() {return _tamano;};
-	
-	// Cantidad de posiciones OCUPADAS (no vacías) en el vector
-    int Ocupadas();
-	
-	
 	
 };
 
@@ -49,7 +51,7 @@ TVectorCalendario::TVectorCalendario ()
 
 TVectorCalendario::TVectorCalendario (int size)
 {
-	if (size <= 0)
+	if (size < 0)
 	{
 	    _c = nullptr;
 		_tamano = 0;
