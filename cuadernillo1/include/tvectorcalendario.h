@@ -33,10 +33,13 @@ public:
     TCalendario& operator[](int);
 	
 	bool ExisteCal(TCalendario&);
-	// REDIMENSIONAR el vectorde TCalendario
+	
 	bool Redimensionar(int);
 	
 	int Tamano() {return _tamano;};
+	
+	// mensajes en el vector, fecha IGUAL/POSTERIOR a la pasada
+	void MostrarMensajes(int,int,int);
 	
 	// Calendarios
 	TCalendario* Calendarios() {return _c;};

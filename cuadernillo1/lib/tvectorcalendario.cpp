@@ -1,5 +1,6 @@
 #include "tvectorcalendario.h"
 
+#include "operar.h"
 
 TCalendario 
 TVectorCalendario::operator[] (int pos) const
@@ -103,7 +104,7 @@ bool
 TVectorCalendario::Redimensionar (int size)
 {
 
-	if (size > 0 && size < _tamano)
+	if (size > 0 && size != _tamano)
 	{
 		TCalendario* aux = new TCalendario[size];
 	
@@ -122,7 +123,18 @@ TVectorCalendario::Redimensionar (int size)
 	return false;
 }
 
+void
+TVectorCalendario::MostrarMensajes (int d, int m, int a)
+{
 
+	std::cout << "[";
+
+	for (int i = 0; i < _tamano; ++i)
+	{
+	}
+	
+	std::cout << "]";
+}
 
 
 

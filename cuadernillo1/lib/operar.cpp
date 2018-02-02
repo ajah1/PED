@@ -17,7 +17,6 @@ namespace operar
             else if ( t1.Dia() > t2.Dia() )
                 return true;
         }
-        
         return false;
     }
   
