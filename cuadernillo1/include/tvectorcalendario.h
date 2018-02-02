@@ -12,7 +12,7 @@ class TVectorCalendario {
 private:
 
 	TCalendario* _c;
-	TCalendario _error;
+	TCalendario  _error;
 	
 	int _tamano;
 		
@@ -40,6 +40,9 @@ public:
 	
 	// Tamaño del vector (posiciones TOTALES)
 	int Tamano() {return _tamano;};
+	
+	// Calendarios
+	TCalendario* Calendarios() {return _c;};
 	
 };
 

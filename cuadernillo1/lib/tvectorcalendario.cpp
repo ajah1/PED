@@ -13,7 +13,8 @@ TVectorCalendario::operator[] (int pos) const
         return vacio;
 }
 
-std::ostream& 
+
+std::ostream&
 operator << (std::ostream& os, const TVectorCalendario& v)
 {
 	os << "[";
@@ -32,6 +33,7 @@ operator << (std::ostream& os, const TVectorCalendario& v)
 	return os;
 }
 
+
 int 
 TVectorCalendario::Ocupadas() const
 {
@@ -47,6 +49,7 @@ TVectorCalendario::Ocupadas() const
     return ocupa; 
 }
 
+
 TCalendario&
 TVectorCalendario::operator[] (int pos)
 {
@@ -59,7 +62,26 @@ TVectorCalendario::operator[] (int pos)
 }
 
 
+TVectorCalendario& 
+TVectorCalendario::operator=(TVectorCalendario& v)
+{
+	this->~TVectorCalendario();
+	
+	_tamano = v.Tamano();
+	
+	// si v no está vacio
+	if (v.Calendarios() != nullptr)
+	{
+		_c = new TCalendario[_tamano];
 
+		for (int i = 0; i < v.Tamano(); ++i)
+			_c[i] = v[i+1];
+	}
+	else
+		_c = nullptr;
+	
+	return *this;
+}
 
 
 
