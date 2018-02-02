@@ -18,12 +18,12 @@ operator << (std::ostream& os, const TVectorCalendario& v)
 {
 	os << "[";
 	
-    for (int i = 0; i < v._tamano; ++i)
+    for (int i = 1; i <= v._tamano; ++i)
 	{
-		os << "(" << i+1 << ") ";
+		os << "(" << i << ") ";
 		os << v[i];
 		
-		if (i < v._tamano-1)
+		if (i < v._tamano)
 			os << ", ";
 	}
 	

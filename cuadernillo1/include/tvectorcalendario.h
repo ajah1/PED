@@ -66,9 +66,10 @@ TVectorCalendario::TVectorCalendario (int size)
 TVectorCalendario::~TVectorCalendario ()
 {
 	if (_c != nullptr)
+	{
 		delete[] _c;
-		
-	_c = nullptr;
+		_c = nullptr;
+	}	
 	_tamano = 0;
 }
 
