@@ -85,6 +85,31 @@ TVectorCalendario::operator=(TVectorCalendario& v)
 	return *this;
 }
 
+bool
+TVectorCalendario::ExisteCal (TCalendario& c)
+{
+	for (int i = 0; i < _tamano; ++i)
+	{
+		if (_c[i] == c)
+			return true;
+	}
+	
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
