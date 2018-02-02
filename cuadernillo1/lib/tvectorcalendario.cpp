@@ -39,13 +39,15 @@ TVectorCalendario::Ocupadas() const
 {
     int ocupa = 0;
  
-    TCalendario vacio;   
-    for (int i = 0; i < _tamano; ++i)
+    TCalendario vacio;
+    
+    if (_c != nullptr)
     {
-        if (_c[i] == vacio)
-            ocupa++;
-    }
-
+		for (int i = 0; i < _tamano; ++i)
+			if ( _c[i] == vacio)
+				ocupa++;
+	}
+	
     return ocupa; 
 }
 
@@ -82,10 +84,6 @@ TVectorCalendario::operator=(TVectorCalendario& v)
 	
 	return *this;
 }
-
-
-
-
 
 
 

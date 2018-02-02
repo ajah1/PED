@@ -52,7 +52,7 @@ TCalendario::operator == (const TCalendario& c)
 				 (c.Anyo() == _anyo); 
 	
 	bool mensaje;
-	if (_mensaje && c.Mensaje())
+	if (_mensaje == nullptr && c.Mensaje() == nullptr)
 	    mensaje = true;
     
     else if (_mensaje && !c.Mensaje())
