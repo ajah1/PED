@@ -22,7 +22,7 @@ main(void)
    cout << "a=" << a << endl;
    cout << "b=" << b << endl;
 
-   b.Redimensionar(1);
+   b.Redimensionar(5);
 
    cout << "a=" << a << endl;
    cout << "b=" << b << endl;

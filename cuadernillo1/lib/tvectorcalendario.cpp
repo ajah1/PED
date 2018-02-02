@@ -85,6 +85,7 @@ TVectorCalendario::operator=(TVectorCalendario& v)
 	return *this;
 }
 
+
 bool
 TVectorCalendario::ExisteCal (TCalendario& c)
 {
@@ -98,10 +99,26 @@ TVectorCalendario::ExisteCal (TCalendario& c)
 }
 
 
-bool Redimensionar (int size)
+bool 
+TVectorCalendario::Redimensionar (int size)
 {
-	
 
+	if (size > 0 && size < _tamano)
+	{
+		TCalendario* aux = new TCalendario[size];
+	
+		for (int i = 0; i < size; ++i) {
+			aux[i] = _c[i];
+		}
+	
+		this->~TVectorCalendario();
+		_tamano = size;
+	
+		_c = aux;
+		
+		return true;
+	}
+	
 	return false;
 }
 
