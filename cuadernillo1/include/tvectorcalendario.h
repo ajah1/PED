@@ -33,6 +33,8 @@ public:
     TCalendario& operator[](int);
 	
 	bool ExisteCal(TCalendario&);
+	// REDIMENSIONAR el vectorde TCalendario
+	bool Redimensionar(int);
 	
 	int Tamano() {return _tamano;};
 	

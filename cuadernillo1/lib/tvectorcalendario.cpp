@@ -98,7 +98,12 @@ TVectorCalendario::ExisteCal (TCalendario& c)
 }
 
 
+bool Redimensionar (int size)
+{
+	
 
+	return false;
+}
 
 
 
