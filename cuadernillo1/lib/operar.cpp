@@ -4,6 +4,15 @@
 
 namespace operar
 {
+    bool igualFecha (TCalendario& c1, TCalendario& c2)
+    {
+        bool iguales = c1.Dia() == c2.Dia() &&
+                       c1.Mes() == c2.Mes() &&
+                       c1.Anyo() == c2.Anyo();
+
+        return iguales;
+    }
+
     bool mayorFecha (TCalendario& t1, const TCalendario& t2)
     {
         if ( t1.Anyo() > t2.Anyo() )

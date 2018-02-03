@@ -16,4 +16,7 @@ namespace operar
     
     // dias que tiene el mes
     int8_t diasMes (int);
+
+    // devuelve true si las fechas son iguales
+    bool igualFecha (TCalendario&, TCalendario&);
 }

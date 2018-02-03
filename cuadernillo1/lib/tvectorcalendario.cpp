@@ -123,14 +123,28 @@ TVectorCalendario::Redimensionar (int size)
 	return false;
 }
 
+
 void
 TVectorCalendario::MostrarMensajes (int d, int m, int a)
 {
+
+	TCalendario p_cal(d,m,a,nullptr);
+
+	bool mayor;
+	bool igual;
 
 	std::cout << "[";
 
 	for (int i = 0; i < _tamano; ++i)
 	{
+		mayor = operar::mayorFecha (_c[i],p_cal);
+		igual = operar::igualFecha (_c[i],p_cal);
+
+		if (mayor || igual)
+			std::cout << _c[i];
+
+		if (i > 0 && i < _tamano - 1)
+			std::cout << ", ";
 	}
 	
 	std::cout << "]";
