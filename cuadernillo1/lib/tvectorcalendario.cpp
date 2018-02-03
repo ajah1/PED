@@ -45,7 +45,7 @@ TVectorCalendario::Ocupadas() const
     if (_c != nullptr)
     {
 		for (int i = 0; i < _tamano; ++i)
-			if ( _c[i] == vacio)
+			if ( _c[i] != vacio)
 				ocupa++;
 	}
 	

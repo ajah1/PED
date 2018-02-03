@@ -77,6 +77,7 @@ namespace operar
             
         else if (mesPar && m < 8 && d > 30)
             return false;
+        
         else if (!mesPar && m > 7 && d > 30)
             return false;
                   
