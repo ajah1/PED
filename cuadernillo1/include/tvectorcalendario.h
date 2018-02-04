@@ -19,8 +19,6 @@ private:
 
 public:
 	
-    int Ocupadas() const;
-	
 	inline TVectorCalendario();
 	inline TVectorCalendario(int);
 	// Constructor de copia
@@ -32,16 +30,18 @@ public:
     TCalendario operator[](int) const;
     TCalendario& operator[](int);
 	
-	bool ExisteCal(TCalendario&);
+	bool operator == (TVectorCalendario&);
+	bool operator != (TVectorCalendario&);
 	
+	bool ExisteCal(TCalendario&);	
 	bool Redimensionar(int);
 	
 	int Tamano() {return _tamano;};
+    int Ocupadas() const;
+
 	
-	// mensajes en el vector, fecha IGUAL/POSTERIOR a la pasada
 	void MostrarMensajes(int,int,int);
 	
-	// Calendarios
 	TCalendario* Calendarios() {return _c;};
 	
 };

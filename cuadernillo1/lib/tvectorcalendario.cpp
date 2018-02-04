@@ -150,8 +150,29 @@ TVectorCalendario::MostrarMensajes (int d, int m, int a)
 	std::cout << "]";
 }
 
+bool
+TVectorCalendario::operator == (TVectorCalendario& v)
+{
+    
+    if (_tamano == v.Tamano())
+    {    
+        for (int i = 0; i < _tamano; ++i)
+        {
+            if (_c[i] != v[i])
+                return false;
+        }
+    }
+    
+    
+    return true;
+}
 
 
+bool
+TVectorCalendario::operator != (TVectorCalendario& v)
+{
+    return !(*this == v);
+}
 
 
 

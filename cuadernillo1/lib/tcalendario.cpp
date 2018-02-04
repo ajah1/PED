@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <inttypes.h>
-
+#include <cstring>
 
 
 void
@@ -47,19 +47,23 @@ TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
 bool 
 TCalendario::operator == (const TCalendario& c)
 {
+    bool mensaje = true;
 	bool fecha = (c.Dia()  == _dia) && 
 				 (c.Mes()  == _mes) &&
 				 (c.Anyo() == _anyo); 
+				 
+    if (_mensaje == nullptr && c.Mensaje() != nullptr)
+	    mensaje = false;
 	
-	bool mensaje;
-	if (_mensaje == nullptr && c.Mensaje() == nullptr)
+	else if (_mensaje != nullptr && c.Mensaje() == nullptr)
+	    mensaje = false;
+	    
+	else if (_mensaje == nullptr && c.Mensaje() == nullptr )
 	    mensaje = true;
-    
-    else if (_mensaje && !c.Mensaje())
-	    mensaje = false;
-	
-	else if (!_mensaje && c.Mensaje())
-	    mensaje = false;
+	    
+    else if (std::strcmp(_mensaje, c.Mensaje()) != 0)    
+        mensaje = false;
+
 	    
 	return fecha && mensaje;
 }
