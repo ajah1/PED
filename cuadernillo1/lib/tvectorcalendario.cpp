@@ -153,16 +153,16 @@ TVectorCalendario::MostrarMensajes (int d, int m, int a)
 bool
 TVectorCalendario::operator == (TVectorCalendario& v)
 {
-    
     if (_tamano == v.Tamano())
-    {    
-        for (int i = 0; i < _tamano; ++i)
+    {
+        for (int i = 1; i <= _tamano; ++i)
         {
-            if (_c[i] != v[i])
+            if ( _c[i-1] != v[i])
                 return false;
         }
     }
-    
+    else
+        return false;
     
     return true;
 }
