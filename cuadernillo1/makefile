@@ -5,7 +5,7 @@ OPTIONS= -g
 DEBUG= #-D DEBUG
 LIBDIR=lib
 INCLUDEDIR=include
-_OBJ= tcalendario.o operar.o tvectorcalendario.o
+_OBJ= tcalendario.o operar.o tvectorcalendario.o tlistacalendario.o
 OBJ = $(patsubst %,$(LIBDIR)/%,$(_OBJ))
 
 tad:    src/tad.cpp $(OBJ)

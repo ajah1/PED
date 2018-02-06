@@ -186,5 +186,3 @@ TVectorCalendario::operator != (TVectorCalendario& v)
 
 
 
-
-
