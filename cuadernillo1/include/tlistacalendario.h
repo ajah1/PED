@@ -23,20 +23,26 @@ public:
 	// getters
 	TCalendario Calendario() { return _c; }
 	TNodoCalendario* Siguiente() { return _sig; }
-};	
+};
 
-TNodoCalendario::TNodoCalendario() :
-	_sig(nullptr)
-{}
+class TListaPos {
 
-TNodoCalendario::~TNodoCalendario()
-{
-	_c.~TCalendario();
+private:
+
+	TNodoCalendario* _pos;
+
+public:
+
+	// Constructor por defecto
+	TListaPos();
+	// Constructor de copia
+	TListaPos(TListaPos &);
+	// Destructor
+	~TListaPos();
+	// Sobrecarga del operador asignación
+	TListaPos & operator=(TListaPos &);
 	
-	if (!_sig)
-	{
-		delete[] _sig;
-		_sig = nullptr;	
-	}
-}
+	// getters
+	TNodoCalendario Posicion() { return _pos; }	
 
+};
