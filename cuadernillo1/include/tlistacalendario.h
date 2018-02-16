@@ -43,6 +43,6 @@ public:
 	TListaPos & operator=(TListaPos &);
 	
 	// getters
-	TNodoCalendario Posicion() { return _pos; }	
+	TNodoCalendario* Posicion() { return _pos; }	
 
 };
