@@ -1,87 +1,50 @@
 #include "tlistacalendario.h"
 
-//---------------------------------------------------------------->Nodo
-TNodoCalendario::TNodoCalendario() :
-{
-	_sig = nullptr;
-	_c = new TCalendario();
-}
-
+//------------------------TNodoCalendario
 TNodoCalendario::
-TNodoCalendario (TNodoCalendario& nodo)
-{
-	_c = nodo.Calendario();
-	_sig = nodo.Siguiente();
-}
-
-	
-TNodoCalendario&
-TNodoCalendario::operator = (TNodoCalendario& nodo)
-{
-	if (&nodo != this)
-	{
-		this->~TNodoCalendario();
-		_c = nodo.Calendario();
-		_sig = nodo.Siguiente();
-	}
-
-	return *this;
-}
-
-
-TNodoCalendario::~TNodoCalendario()
-{
-	_c.~TCalendario();
-	
-	if (!_sig)
-	{
-		delete[] _sig;
-		_sig = nullptr;	
-	}
-}
-
-
-//---------------------------------------------------------------->Pos
-TListaPos::TListaPos() :
-	_pos(nullptr)
+TNodoCalendario () :
+    _sig(nullptr)
 {}
 
-// Si eliminamos la posicion tambien se va el nodo????'
-TListaPos::~TListaPos()
+TNodoCalendario::TNodoCalendario 
+(TNodoCalendario& nodo)
 {
-	_pos->~TNodoCalendario();
-	_pos = nullptr;
-}
-
-TListaPos::TListaPos(TListaPos& p)
-{
-	if (this != &p)
-	{
-		this->~TListaPos();
-		_pos = p.Posicion();	
-	}
+    if (this != &nodo)
+    {
+        if (!_sig)
+            delete _sig;
+            
+        _c = nodo._c;
+        _sig = nodo._sig;
+    }
 }
 
 
-TListaPos& 
-TListaPos::operator=(TListaPos &)
+TNodoCalendario::
+~TNodoCalendario ()
 {
-	
-	return *this;
+    _c.~TCalendario();
+    _sig->~TNodoCalendario();
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
+TNodoCalendario & TNodoCalendario::
+operator= (TNodoCalendario& nodo)
+{
+    if (this != &nodo)
+    {
+        if (!_sig)
+            delete _sig;
+            
+        if (!this)
+        {
+            _c = nodo._c;
+            _sig = nodo._sig;
+         }   
+    }
+    
+    return *this;
+}
 
 
 

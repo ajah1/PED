@@ -2,7 +2,11 @@
 
 #include "tcalendario.h"
 
-class TNodoCalendario {
+class TNodoCalendario 
+{
+
+    friend class TListaPos;
+    friend class TListaCalendario;
 
 private:
 	
@@ -19,14 +23,12 @@ public:
 	~TNodoCalendario ();
 	// Sobrecarga del operador asignación
 	TNodoCalendario& operator= (TNodoCalendario&);
-	
-	// getters
-	TCalendario Calendario() { return _c; }
-	TNodoCalendario* Siguiente() { return _sig; }
 };
 
-class TListaPos {
-
+class TListaPos 
+{
+    friend class TListaCalendario;
+    
 private:
 
 	TNodoCalendario* _pos;
@@ -41,8 +43,30 @@ public:
 	~TListaPos();
 	// Sobrecarga del operador asignación
 	TListaPos & operator=(TListaPos &);
-	
-	// getters
-	TNodoCalendario* Posicion() { return _pos; }	
+    // Sobrecarga del operador igualdad
+    bool operator==(TListaPos &);
+    // Sobrecarga del operador desigualdad
+    bool operator!=(TListaPos &);
+    // Devuelve la posición siguiente
+    TListaPos Siguiente();
+    // Posición vacía
+    bool EsVacia();
+};
 
+class TListaCalendario {
+
+	//friend ostream & operator<<(ostream &, const TListaCalendario &);
+
+private:
+
+	TNodoCalendario *primero;
+
+public:
+
+	TListaCalendario();
+	TListaCalendario(const TListaCalendario &);
+	~TListaCalendario();
+	TListaCalendario & operator=(const TListaCalendario &);
+	
+	bool EsVacia() const;
 };
