@@ -4,7 +4,6 @@
 
 class TNodoCalendario 
 {
-
     friend class TListaPos;
     friend class TListaCalendario;
 

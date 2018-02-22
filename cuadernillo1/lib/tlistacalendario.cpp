@@ -24,7 +24,7 @@ TNodoCalendario::
 ~TNodoCalendario ()
 {
     _c.~TCalendario();
-    _sig->~TNodoCalendario();
+    _sig = nullptr;
 }
 
 
@@ -46,5 +46,72 @@ operator= (TNodoCalendario& nodo)
     return *this;
 }
 
+//------------------------TListaPos
+TListaPos::
+TListaPos() :
+    _pos(nullptr)
+{}
+
+TListaPos::
+TListaPos (TListaPos& lpos)
+{
+    if (this != &lpos)
+    {
+        if (!_pos)
+            delete _pos;
+            
+        _pos = lpos._pos;
+    }
+}
+
+TListaPos::
+~TListaPos()
+{
+    if (!_pos)
+        delete _pos;
+        
+    _pos = nullptr;
+}
+
+TListaPos & TListaPos::
+operator= (TListaPos& lpos)
+{
+    if (this != &lpos)
+    {
+        _pos = lpos._pos;
+    }
+}
+
+bool 
+TListaPos::operator== (TListaPos& lpos)
+{
+    return (this == &lpos);
+}
 
 
+bool 
+TListaPos::operator!= (TListaPos& lpos)
+{
+    return !(*this == lpos);
+}
+
+
+TListaPos
+TListaPos::Siguiente ()
+{
+    TListaPos aux;
+    
+    if (!_pos)
+    {
+        aux._pos = _pos->_sig;
+    }
+    
+    return aux;
+}
+
+
+bool
+TListaPos::EsVacia ()
+{
+    return _pos == nullptr;
+}
