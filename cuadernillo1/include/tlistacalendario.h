@@ -24,6 +24,8 @@ public:
 	~TNodoCalendario ();
 	// Sobrecarga del operador asignación
 	TNodoCalendario& operator= (TNodoCalendario&);
+	
+	TCalendario C() {return _c;}
 };
 
 class TListaPos 
@@ -44,14 +46,17 @@ public:
 	~TListaPos();
 	// Sobrecarga del operador asignación
 	TListaPos & operator=(const TListaPos &);
-    // Sobrecarga del operador igualdad
-    bool operator==(TListaPos &);
-    // Sobrecarga del operador desigualdad
-    bool operator!=(TListaPos &);
-    // Devuelve la posición siguiente
-    TListaPos Siguiente() const;
-    // Posición vacía
-    bool EsVacia();
+	// Sobrecarga del operador igualdad
+	bool operator==(TListaPos &);
+	// Sobrecarga del operador desigualdad
+	bool operator!=(TListaPos &);
+	// Devuelve la posición siguiente
+	TListaPos Siguiente() const;
+	// Posición vacía
+	bool EsVacia();
+    
+    TNodoCalendario* Pos() {return _pos;}
+    
 };
 
 class TListaCalendario {
@@ -70,6 +75,9 @@ public:
 	TListaCalendario & operator=(const TListaCalendario &);
 	
 	bool EsVacia() const;
+	
+	bool Insertar(TCalendario&);
+	bool Buscar (TCalendario&);
 	
 	TListaPos Primera() const;
 };

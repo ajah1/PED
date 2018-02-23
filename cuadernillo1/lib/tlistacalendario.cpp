@@ -187,7 +187,79 @@ TListaCalendario::EsVacia() const
     return (_primero == nullptr);
 }
 
+std::ostream & 
+operator<< (std::ostream& os, const TListaCalendario& l)
+{
+	os << "<";
+	
+	TListaPos paux;
+	
+	paux = l.Primera();
+	while (!paux.EsVacia())
+	{
+		os << paux.Pos()->C();
+		
+		paux = paux.Siguiente();
+		if (!paux.EsVacia())
+			std::cout << " ";
+	}
+	os << ">";
 
+	return os;
+}
+
+bool 
+TListaCalendario::Buscar (TCalendario& c)
+{
+	TListaPos paux;
+	TCalendario caux;
+	
+	paux = Primera();
+	while (!paux.EsVacia())
+	{
+		caux = paux._pos->_c;
+		if (caux == c)
+			return true;
+	}
+	
+	return false;
+}
+
+bool
+TListaCalendario::Insertar (TCalendario& c)
+{
+	TNodoCalendario* n = new TNodoCalendario();
+	
+	n->_c = c;
+	_primero = n;
+	
+	return true;
+
+/*
+	// posiciones no vacias y no repetidas
+	if ((c != cvacio) && !Buscar(c))
+	{
+		// es menor que la primera posicion (cabeza)
+		if (c < Primera()._pos->_c || EsVacia())
+		{
+			TNodoCalendario n;
+			n._c = c;
+			n._sig = Primera()._pos;
+			return true;
+		}
+	
+		it = Primera().Siguiente();
+		while (!it.EsVacia())
+		{	
+			// es mayor que una pos y menor que la siguiente (en medio) 
+			// es el mayor de todos (final lista)
+			
+			it = it.Siguiente();
+		}
+	}
+
+	return false;*/
+}
 
 
 
