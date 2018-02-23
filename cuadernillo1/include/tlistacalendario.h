@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "tcalendario.h"
 
 class TNodoCalendario 
@@ -41,24 +43,24 @@ public:
 	// Destructor
 	~TListaPos();
 	// Sobrecarga del operador asignación
-	TListaPos & operator=(TListaPos &);
+	TListaPos & operator=(const TListaPos &);
     // Sobrecarga del operador igualdad
     bool operator==(TListaPos &);
     // Sobrecarga del operador desigualdad
     bool operator!=(TListaPos &);
     // Devuelve la posición siguiente
-    TListaPos Siguiente();
+    TListaPos Siguiente() const;
     // Posición vacía
     bool EsVacia();
 };
 
 class TListaCalendario {
 
-	//friend ostream & operator<<(ostream &, const TListaCalendario &);
+	friend std::ostream & operator<<(std::ostream &, const TListaCalendario &);
 
 private:
 
-	TNodoCalendario *primero;
+	TNodoCalendario* _primero;
 
 public:
 
@@ -68,4 +70,6 @@ public:
 	TListaCalendario & operator=(const TListaCalendario &);
 	
 	bool EsVacia() const;
+	
+	TListaPos Primera() const;
 };

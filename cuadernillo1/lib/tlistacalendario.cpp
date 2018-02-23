@@ -74,12 +74,14 @@ TListaPos::
 }
 
 TListaPos & TListaPos::
-operator= (TListaPos& lpos)
+operator= (const TListaPos& lpos)
 {
     if (this != &lpos)
     {
         _pos = lpos._pos;
     }
+    
+    return *this;
 }
 
 bool 
@@ -97,16 +99,14 @@ TListaPos::operator!= (TListaPos& lpos)
 
 
 TListaPos
-TListaPos::Siguiente ()
+TListaPos::Siguiente () const
 {
-    TListaPos aux;
+    TListaPos sig;
     
     if (!_pos)
-    {
-        aux._pos = _pos->_sig;
-    }
+        sig._pos = _pos->_sig;
     
-    return aux;
+    return sig;
 }
 
 
@@ -115,3 +115,79 @@ TListaPos::EsVacia ()
 {
     return _pos == nullptr;
 }
+
+//------------------------TListaCalendario
+TListaCalendario::
+TListaCalendario () :
+    _primero(nullptr)
+{}
+
+
+TListaCalendario::
+TListaCalendario (const TListaCalendario& l)
+{
+    TListaPos next;
+	TListaPos current;
+
+	if (this != &l) 
+	{
+		_primero = new TNodoCalendario(*l._primero);
+		current = l.Primera();
+		
+		next = l.Primera();
+		next = next.Siguiente();
+
+		if (!next._pos) 
+		{
+			while (!next._pos) 
+			{
+				current.Siguiente();
+				current._pos = new TNodoCalendario(*next._pos);
+				current = next;
+				
+				next = next.Siguiente();
+			}
+		}
+    }
+}
+
+
+TListaCalendario::
+~TListaCalendario()
+{
+    TListaPos p, q;
+    
+    q = Primera();
+    while (!q.EsVacia())
+    {
+        p = q;
+        q = q.Siguiente();
+        delete p._pos;
+    }
+    
+    _primero = nullptr;
+}
+
+
+TListaPos
+TListaCalendario::Primera () const
+{
+    TListaPos primera;
+    
+    if (!EsVacia())
+        primera._pos = _primero;
+    
+    return primera;
+}
+
+
+bool
+TListaCalendario::EsVacia() const
+{
+    return (_primero == nullptr);
+}
+
+
+
+
+

@@ -2,12 +2,17 @@
 
 using namespace std;
 
+#include "tcalendario.h"
 #include "tlistacalendario.h"
 
 int
-main()
+main(void)
 {
-   TNodoCalendario n1, n2;
-   TListaPos p1, p2;
+   TListaCalendario l2;
+   TListaCalendario l1(l2);
+   TCalendario c1(14, 12, 1966, (char*) "Fecha Correcta");
+   TCalendario c2(1, 1, 1954, (char*) "Fecha Correcta");
+   
+
    return 0;
 }
