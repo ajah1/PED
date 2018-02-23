@@ -251,7 +251,7 @@ TListaCalendario::Insertar (TCalendario& c)
 			return true;
 		}
 		
-		//buscar posición a insertar
+		//buscar posición a insertar 
 	}
 	
 	return false;
