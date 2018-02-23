@@ -220,6 +220,8 @@ TListaCalendario::Buscar (TCalendario& c)
 		caux = paux._pos->_c;
 		if (caux == c)
 			return true;
+			
+		paux = paux.Siguiente();
 	}
 	
 	return false;
@@ -229,37 +231,51 @@ bool
 TListaCalendario::Insertar (TCalendario& c)
 {
 	TNodoCalendario* n = new TNodoCalendario();
-	
 	n->_c = c;
-	_primero = n;
 	
-	return true;
-
-/*
-	// posiciones no vacias y no repetidas
-	if ((c != cvacio) && !Buscar(c))
+	// insertar en lista vacia
+	if (EsVacia())
 	{
-		// es menor que la primera posicion (cabeza)
-		if (c < Primera()._pos->_c || EsVacia())
+		_primero = n;
+		return true;
+	}
+	
+	// no admite repetidos
+	else if (!Buscar(c))
+	{
+		// insertar en la cabeza
+		if (c < Primera()._pos->_c)
 		{
-			TNodoCalendario n;
-			n._c = c;
-			n._sig = Primera()._pos;
+			n->_sig = _primero;
+			_primero = n;
 			return true;
 		}
-	
-		it = Primera().Siguiente();
-		while (!it.EsVacia())
-		{	
-			// es mayor que una pos y menor que la siguiente (en medio) 
-			// es el mayor de todos (final lista)
-			
-			it = it.Siguiente();
-		}
+		
+		//buscar posición a insertar
 	}
-
-	return false;*/
+	
+	return false;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
