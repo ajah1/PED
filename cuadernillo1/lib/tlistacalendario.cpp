@@ -230,12 +230,14 @@ TListaCalendario::Buscar (TCalendario& c)
 bool
 TListaCalendario::Insertar (TCalendario& c)
 {
+    //  nodo a insertar con el complejo pasado
 	TNodoCalendario* n = new TNodoCalendario();
 	n->_c = c;
 	
 	// insertar en lista vacia
 	if (EsVacia())
 	{
+	    n->_sig = nullptr;
 		_primero = n;
 		return true;
 	}
@@ -246,12 +248,12 @@ TListaCalendario::Insertar (TCalendario& c)
 		// insertar en la cabeza
 		if (c < Primera()._pos->_c)
 		{
-			n->_sig = _primero;
+			n->_sig = new TNodoCalendario(*_primero);
 			_primero = n;
 			return true;
 		}
 		
-		//buscar posición a insertar 
+		//buscar posición a insertar
 	}
 	
 	return false;
