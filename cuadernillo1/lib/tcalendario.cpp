@@ -320,5 +320,3 @@ TCalendario::operator- (int num) const
     
     return aux;
 }
-
-

@@ -64,11 +64,3 @@ TCalendario::~TCalendario ()
 	_anyo = 1900;
 	_mensaje = nullptr;
 }
-
-
-
-
-
-
-
-

@@ -174,16 +174,3 @@ TVectorCalendario::operator != (const TVectorCalendario& v) const
 {
     return !(*this == v);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

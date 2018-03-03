@@ -75,25 +75,3 @@ TVectorCalendario::~TVectorCalendario ()
 	}	
 	_tamano = 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

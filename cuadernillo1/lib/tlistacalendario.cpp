@@ -249,6 +249,27 @@ TListaCalendario::Insertar(const TCalendario& c)
 		}
 		
 		//buscar _posición a insertar
+		TNodoCalendario* actual;
+		TNodoCalendario* siguiente;
+
+		actual = _primero;
+		siguiente = _primero->_sig;
+
+		bool encontrado = false;
+		while (encontrado)
+		{
+			if ((c > actual->_c) && (c < siguiente->_c))
+				encontrado = true;
+
+			else
+			{
+				actual = siguiente;
+				siguiente = siguiente->_sig;
+			}
+		}
+
+		// insertar en la posicion encontrada
+
 	}
 	
 	return false;
@@ -288,16 +309,14 @@ TListaCalendario::Longitud () const
 {
 	int l = 0;
 
-	if (_primero)
-		return 0;
+	TListaPos it;
 
-	TNodoCalendario* it;
+	it = Primera();
 
-	it = _primero;
-	while (it)
+	while (!it.EsVacia())
 	{
 		++l;
-		it = it->_sig;
+		it = it.Siguiente();
 	}
 
 	return l;
