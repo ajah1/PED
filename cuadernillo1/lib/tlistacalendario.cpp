@@ -1,13 +1,19 @@
 #include "tlistacalendario.h"
 
-//------------------------TNodoCalendario
+#include <stdlib.h>
+
+//
+// ----------------------------------------- tNodoCalendario
+//
+
 TNodoCalendario::
 TNodoCalendario () :
     _sig(nullptr)
 {}
 
-TNodoCalendario::TNodoCalendario 
-(TNodoCalendario& nodo)
+
+TNodoCalendario::
+TNodoCalendario (const TNodoCalendario& nodo)
 {
     if (this != &nodo)
     {
@@ -23,13 +29,12 @@ TNodoCalendario::TNodoCalendario
 TNodoCalendario::
 ~TNodoCalendario ()
 {
-    _c.~TCalendario();
-    _sig = nullptr;
+	_sig=nullptr;
 }
 
 
-TNodoCalendario & TNodoCalendario::
-operator= (TNodoCalendario& nodo)
+TNodoCalendario& TNodoCalendario::
+operator= (const TNodoCalendario& nodo) 
 {
     if (this != &nodo)
     {
@@ -46,30 +51,33 @@ operator= (TNodoCalendario& nodo)
     return *this;
 }
 
-//------------------------TListaPos
+
+
+//
+// ----------------------------------------- TListaPos
+//
+
 TListaPos::
-TListaPos() :
+TListaPos () :
     _pos(nullptr)
 {}
 
 TListaPos::
-TListaPos (TListaPos& lpos)
+TListaPos (const TListaPos& lpos)
 {
     if (this != &lpos)
     {
         if (!_pos)
             delete _pos;
-            
+
+        else
         _pos = lpos._pos;
     }
 }
 
 TListaPos::
-~TListaPos()
+~TListaPos ()
 {
-    if (!_pos)
-        delete _pos;
-        
     _pos = nullptr;
 }
 
@@ -77,24 +85,22 @@ TListaPos & TListaPos::
 operator= (const TListaPos& lpos)
 {
     if (this != &lpos)
-    {
         _pos = lpos._pos;
-    }
     
     return *this;
 }
 
 bool 
-TListaPos::operator== (TListaPos& lpos)
+TListaPos::operator== (const TListaPos& lpos) const
 {
-    return (this == &lpos);
+    return _pos == lpos._pos;
 }
 
 
 bool 
-TListaPos::operator!= (TListaPos& lpos)
+TListaPos::operator!= (const TListaPos& lpos) const
 {
-    return !(*this == lpos);
+    return _pos != lpos._pos;
 }
 
 
@@ -103,20 +109,23 @@ TListaPos::Siguiente () const
 {
     TListaPos sig;
     
-    if (!_pos)
+    if (!_pos || _pos)
         sig._pos = _pos->_sig;
     
     return sig;
 }
 
-
 bool
-TListaPos::EsVacia ()
+TListaPos::EsVacia () const
 {
     return _pos == nullptr;
 }
 
-//------------------------TListaCalendario
+
+//
+// ----------------------------------------- TListaCalendario
+//
+
 TListaCalendario::
 TListaCalendario () :
     _primero(nullptr)
@@ -153,7 +162,7 @@ TListaCalendario (const TListaCalendario& l)
 
 
 TListaCalendario::
-~TListaCalendario()
+~TListaCalendario ()
 {
     TListaPos p, q;
     
@@ -176,40 +185,85 @@ TListaCalendario::Primera () const
     
     if (!EsVacia())
         primera._pos = _primero;
-    
+
     return primera;
 }
 
 
 bool
-TListaCalendario::EsVacia() const
+TListaCalendario::EsVacia () const
 {
     return (_primero == nullptr);
 }
 
-std::ostream & 
-operator<< (std::ostream& os, const TListaCalendario& l)
-{
-	os << "<";
-	
-	TListaPos paux;
-	
-	paux = l.Primera();
-	while (!paux.EsVacia())
+
+ostream & 
+operator<<(ostream& os, const TListaCalendario& l) 
+{ 
+
+	TListaPos actual=l.Primera();
+
+	os<<"<";
+
+	while(!actual.EsVacia()) 
 	{
-		os << paux.Pos()->C();
-		
-		paux = paux.Siguiente();
-		if (!paux.EsVacia())
-			std::cout << " ";
+		os << l.Obtener(actual);
+		actual=actual.Siguiente();
+
+		if(!actual.EsVacia())
+			os << " ";
 	}
-	os << ">";
+
+	os<<">";
 
 	return os;
 }
 
+
+//Inserta un Calendario en la Lista
 bool 
-TListaCalendario::Buscar (TCalendario& c)
+TListaCalendario::Insertar(const TCalendario& c) 
+{
+    //  nodo a insertar con el complejo pasado
+	TNodoCalendario* n = new TNodoCalendario();
+	n->_c = c;
+	
+	// insertar en lista vacia
+	if (EsVacia())
+	{
+		_primero = n;
+		return true;
+	}
+	
+	// no admite repetidos
+	else if (!Buscar(c))
+	{
+		// insertar en la cabeza
+		//if (c < Primera()._pos->_c)
+		//{
+			std::clog << "insertar primera" << "\n";
+			n->_sig = Primera()._pos;
+			_primero = n;
+			return true;
+		//}
+		
+		//buscar _posición a insertar
+	}
+	
+	return false;
+}
+
+
+TCalendario
+TListaCalendario::Obtener (const TListaPos& p) const 
+{
+	if(!p.EsVacia())
+		return p._pos->_c;
+}
+
+
+bool
+TListaCalendario::Buscar (const TCalendario& c) const
 {
 	TListaPos paux;
 	TCalendario caux;
@@ -226,58 +280,3 @@ TListaCalendario::Buscar (TCalendario& c)
 	
 	return false;
 }
-
-bool
-TListaCalendario::Insertar (TCalendario& c)
-{
-    //  nodo a insertar con el complejo pasado
-	TNodoCalendario* n = new TNodoCalendario();
-	n->_c = c;
-	
-	// insertar en lista vacia
-	if (EsVacia())
-	{
-	    n->_sig = nullptr;
-		_primero = n;
-		return true;
-	}
-	
-	// no admite repetidos
-	else if (!Buscar(c))
-	{
-		// insertar en la cabeza
-		if (c < Primera()._pos->_c)
-		{
-			n->_sig = new TNodoCalendario(*_primero);
-			_primero = n;
-			return true;
-		}
-		
-		//buscar posición a insertar
-	}
-	
-	return false;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
