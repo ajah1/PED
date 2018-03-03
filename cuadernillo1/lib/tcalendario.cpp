@@ -16,7 +16,7 @@ TCalendario::Vacio ()
 }
 
 
-TCalendario::TCalendario (TCalendario& c)
+TCalendario::TCalendario (const TCalendario& c)
 {
     if ( operar::comprobarFecha(c.Dia(),c.Mes(),c.Anyo()) )
     {
@@ -30,7 +30,7 @@ TCalendario::TCalendario (TCalendario& c)
 }
 
 
-TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
+TCalendario::TCalendario (const int dia, const int mes, const int anyo, char* msj)
 {
     if ( operar::comprobarFecha(dia,mes,anyo) )
     {
@@ -45,7 +45,7 @@ TCalendario::TCalendario (int dia, int mes, int anyo, char* msj)
 
 
 bool 
-TCalendario::operator == (const TCalendario& c)
+TCalendario::operator == (const TCalendario& c) const
 {
     bool mensaje = true;
 	bool fecha = (c.Dia()  == _dia) && 
@@ -70,14 +70,14 @@ TCalendario::operator == (const TCalendario& c)
 
 
 bool 
-TCalendario::operator != (const TCalendario& c)
+TCalendario::operator != (const TCalendario& c) const
 {
     return !(*this == c);
 }
 
 
 bool
-TCalendario::operator > (const TCalendario& c)
+TCalendario::operator > (const TCalendario& c) const
 {
     bool rf  = operar::mayorFecha (*this, c);
     bool rms = operar::mayorMensaje (_mensaje, c.Mensaje());
@@ -94,7 +94,7 @@ TCalendario::operator > (const TCalendario& c)
 
 
 bool
-TCalendario::operator < (const TCalendario& c)
+TCalendario::operator < (const TCalendario& c) const
 {
     if ( (*this > c) || (*this == c) )
         return false;
@@ -287,7 +287,7 @@ TCalendario::operator++ ()
 
 
 TCalendario
-TCalendario::operator+ (int num)
+TCalendario::operator+ (int num) const
 {
     TCalendario aux(_dia,_mes,_anyo,_mensaje);
 
@@ -305,7 +305,7 @@ TCalendario::operator+ (int num)
 
 
 TCalendario
-TCalendario::operator- (int num)
+TCalendario::operator- (int num) const
 {
     TCalendario aux(_dia,_mes,_anyo,_mensaje);
 

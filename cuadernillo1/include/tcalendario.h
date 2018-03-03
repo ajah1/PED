@@ -19,26 +19,26 @@ private:
 public:
 
     inline TCalendario ();
-    TCalendario (int, int, int, char*);
-    TCalendario (TCalendario &);
+    TCalendario (const int, const int, const int, char*);
+    TCalendario (const TCalendario &);
     inline ~TCalendario ();
     TCalendario & operator = (const TCalendario&);
 
     bool ModFecha (int, int, int);
     bool ModMensaje (char *);
 
-    bool operator == (const TCalendario &);
-    bool operator != (const TCalendario &);
-    bool operator > (const TCalendario &);
-    bool operator < (const TCalendario &);
+    bool operator == (const TCalendario &) const;
+    bool operator != (const TCalendario &) const;
+    bool operator > (const TCalendario &) const;
+    bool operator < (const TCalendario &) const;
 
     TCalendario operator--(int);
     TCalendario & operator--();
     
-    TCalendario operator+(int);
-    TCalendario operator-(int);
+    TCalendario operator+(int) const;
+    TCalendario operator-(int) const;
     
-    TCalendario operator++(int);
+    TCalendario operator++(const int);
     TCalendario & operator++();
 
     int Dia()  const {return _dia;};

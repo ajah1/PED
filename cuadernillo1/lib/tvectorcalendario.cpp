@@ -3,7 +3,7 @@
 #include "operar.h"
 
 TCalendario 
-TVectorCalendario::operator[] (int pos) const
+TVectorCalendario::operator[] (const int pos) const
 {
     TCalendario vacio;
 
@@ -54,7 +54,7 @@ TVectorCalendario::Ocupadas() const
 
 
 TCalendario&
-TVectorCalendario::operator[] (int pos)
+TVectorCalendario::operator[] (const int pos)
 {
     bool rango = pos >= 1 && pos <= _tamano;
     
@@ -101,7 +101,7 @@ TVectorCalendario::ExisteCal (TCalendario& c)
 
 
 bool 
-TVectorCalendario::Redimensionar (int size)
+TVectorCalendario::Redimensionar (const int& size)
 {
 
 	if (size > 0 && size != _tamano)
@@ -125,7 +125,8 @@ TVectorCalendario::Redimensionar (int size)
 
 
 void
-TVectorCalendario::MostrarMensajes (int d, int m, int a)
+TVectorCalendario::MostrarMensajes (
+	const int d, const int m, const int a)
 {
 
 	TCalendario p_cal(d,m,a,nullptr);
@@ -151,7 +152,7 @@ TVectorCalendario::MostrarMensajes (int d, int m, int a)
 }
 
 bool
-TVectorCalendario::operator == (TVectorCalendario& v)
+TVectorCalendario::operator == (const TVectorCalendario& v) const
 {
     if (_tamano == v.Tamano())
     {
@@ -169,7 +170,7 @@ TVectorCalendario::operator == (TVectorCalendario& v)
 
 
 bool
-TVectorCalendario::operator != (TVectorCalendario& v)
+TVectorCalendario::operator != (const TVectorCalendario& v) const
 {
     return !(*this == v);
 }

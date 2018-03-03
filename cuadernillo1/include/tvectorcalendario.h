@@ -20,29 +20,29 @@ private:
 public:
 	
 	inline TVectorCalendario();
-	inline TVectorCalendario(int);
+	inline TVectorCalendario(const int);
 	// Constructor de copia
 	//TVectorCalendario(TVectorCalendario &);
 	inline ~TVectorCalendario();
 	
     TVectorCalendario & operator=(TVectorCalendario &);
 	
-    TCalendario operator[](int) const;
-    TCalendario& operator[](int);
+    TCalendario operator[](const int) const;
+    TCalendario& operator[](const int);
 	
-	bool operator == (TVectorCalendario&);
-	bool operator != (TVectorCalendario&);
+	bool operator == (const TVectorCalendario&) const;
+	bool operator != (const TVectorCalendario&) const;
 	
 	bool ExisteCal(TCalendario&);	
-	bool Redimensionar(int);
+	bool Redimensionar(const int&);
 	
-	int Tamano() {return _tamano;};
+	int Tamano() const {return _tamano;};
     int Ocupadas() const;
 
 	
-	void MostrarMensajes(int,int,int);
+	void MostrarMensajes(const int, const int, const int);
 	
-	TCalendario* Calendarios() {return _c;};
+	TCalendario* Calendarios() const {return _c;};
 	
 };
 
@@ -52,7 +52,7 @@ TVectorCalendario::TVectorCalendario ()
 	_c = nullptr;
 }
 
-TVectorCalendario::TVectorCalendario (int size)
+TVectorCalendario::TVectorCalendario (const int size)
 {
 	if (size < 0)
 	{

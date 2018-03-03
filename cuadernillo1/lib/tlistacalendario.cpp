@@ -122,6 +122,7 @@ TListaPos::EsVacia () const
 }
 
 
+
 //
 // ----------------------------------------- TListaCalendario
 //
@@ -231,7 +232,7 @@ TListaCalendario::Insertar(const TCalendario& c)
 	// insertar en lista vacia
 	if (EsVacia())
 	{
-		_primero = n;
+		n->_sig = nullptr;
 		return true;
 	}
 	
@@ -239,13 +240,13 @@ TListaCalendario::Insertar(const TCalendario& c)
 	else if (!Buscar(c))
 	{
 		// insertar en la cabeza
-		//if (c < Primera()._pos->_c)
-		//{
-			std::clog << "insertar primera" << "\n";
+		if (_primero->_c < c)
+		{
+			std::clog << "insertar cabeza" << "\n";
 			n->_sig = Primera()._pos;
 			_primero = n;
 			return true;
-		//}
+		}
 		
 		//buscar _posición a insertar
 	}
@@ -279,4 +280,25 @@ TListaCalendario::Buscar (const TCalendario& c) const
 	}
 	
 	return false;
+}
+
+
+int
+TListaCalendario::Longitud () const
+{
+	int l = 0;
+
+	if (_primero)
+		return 0;
+
+	TNodoCalendario* it;
+
+	it = _primero;
+	while (it)
+	{
+		++l;
+		it = it->_sig;
+	}
+
+	return l;
 }

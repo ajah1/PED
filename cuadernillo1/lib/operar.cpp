@@ -4,7 +4,7 @@
 
 namespace operar
 {
-    bool igualFecha (TCalendario& c1, TCalendario& c2)
+    bool igualFecha (const TCalendario& c1, const TCalendario& c2)
     {
         bool iguales = c1.Dia() == c2.Dia() &&
                        c1.Mes() == c2.Mes() &&
@@ -13,7 +13,7 @@ namespace operar
         return iguales;
     }
 
-    bool mayorFecha (TCalendario& t1, const TCalendario& t2)
+    bool mayorFecha (const TCalendario& t1, const TCalendario& t2)
     {
         if ( t1.Anyo() > t2.Anyo() )
             return true;
@@ -30,7 +30,7 @@ namespace operar
     }
   
   
-    bool mayorMensaje (char* c1, char* c2)
+    bool mayorMensaje (const char* c1, const char* c2)
     {
         if (c1 == nullptr && c2 != nullptr)
 	        return false;
@@ -57,7 +57,7 @@ namespace operar
     }
     
     
-    bool comprobarFecha (int d, int m, int a)
+    bool comprobarFecha (const int d, const int m, const int a)
     {
         bool low  = d < 1  || m < 1;
         bool pass = d > 31 || m > 12;
@@ -85,7 +85,7 @@ namespace operar
     }
     
     
-    int8_t diasMes(int m)
+    int8_t diasMes(const int m)
     {
         int8_t dias_mes[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
         return dias_mes[m-1];

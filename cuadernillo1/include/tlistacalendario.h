@@ -68,14 +68,16 @@ private:
 
 public:
 
-	TListaCalendario();
-	TListaCalendario(const TListaCalendario &);
-	~TListaCalendario();
+	TListaCalendario ();
+	TListaCalendario (const TListaCalendario &);
+	~TListaCalendario ();
 	TListaCalendario & operator=(const TListaCalendario &);
 
-	bool Insertar(const TCalendario &);
-	bool EsVacia() const;
-	bool Buscar(const TCalendario &) const;
+	bool Insertar (const TCalendario &);
+	bool EsVacia () const;
+	bool Buscar (const TCalendario &) const;
+
+	int Longitud() const;
 
 	TCalendario Obtener(const TListaPos &) const;
 
