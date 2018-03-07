@@ -194,7 +194,7 @@ TListaCalendario::Primera () const
 bool
 TListaCalendario::EsVacia () const
 {
-    return (_primero == nullptr);
+    return _primero == nullptr;
 }
 
 
@@ -202,7 +202,7 @@ ostream &
 operator<<(ostream& os, const TListaCalendario& l) 
 { 
 
-	TListaPos actual=l.Primera();
+	TListaPos actual = l.Primera();
 
 	os<<"<";
 
@@ -225,54 +225,39 @@ operator<<(ostream& os, const TListaCalendario& l)
 bool 
 TListaCalendario::Insertar(const TCalendario& c) 
 {
-    //  nodo a insertar con el complejo pasado
-	TNodoCalendario* n = new TNodoCalendario();
-	n->_c = c;
-	
-	// insertar en lista vacia
-	if (EsVacia())
+	TNodoCalendario* nodo = new TNodoCalendario();
+	nodo->_c = c;
+
+    // insertar en vacia
+	if (EsVacia()) 
 	{
-		n->_sig = nullptr;
+	    std::clog << "Insertar en vacia \n";
+		_primero=nodo;
 		return true;
 	}
-	
-	// no admite repetidos
+
 	else if (!Buscar(c))
 	{
-		// insertar en la cabeza
-		if (_primero->_c < c)
-		{
-			std::clog << "insertar cabeza" << "\n";
-			n->_sig = Primera()._pos;
-			_primero = n;
-			return true;
-		}
-		
-		//buscar _posición a insertar
-		TNodoCalendario* actual;
-		TNodoCalendario* siguiente;
-
-		actual = _primero;
-		siguiente = _primero->_sig;
-
-		bool encontrado = false;
-		while (encontrado)
-		{
-			if ((c > actual->_c) && (c < siguiente->_c))
-				encontrado = true;
-
-			else
-			{
-				actual = siguiente;
-				siguiente = siguiente->_sig;
-			}
-		}
-
-		// insertar en la posicion encontrada
-
+	    TNodoCalendario* actual = _primero;
+	    TNodoCalendario* siguiente = _primero->_sig;
+	    
+	    while (!siguiente)
+	    {
+    	    // insertar en la primera
+	        if (c < _primero->_c)
+	        {
+	            std::clog << "Insertar en la primera \n";
+	            nodo->_sig = _primero;
+	            _primero = nodo;
+	        }   
+	        
+	        actual = siguiente;
+	        siguiente = siguiente->_sig;
+	    }
+	    
+	    return true;
 	}
-	
-	return false;
+    return false;
 }
 
 
@@ -287,17 +272,17 @@ TListaCalendario::Obtener (const TListaPos& p) const
 bool
 TListaCalendario::Buscar (const TCalendario& c) const
 {
-	TListaPos paux;
+	TListaPos buscar;
 	TCalendario caux;
 	
-	paux = Primera();
-	while (!paux.EsVacia())
+	buscar = Primera();
+	while (!buscar.EsVacia())
 	{
-		caux = paux._pos->_c;
+		caux = buscar._pos->_c;
 		if (caux == c)
 			return true;
 			
-		paux = paux.Siguiente();
+		buscar = buscar.Siguiente();
 	}
 	
 	return false;
@@ -312,8 +297,7 @@ TListaCalendario::Longitud () const
 	TListaPos it;
 
 	it = Primera();
-
-	while (!it.EsVacia())
+	while (it._pos != nullptr)
 	{
 		++l;
 		it = it.Siguiente();
@@ -321,3 +305,69 @@ TListaCalendario::Longitud () const
 
 	return l;
 }
+
+
+
+TListaPos 
+TListaCalendario::Ultima() const 
+{
+    TListaPos ultima;
+    
+    if (!EsVacia())
+    {
+        ultima = Primera();
+        while (!ultima._pos->_sig)
+            ultima = ultima.Siguiente();
+    }
+    
+    return ultima;
+}
+
+
+bool
+TListaCalendario::Borrar (const TCalendario& c)
+{
+    if (!EsVacia() || Buscar(c))
+    {   
+        TListaPos actual = Primera();
+        TListaPos siguiente = actual.Siguiente();
+    
+        // borrar primera posicion
+        if (c == Obtener(Primera()))
+        {
+           _primero = _primero->_sig;
+           delete siguiente._pos;
+        }
+           
+        else
+        {
+            while (!siguiente.EsVacia())
+            {
+                // encontramos el calendario en la siguiente
+                if (c == Obtener(siguiente))
+                {
+                    if (siguiente == Ultima())
+                        actual._pos->_sig = nullptr;
+                    else
+                        actual._pos->_sig = siguiente._pos->_sig;
+                        
+                    delete siguiente._pos;
+                    return true;
+                }
+                
+                actual = siguiente;
+                siguiente = siguiente.Siguiente();
+            }
+        }
+    }
+    
+    return false;
+}
+
+
+
+
+
+
+
+

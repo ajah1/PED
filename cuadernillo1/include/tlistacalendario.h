@@ -76,11 +76,14 @@ public:
 	bool Insertar (const TCalendario &);
 	bool EsVacia () const;
 	bool Buscar (const TCalendario &) const;
+    bool Borrar (const TCalendario &);
+    
 
 	int Longitud() const;
 
 	TCalendario Obtener(const TListaPos &) const;
 
 	TListaPos Primera() const;
+	TListaPos Ultima() const;
 
 };
