@@ -229,34 +229,48 @@ TListaCalendario::Insertar(const TCalendario& c)
 	nodo->_c = c;
 
     // insertar en vacia
-	if (EsVacia()) 
+	if (EsVacia())
 	{
 	    std::clog << "Insertar en vacia \n";
-		_primero=nodo;
+		_primero = nodo;
 		return true;
 	}
 
 	else if (!Buscar(c))
 	{
-	    TNodoCalendario* actual = _primero;
-	    TNodoCalendario* siguiente = _primero->_sig;
+	    TListaPos actual = Primera();
+	    TListaPos siguiente = actual.Siguiente();
 	    
-	    while (!siguiente)
+	    // insertar el primero
+        if (Obtener(Primera()) == c)
+        {
+            std::clog << "Insertar en la primera \n";
+            nodo->_sig = _primero;
+            _primero = nodo;
+        }   
+	    
+	    // buscamos posicion intermedia
+	    while (!(siguiente.EsVacia()))
 	    {
-    	    // insertar en la primera
-	        if (c < _primero->_c)
+	        if (c > Obtener(actual) || c < Obtener(siguiente))
 	        {
-	            std::clog << "Insertar en la primera \n";
-	            nodo->_sig = _primero;
-	            _primero = nodo;
-	        }   
+	            std::clog << "insertar intermedia";
+	            
+	            
+	            return true;
+	        }
 	        
 	        actual = siguiente;
-	        siguiente = siguiente->_sig;
+	        siguiente = siguiente.Siguiente();
 	    }
 	    
+	    //estamos en el ultimo nodo 
+        std::clog << "insertar ultima \n";
+        actual._pos->_sig = nodo;
+
 	    return true;
 	}
+	
     return false;
 }
 
