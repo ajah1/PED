@@ -8,21 +8,27 @@ using namespace std;
 int
 main(void)
 {
-   TListaCalendario l1;
-   TCalendario c1;
-   TCalendario c2(1, 1, 2002, (char*) "Fecha2");
-   TCalendario c3(1, 1, 2003, (char*) "Fecha3");
-   TCalendario c4(1, 1, 2004, (char*) "Fecha4");
-   TCalendario c5(1, 1, 2005, (char*) "Fecha5");
-   TCalendario c6(1, 1, 2006, (char*) "Fecha6");
+  TCalendario a(1, 1, 1977, (char*) "uno");
+  TCalendario b(1, 1, 1980, (char*) "dos");
+  TListaCalendario l1;
 
-   l1.Insertar(c3);
-   l1.Insertar(c2); 
-   
-   std::cout << l1 << "\n";
-   
-   //cout << std::boolalpha <<l1.Borrar(c4) << endl;
-  // cout << "\n" << l1 << endl;
+  if(l1.EsVacia())
+    cout << "Lista vacia" << endl;
+  else
+    cout << "Lista no vacia" << endl;
+  
+  l1.Insertar(b);
+  cout << l1.Obtener(l1.Primera()) << endl;
+  
+  l1.Insertar(a);
+  cout << l1.Obtener(l1.Primera()) << endl;
 
-   return 0;
+  cout << "l1 = " << l1 << endl;
+  
+  if(l1.EsVacia())
+    cout << "Lista vacia" << endl;
+  else
+    cout << "Lista no vacia" << endl;
+  
+  return 0;
 }

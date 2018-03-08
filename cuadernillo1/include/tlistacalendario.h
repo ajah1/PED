@@ -85,5 +85,9 @@ public:
 
 	TListaPos Primera() const;
 	TListaPos Ultima() const;
+	
+	bool Borrar (const TListaPos &);
+	bool Borrar (const int, const int, const int);
+	
 
 };
