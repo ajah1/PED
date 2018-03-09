@@ -11,13 +11,14 @@ TCalendario::TCalendario (const TCalendario& c)
     _dia = c.Dia();
     _mes = c.Mes(); 
     _anyo = c.Anyo();
-    _mensaje = NULL;
     
     if (c._mensaje != NULL)
     {
         _mensaje = new char[strlen(c._mensaje) + 1];
         strcpy(_mensaje, c._mensaje);
     }
+    else
+        _mensaje = NULL;    
 }
 
 
@@ -110,18 +111,17 @@ TCalendario::operator < (const TCalendario& c) const
 bool 
 TCalendario::ModMensaje (char* m)
 {
-    if (m != NULL)
-    {
         if (_mensaje != NULL)
         {
             delete [] _mensaje;
             _mensaje = NULL;
         }
     
-        _mensaje = new char[strlen(m)+1];
-        strcpy(_mensaje, m);
-        return true;
-    }
+        if (m != NULL)
+        {
+            _mensaje = new char[strlen(m)+1];
+            strcpy(_mensaje, m);
+        }
     
     return false;
 }
@@ -142,7 +142,7 @@ std::ostream
         
     os << c.Anyo() << " ";
     
-    if (c.Dia() == 1 && c.Mes() == 1 && c.Anyo() == 1900)
+    if ((c.Dia() == 1 && c.Mes() == 1 && c.Anyo() == 1900) || c.Mensaje() == NULL)
          os << '"' << '"';
     else if (c.Mensaje() != NULL)
         os << c.Mensaje();
@@ -154,20 +154,19 @@ std::ostream
 TCalendario& 
 TCalendario::operator = (const TCalendario& c)
 {
-    _dia = c.Dia();
-    _mes = c.Mes();
-    _anyo = c.Anyo();
-
-    if (_dia != 1 && _mes != 1 && _anyo != 1900)
-    {   
-        if (_mensaje != NULL)
-        {
-            delete [] _mensaje;
-            _mensaje = NULL;
-        }
+    if (this != &c)
+    {
+        this->~TCalendario();
+    
+        _dia = c._dia;
+        _mes = c._mes;
+        _anyo = c._anyo;
         
-        _mensaje = new char[strlen(c._mensaje)+1];
-        strcpy(_mensaje, c._mensaje);
+        if (c._mensaje != NULL)
+        {
+            _mensaje = new char[strlen(c._mensaje)+1];
+            strcpy(_mensaje, c._mensaje);
+        }
     }
     return *this;
 }
@@ -200,6 +199,7 @@ TCalendario::operator-- (int)
     }
     else
         _dia--;
+        
     
     return original;
 }

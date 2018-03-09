@@ -17,7 +17,10 @@ TVectorCalendario::operator[] (const int pos) const
 
 std::ostream&
 operator << (std::ostream& os, const TVectorCalendario& v)
-{
+{	
+	if (v._tamano == 0)
+	    return os << "[]";
+
 	os << "[";
 	
     for (int i = 1; i <= v._tamano; ++i)
@@ -99,25 +102,54 @@ TVectorCalendario::ExisteCal (TCalendario& c)
 	return false;
 }
 
+/*
+Si el entero es mayor que 0 y mayor que el tamaño actual del vector, hay que copiar los
+componentes del vector en el vector nuevo, que pasará a tener el tamaño que indica el entero.
+
+Las nuevas posiciones serán vacías, es decir, objetos TCalendario inicializados a 1/1/1900 y
+mensaje NULL
+
+Si el entero es mayor que 0 y menor que el tamaño actual del vector, se deben eliminar los
+TCalendario que sobren por la derecha, dejando el nuevo tamaño igual al valor del entero.
+*/
 
 bool 
 TVectorCalendario::Redimensionar (const int& size)
 {
 
-	if (size > 0 && size != _tamano)
+	if (size > 0 && size > _tamano)
 	{
-		TCalendario* aux = new TCalendario[size];
-	
-		for (int i = 0; i < size; ++i) {
-			aux[i] = _c[i];
+	    //std::clog << "REDIMENSIONAR: mayor tamano \n";
+	    TCalendario* v = new TCalendario[size];
+	    
+		for (int i = 0; i < size; ++i) 
+		{
+		    if (i < _tamano)
+		        *(v + i) = *(_c + i);
+	        else
+	        {
+	            TCalendario cal;
+	            *(v + i) = cal;
+	        }
 		}
-	
-		this->~TVectorCalendario();
-		_tamano = size;
-	
-		_c = aux;
 		
+		delete [] _c;
+		_tamano = size;
+		_c = v;
 		return true;
+	}
+	else if (size > 0 && size < _tamano)
+	{
+	    //std::clog << "REDIMENSIONAR: menor tamano \n";
+	    TCalendario* v = new TCalendario[size];
+	    
+	    for (int i = 0; i < size; ++i)
+	        *(v + i) = *(_c + i);
+	        
+        delete [] _c;
+        _tamano = size;
+        _c = v;
+	    return true;
 	}
 	
 	return false;
