@@ -3,6 +3,7 @@
 #include "tcalendario.h"
 
 #include <iostream>
+#include <inttypes.h>
 
 class TVectorCalendario {
 
@@ -43,6 +44,12 @@ public:
 	void MostrarMensajes(const int, const int, const int);
 	
 	TCalendario* Calendarios() const {return _c;};
+	
+	
+    // devuelve true si las fechas son iguales
+    bool igualFechas (const TCalendario&, const TCalendario&);
+    // devuelve 1 si la fecha es mayor
+    bool mayorFechas (const TCalendario&, const TCalendario&);
 	
 };
 

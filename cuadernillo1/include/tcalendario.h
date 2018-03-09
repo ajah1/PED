@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <inttypes.h>
 
 class TCalendario {
 

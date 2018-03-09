@@ -1,7 +1,5 @@
 #include "tvectorcalendario.h"
 
-#include "operar.h"
-
 TCalendario 
 TVectorCalendario::operator[] (const int pos) const
 {
@@ -138,8 +136,8 @@ TVectorCalendario::MostrarMensajes (
 
 	for (int i = 0; i < _tamano; ++i)
 	{
-		mayor = operar::mayorFecha (_c[i],p_cal);
-		igual = operar::igualFecha (_c[i],p_cal);
+		mayor = mayorFechas (_c[i],p_cal);
+		igual = igualFechas (_c[i],p_cal);
 
 		if (mayor || igual)
 			std::cout << _c[i];
@@ -173,4 +171,35 @@ bool
 TVectorCalendario::operator != (const TVectorCalendario& v) const
 {
     return !(*this == v);
+}
+
+
+
+
+//-----------------------------------------------------------------auxiliares
+bool 
+TVectorCalendario::igualFechas (const TCalendario& c1, const TCalendario& c2)
+{
+    bool iguales = c1.Dia() == c2.Dia() &&
+                   c1.Mes() == c2.Mes() &&
+                   c1.Anyo() == c2.Anyo();
+
+    return iguales;
+}
+
+bool 
+TVectorCalendario::mayorFechas (const TCalendario& t1, const TCalendario& t2)
+{
+    if ( t1.Anyo() > t2.Anyo() )
+        return true;
+
+    else if ( t1.Anyo() == t2.Anyo() )
+    {
+        if ( t1.Mes() > t2.Mes() )
+            return true;
+            
+        else if ( t1.Dia() > t2.Dia() )
+            return true;
+    }
+    return false;
 }

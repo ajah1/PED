@@ -5,7 +5,6 @@
 #include <inttypes.h>
 #include <cstring>
 
-
 void
 TCalendario::Vacio ()
 {
