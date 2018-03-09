@@ -17,7 +17,7 @@ TCalendario::Vacio ()
 
 TCalendario::TCalendario (const TCalendario& c)
 {
-    if ( operar::comprobarFecha(c.Dia(),c.Mes(),c.Anyo()) )
+    if ( comprobarFecha(c.Dia(),c.Mes(),c.Anyo()) )
     {
 	    _dia = c.Dia();
 	    _mes = c.Mes(); 
@@ -31,7 +31,7 @@ TCalendario::TCalendario (const TCalendario& c)
 
 TCalendario::TCalendario (const int dia, const int mes, const int anyo, char* msj)
 {
-    if ( operar::comprobarFecha(dia,mes,anyo) )
+    if ( comprobarFecha(dia,mes,anyo) )
     {
 	    _dia = dia;
 	    _mes = mes; 
@@ -167,7 +167,7 @@ TCalendario::operator-- (int)
     else if (_dia == 1)
     {
         _mes--;
-        _dia = operar::diasMes(_mes);
+        _dia = diasMes(_mes);
         
         if (bisiesto && _mes == 2) 
             _dia++;
@@ -197,7 +197,7 @@ TCalendario::operator-- ()
     else if (_dia == 1)
     {
         _mes--;
-        _dia = operar::diasMes(_mes);
+        _dia = diasMes(_mes);
         
         if (bisiesto && _mes == 2) 
             _dia++;
@@ -212,7 +212,7 @@ TCalendario::operator-- ()
 bool 
 TCalendario::ModFecha (int d, int m, int a)
 {
-    bool ok = operar::comprobarFecha(d,m,a);
+    bool ok = comprobarFecha(d,m,a);
     
     if (ok)
     {
@@ -244,7 +244,7 @@ TCalendario::operator++ (int)
         _dia = 1;
         _mes++;
     }
-    else if (_dia == operar::diasMes(_mes))
+    else if (_dia == diasMes(_mes))
     {
         _mes++;
         _dia = 1;
@@ -273,7 +273,7 @@ TCalendario::operator++ ()
         _dia = 1;
         _mes++;
     }
-    else if (_dia == operar::diasMes(_mes))
+    else if (_dia == diasMes(_mes))
     {
         _mes++;
         _dia = 1;
@@ -318,4 +318,83 @@ TCalendario::operator- (int num) const
     }
     
     return aux;
+}
+
+int8_t 
+TCalendario::diasMes(const int m)
+{
+    int8_t dias_mes[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    return dias_mes[m-1];
+}
+
+bool 
+TCalendario::comprobarFecha (const int d, const int m, const int a)
+{
+    bool low  = d < 1  || m < 1;
+    bool pass = d > 31 || m > 12;
+    
+    if (low || pass || a < 1900)
+        return false;
+
+    bool bisiesto = a % 4 == 0;
+    bool mesPar   = m % 2 == 0;
+    
+    
+    if (bisiesto && m == 2 && d > 29)
+        return false;
+        
+    else if (!bisiesto && m == 2 && d > 28)
+        return false;
+        
+    else if (mesPar && m < 8 && d > 30)
+        return false;
+    
+    else if (!mesPar && m > 7 && d > 30)
+        return false;
+              
+    return true;
+}
+
+bool 
+TCalendario::mayorMensaje (const char* c1, const char* c2)
+{
+    if (c1 == nullptr && c2 != nullptr)
+        return false;
+
+    else if (c1 != nullptr && c2 == nullptr)
+        return true;
+    
+    
+    bool c2vacio = c2 == "" && c2 == " ";
+    bool c1vacio = c1 == "" && c1 == " ";
+    bool otro    = c2 == "" && c1 == " ";
+    
+    if (!c1vacio && c2vacio)
+        return true;
+        
+    else if (!c1vacio && !c2vacio)
+        if ( *c1 > *c2)
+            return true;
+            
+    else if (otro || (c2 == " " && !c1vacio))
+        return true;
+
+    return false;
+}
+
+bool 
+TCalendario::mayorFecha (const TCalendario& t1, const TCalendario& t2)
+{
+    if ( t1.Anyo() > t2.Anyo() )
+        return true;
+
+    else if ( t1.Anyo() == t2.Anyo() )
+    {
+        if ( t1.Mes() > t2.Mes() )
+            return true;
+            
+        else if ( t1.Dia() > t2.Dia() )
+            return true;
+    }
+    return false;
 }

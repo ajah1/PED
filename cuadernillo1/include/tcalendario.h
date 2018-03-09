@@ -49,6 +49,15 @@ public:
 	
 	// establece una fecha a la minim
 	void Vacio ();
+	
+    // dias que tiene el mes
+    int8_t diasMes (const int);
+    // devuelve true si la fecha es correcta
+    bool comprobarFecha (const int, const int, const int);
+    // devuelve 1 si el mesanje es mayor
+    bool mayorMensaje (const char*, const char*);
+    // devuelve 1 si la fecha es mayor
+    bool mayorFecha (const TCalendario&, const TCalendario&);
 };
 
 TCalendario::TCalendario () :
