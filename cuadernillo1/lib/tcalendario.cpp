@@ -111,18 +111,18 @@ TCalendario::operator < (const TCalendario& c) const
 bool 
 TCalendario::ModMensaje (char* m)
 {
-        if (_mensaje != NULL)
-        {
-            delete [] _mensaje;
-            _mensaje = NULL;
-        }
-    
-        if (m != NULL)
-        {
-            _mensaje = new char[strlen(m)+1];
-            strcpy(_mensaje, m);
-        }
-    
+
+    if (_mensaje != NULL)
+    {
+        delete [] _mensaje;
+        _mensaje = NULL;
+    }
+
+    if (m != NULL)
+    {
+        _mensaje = new char[strlen(m)+1];
+        strcpy(_mensaje, m);
+    }
     return false;
 }
 
@@ -142,10 +142,10 @@ std::ostream
         
     os << c.Anyo() << " ";
     
-    if ((c.Dia() == 1 && c.Mes() == 1 && c.Anyo() == 1900) || c.Mensaje() == NULL)
-         os << '"' << '"';
-    else if (c.Mensaje() != NULL)
-        os << c.Mensaje();
+    if (c.Mensaje() == NULL)
+        os << " "<<"\""<<"\"";
+    else
+        os << " "<<"\""<<c.Mensaje()<<"\"";
     
     return os;
 }
@@ -179,8 +179,11 @@ TCalendario::operator-- (int)
     
     bool bisiesto = _anyo % 4 == 0;
     
-    if (_dia == 1 && _mes == 1 && _anyo == 1900)
+    if (_dia == 1 && _mes == 1 && _anyo == 1900 && _mensaje != NULL)
+    {
+        ModMensaje((char*)"");
         return *this;
+    }
     
     else if (_dia == 1 && _mes == 1)
     {
@@ -210,8 +213,11 @@ TCalendario::operator-- ()
 {
     bool bisiesto = _anyo % 4 == 0;
 
-    if (_dia == 1 && _mes == 1 && _anyo == 1900)
+    if (_dia == 1 && _mes == 1 && _anyo == 1900 && _mensaje != NULL)
+    {
+        ModMensaje((char*)"");
         return *this;
+    }
     
     else if (_dia == 1 && _mes == 1)
     {
