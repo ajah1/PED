@@ -126,8 +126,8 @@ void
 TVectorCalendario::MostrarMensajes (
 	const int d, const int m, const int a)
 {
-
-	TCalendario p_cal(d,m,a,nullptr);
+    const char* men = nullptr;
+	TCalendario p_cal(d,m,a,men);
 
 	bool mayor;
 	bool igual;

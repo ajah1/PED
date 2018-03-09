@@ -20,7 +20,7 @@ private:
 public:
 
     inline TCalendario ();
-    TCalendario (const int, const int, const int, char*);
+    TCalendario (const int, const int, const int, const char*);
     TCalendario (const TCalendario &);
     inline ~TCalendario ();
     TCalendario & operator = (const TCalendario&);
@@ -55,9 +55,9 @@ public:
     // devuelve true si la fecha es correcta
     bool comprobarFecha (const int, const int, const int);
     // devuelve 1 si el mesanje es mayor
-    bool mayorMensaje (const char*, const char*);
+    bool mayorMensaje (const char*, const char*) const;
     // devuelve 1 si la fecha es mayor
-    bool mayorFecha (const TCalendario&, const TCalendario&);
+    bool mayorFecha (const TCalendario&, const TCalendario&) const;
 };
 
 TCalendario::TCalendario () :

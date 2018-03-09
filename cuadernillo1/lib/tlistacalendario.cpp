@@ -413,7 +413,8 @@ TListaCalendario::Borrar (const TListaPos& p)
 bool
 TListaCalendario::Borrar (const int d, const int m, const int a)
 {
-    TCalendario c(d,m,a,(char*)"");
+    const char* men = nullptr;
+    TCalendario c(d,m,a,men);
 
     // lista no vacia
     // Al menos un calendario anterior a la fecha pasada

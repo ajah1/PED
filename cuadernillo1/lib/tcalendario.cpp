@@ -1,5 +1,4 @@
 #include "tcalendario.h"
-#include "operar.h"
 
 #include <iostream>
 #include <inttypes.h>
@@ -29,14 +28,21 @@ TCalendario::TCalendario (const TCalendario& c)
 }
 
 
-TCalendario::TCalendario (const int dia, const int mes, const int anyo, char* msj)
+TCalendario::TCalendario (const int dia, const int mes, const int anyo, const char* msj)
 {
     if ( comprobarFecha(dia,mes,anyo) )
     {
 	    _dia = dia;
 	    _mes = mes; 
 	    _anyo = anyo;
-	    _mensaje = msj;
+	    
+        if (msj != NULL) 
+        {
+            _mensaje = new char[strlen(msj)+1];
+            strcpy(_mensaje, msj);
+        }
+        else
+            _mensaje = NULL;
     }
     else
         Vacio();
@@ -78,8 +84,8 @@ TCalendario::operator != (const TCalendario& c) const
 bool
 TCalendario::operator > (const TCalendario& c) const
 {
-    bool rf  = operar::mayorFecha (*this, c);
-    bool rms = operar::mayorMensaje (_mensaje, c.Mensaje());
+    bool rf  = mayorFecha (*this, c);
+    bool rms = mayorMensaje (_mensaje, c.Mensaje());
     
     if (*this == c)
         return false;
@@ -356,7 +362,7 @@ TCalendario::comprobarFecha (const int d, const int m, const int a)
 }
 
 bool 
-TCalendario::mayorMensaje (const char* c1, const char* c2)
+TCalendario::mayorMensaje (const char* c1, const char* c2) const
 {
     if (c1 == nullptr && c2 != nullptr)
         return false;
@@ -383,7 +389,7 @@ TCalendario::mayorMensaje (const char* c1, const char* c2)
 }
 
 bool 
-TCalendario::mayorFecha (const TCalendario& t1, const TCalendario& t2)
+TCalendario::mayorFecha (const TCalendario& t1, const TCalendario& t2)const 
 {
     if ( t1.Anyo() > t2.Anyo() )
         return true;
