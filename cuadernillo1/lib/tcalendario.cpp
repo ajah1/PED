@@ -2,40 +2,33 @@
 
 #include <iostream>
 #include <inttypes.h>
-#include <cstring>
+#include "string.h"
 
-void
-TCalendario::Vacio ()
-{
-	_dia = 1;
-    _mes = 1;
-    _anyo = 1900;
-    _mensaje = nullptr;
-}
 
 
 TCalendario::TCalendario (const TCalendario& c)
 {
-    if ( comprobarFecha(c.Dia(),c.Mes(),c.Anyo()) )
+    _dia = c.Dia();
+    _mes = c.Mes(); 
+    _anyo = c.Anyo();
+    _mensaje = NULL;
+    
+    if (c._mensaje != NULL)
     {
-	    _dia = c.Dia();
-	    _mes = c.Mes(); 
-	    _anyo = c.Anyo();
-	    _mensaje = c.Mensaje();
+        _mensaje = new char[strlen(c._mensaje) + 1];
+        strcpy(_mensaje, c._mensaje);
     }
-    else
-        Vacio();
 }
 
 
 TCalendario::TCalendario (const int dia, const int mes, const int anyo, const char* msj)
 {
-    if ( comprobarFecha(dia,mes,anyo) )
+    if(comprobarFecha(dia,mes,anyo)) 
     {
-	    _dia = dia;
-	    _mes = mes; 
-	    _anyo = anyo;
-	    
+        _dia = dia;
+        _mes = mes;
+        _anyo = anyo;
+
         if (msj != NULL) 
         {
             _mensaje = new char[strlen(msj)+1];
@@ -44,8 +37,14 @@ TCalendario::TCalendario (const int dia, const int mes, const int anyo, const ch
         else
             _mensaje = NULL;
     }
-    else
-        Vacio();
+
+    else 
+    {
+        _dia = 1;
+        _mes = 1;
+        _anyo = 1900;
+        _mensaje = NULL;
+    }
 }
 
 
@@ -57,16 +56,16 @@ TCalendario::operator == (const TCalendario& c) const
 				 (c.Mes()  == _mes) &&
 				 (c.Anyo() == _anyo); 
 				 
-    if (_mensaje == nullptr && c.Mensaje() != nullptr)
+    if (_mensaje == NULL && c.Mensaje() != NULL)
 	    mensaje = false;
 	
-	else if (_mensaje != nullptr && c.Mensaje() == nullptr)
+	else if (_mensaje != NULL && c.Mensaje() == NULL)
 	    mensaje = false;
 	    
-	else if (_mensaje == nullptr && c.Mensaje() == nullptr )
+	else if (_mensaje == NULL && c.Mensaje() == NULL )
 	    mensaje = true;
 	    
-    else if (std::strcmp(_mensaje, c.Mensaje()) != 0)    
+    else if (strcmp(_mensaje, c.Mensaje()) != 0)    
         mensaje = false;
 
 	    
@@ -111,15 +110,26 @@ TCalendario::operator < (const TCalendario& c) const
 bool 
 TCalendario::ModMensaje (char* m)
 {
-    _mensaje = m;
-    return true;
+    if (m != NULL)
+    {
+        if (_mensaje != NULL)
+        {
+            delete [] _mensaje;
+            _mensaje = NULL;
+        }
+    
+        _mensaje = new char[strlen(m)+1];
+        strcpy(_mensaje, m);
+        return true;
+    }
+    
+    return false;
 }
 
 
 std::ostream 
 &operator << (std::ostream& os, const TCalendario& c)
 {
-
     if (c.Dia() < 10)
         os << "0" << c.Dia() << "/";
     else
@@ -132,10 +142,10 @@ std::ostream
         
     os << c.Anyo() << " ";
     
-    if (c.Mensaje() == nullptr)
-        os << '"' << '"';
-    else    
-        os << '"' << c.Mensaje() << '"';
+    if (c.Dia() == 1 && c.Mes() == 1 && c.Anyo() == 1900)
+         os << '"' << '"';
+    else if (c.Mensaje() != NULL)
+        os << c.Mensaje();
     
     return os;
 }
@@ -147,8 +157,18 @@ TCalendario::operator = (const TCalendario& c)
     _dia = c.Dia();
     _mes = c.Mes();
     _anyo = c.Anyo();
-    _mensaje = c.Mensaje();
 
+    if (_dia != 1 && _mes != 1 && _anyo != 1900)
+    {   
+        if (_mensaje != NULL)
+        {
+            delete [] _mensaje;
+            _mensaje = NULL;
+        }
+        
+        _mensaje = new char[strlen(c._mensaje)+1];
+        strcpy(_mensaje, c._mensaje);
+    }
     return *this;
 }
 
@@ -156,12 +176,12 @@ TCalendario::operator = (const TCalendario& c)
 TCalendario
 TCalendario::operator-- (int)
 {
-    TCalendario original(_dia,_mes,_anyo,_mensaje);
+    TCalendario original(*this);
     
     bool bisiesto = _anyo % 4 == 0;
     
     if (_dia == 1 && _mes == 1 && _anyo == 1900)
-        Vacio();
+        return *this;
     
     else if (_dia == 1 && _mes == 1)
     {
@@ -191,7 +211,7 @@ TCalendario::operator-- ()
     bool bisiesto = _anyo % 4 == 0;
 
     if (_dia == 1 && _mes == 1 && _anyo == 1900)
-        Vacio();
+        return *this;
     
     else if (_dia == 1 && _mes == 1)
     {
@@ -310,9 +330,9 @@ TCalendario::operator+ (int num) const
 
 
 TCalendario
-TCalendario::operator- (int num) const
+TCalendario::operator- (int num)
 {
-    TCalendario aux(_dia,_mes,_anyo,_mensaje);
+    TCalendario aux(*this);
 
     if (num > 0)
     {
@@ -323,8 +343,23 @@ TCalendario::operator- (int num) const
         }
     }
     
+    // si la fecha resultante es la menor, mensaje = ""
+    if (_dia == 1 && _mes == 1 && _anyo == 1900)
+    {
+        if (_mensaje != NULL)
+        {
+            delete [] _mensaje;
+            this->ModMensaje((char*) "");
+        }
+    }
+    
     return aux;
 }
+
+
+//
+//-------------------------------- FUNCIONES AUXILIARES
+//
 
 int8_t 
 TCalendario::diasMes(const int m)
@@ -364,10 +399,10 @@ TCalendario::comprobarFecha (const int d, const int m, const int a)
 bool 
 TCalendario::mayorMensaje (const char* c1, const char* c2) const
 {
-    if (c1 == nullptr && c2 != nullptr)
+    if (c1 == NULL && c2 != NULL)
         return false;
 
-    else if (c1 != nullptr && c2 == nullptr)
+    else if (c1 != NULL && c2 == NULL)
         return true;
     
     

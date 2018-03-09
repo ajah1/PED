@@ -3,8 +3,8 @@
 #include <iostream>
 #include <inttypes.h>
 
-class TCalendario {
-
+class TCalendario 
+{
 	friend 
 	std::ostream & operator << (std::ostream &, const TCalendario &);
 
@@ -37,7 +37,7 @@ public:
     TCalendario & operator--();
     
     TCalendario operator+(int) const;
-    TCalendario operator-(int) const;
+    TCalendario operator-(int);
     
     TCalendario operator++(const int);
     TCalendario & operator++();
@@ -47,9 +47,9 @@ public:
     int Anyo() const {return _anyo;};
     char* Mensaje() const {return _mensaje;};
 	
+	
 	// establece una fecha a la minim
 	void Vacio ();
-	
     // dias que tiene el mes
     int8_t diasMes (const int);
     // devuelve true si la fecha es correcta
@@ -64,7 +64,7 @@ TCalendario::TCalendario () :
 	_dia(1),
 	_mes(1), 
 	_anyo(1900),
-	_mensaje(nullptr)
+	_mensaje(NULL)
 {}
 
 TCalendario::~TCalendario ()
@@ -72,5 +72,15 @@ TCalendario::~TCalendario ()
 	_dia = 1;
 	_mes = 1;
 	_anyo = 1900;
-	_mensaje = nullptr;
+	
+	if (_mensaje != NULL)
+	    delete [] _mensaje;
+    
+    _mensaje = NULL;
 }
+
+
+
+
+
+

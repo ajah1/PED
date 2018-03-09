@@ -5,10 +5,10 @@
 #include <iostream>
 #include <inttypes.h>
 
-class TVectorCalendario {
-
-    // Sobrecarga del operador salida
-    friend std::ostream& operator << (std::ostream&, const TVectorCalendario&);
+class TVectorCalendario 
+{
+    friend 
+    std::ostream& operator << (std::ostream&, const TVectorCalendario&);
 
 private:
 
@@ -22,7 +22,6 @@ public:
 	
 	inline TVectorCalendario();
 	inline TVectorCalendario(const int);
-	// Constructor de copia
 	//TVectorCalendario(TVectorCalendario &);
 	inline ~TVectorCalendario();
 	
@@ -56,14 +55,14 @@ public:
 TVectorCalendario::TVectorCalendario ()
 {
 	_tamano = 0;
-	_c = nullptr;
+	_c = NULL;
 }
 
 TVectorCalendario::TVectorCalendario (const int size)
 {
 	if (size < 0)
 	{
-	    _c = nullptr;
+	    _c = NULL;
 		_tamano = 0;
 	}
 	else
@@ -75,10 +74,10 @@ TVectorCalendario::TVectorCalendario (const int size)
 
 TVectorCalendario::~TVectorCalendario ()
 {
-	if (_c != nullptr)
+	if (_c != NULL)
 	{
 		delete[] _c;
-		_c = nullptr;
+		_c = NULL;
 	}	
 	_tamano = 0;
 }

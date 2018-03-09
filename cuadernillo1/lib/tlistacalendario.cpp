@@ -8,7 +8,7 @@
 
 TNodoCalendario::
 TNodoCalendario () :
-    _sig(nullptr)
+    _sig(NULL)
 {}
 
 
@@ -29,7 +29,7 @@ TNodoCalendario (const TNodoCalendario& nodo)
 TNodoCalendario::
 ~TNodoCalendario ()
 {
-	_sig=nullptr;
+	_sig=NULL;
 }
 
 
@@ -59,8 +59,9 @@ operator= (const TNodoCalendario& nodo)
 
 TListaPos::
 TListaPos () :
-    _pos(nullptr)
+    _pos(NULL)
 {}
+
 
 TListaPos::
 TListaPos (const TListaPos& lpos)
@@ -75,11 +76,13 @@ TListaPos (const TListaPos& lpos)
     }
 }
 
+
 TListaPos::
 ~TListaPos ()
 {
-    _pos = nullptr;
+    _pos = NULL;
 }
+
 
 TListaPos & TListaPos::
 operator= (const TListaPos& lpos)
@@ -89,6 +92,7 @@ operator= (const TListaPos& lpos)
     
     return *this;
 }
+
 
 bool 
 TListaPos::operator== (const TListaPos& lpos) const
@@ -115,11 +119,13 @@ TListaPos::Siguiente () const
     return sig;
 }
 
+
 bool
 TListaPos::EsVacia () const
 {
-    return _pos == nullptr;
+    return _pos == NULL;
 }
+
 
 
 
@@ -129,7 +135,7 @@ TListaPos::EsVacia () const
 
 TListaCalendario::
 TListaCalendario () :
-    _primero(nullptr)
+    _primero(NULL)
 {}
 
 
@@ -175,7 +181,7 @@ TListaCalendario::
         delete p._pos;
     }
     
-    _primero = nullptr;
+    _primero = NULL;
 }
 
 
@@ -194,7 +200,7 @@ TListaCalendario::Primera () const
 bool
 TListaCalendario::EsVacia () const
 {
-    return _primero == nullptr;
+    return _primero == NULL;
 }
 
 
@@ -204,18 +210,18 @@ operator<<(ostream& os, const TListaCalendario& l)
 
 	TListaPos actual = l.Primera();
 
-	os<<"<";
+	os << "<";
 
-	while(!actual.EsVacia()) 
+	while (!actual.EsVacia()) 
 	{
 		os << l.Obtener(actual);
-		actual=actual.Siguiente();
+		actual = actual.Siguiente();
 
-		if(!actual.EsVacia())
+		if (!actual.EsVacia())
 			os << " ";
 	}
 
-	os<<">";
+	os << ">";
 
 	return os;
 }
@@ -228,7 +234,7 @@ TListaCalendario::Insertar (const TCalendario& c)
 	nodo->_c = c;
 
     // "INSERTAR: en lista vacia \n";
-	if(_primero == nullptr) 
+	if(_primero == NULL) 
 	{
 		_primero = nodo;
 		return true;
@@ -247,7 +253,7 @@ TListaCalendario::Insertar (const TCalendario& c)
         
         //buscando posicion a insertar \n";
         TNodoCalendario* it = _primero;
-        while (it->_sig != nullptr)
+        while (it->_sig != NULL)
         {
             if ((c > it->_c) && (c < it->_sig->_c))
             {
@@ -303,7 +309,7 @@ TListaCalendario::Longitud () const
 	TListaPos it;
 
 	it = Primera();
-	while (it._pos != nullptr)
+	while (it._pos != NULL)
 	{
 		++l;
 		it = it.Siguiente();
@@ -351,7 +357,7 @@ TListaCalendario::Borrar (const TCalendario& c)
             if (c == Obtener(siguiente))
             {
                 if (siguiente == Ultima())
-                    actual._pos->_sig = nullptr;
+                    actual._pos->_sig = NULL;
                 else
                     actual._pos->_sig = siguiente._pos->_sig;
                     
@@ -392,7 +398,7 @@ TListaCalendario::Borrar (const TListaPos& p)
             if (c == Obtener(siguiente))
             {
                 if (siguiente == Ultima())
-                    actual._pos->_sig = nullptr;
+                    actual._pos->_sig = NULL;
                 else
                     actual._pos->_sig = siguiente._pos->_sig;
                     
@@ -413,7 +419,7 @@ TListaCalendario::Borrar (const TListaPos& p)
 bool
 TListaCalendario::Borrar (const int d, const int m, const int a)
 {
-    const char* men = nullptr;
+    const char* men = NULL;
     TCalendario c(d,m,a,men);
 
     // lista no vacia
@@ -430,7 +436,7 @@ TListaCalendario::Borrar (const int d, const int m, const int a)
         // "Borrar todas las posiciones \n";
         else if (c > Ultima()._pos->_c)
         {
-            _primero = nullptr;
+            _primero = NULL;
             return true;
         }
         
@@ -446,38 +452,3 @@ TListaCalendario::Borrar (const int d, const int m, const int a)
 
     return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

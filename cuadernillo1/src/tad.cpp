@@ -3,32 +3,17 @@
 using namespace std;
 
 #include "tcalendario.h"
-#include "tlistacalendario.h"
+
 
 int
-main(void)
+main()
 {
-  TCalendario a(1, 1, 1977, (char*) "uno");
-  TCalendario b(1, 1, 1980, (char*) "dos");
-  TListaCalendario l1;
-
-  if(l1.EsVacia())
-    cout << "Lista vacia" << endl;
-  else
-    cout << "Lista no vacia" << endl;
-  
-  l1.Insertar(b);
-  cout << l1.Obtener(l1.Primera()) << endl;
-  
-  l1.Insertar(a);
-  cout << l1.Obtener(l1.Primera()) << endl;
-
-  cout << "l1 = " << l1 << endl;
-  
-  if(l1.EsVacia())
-    cout << "Lista vacia" << endl;
-  else
-    cout << "Lista no vacia" << endl;
-  
-  return 0;
+   char fi[] = "Fecha incorrecta";
+   char fc[] = "Fecha correcta";
+      
+   TCalendario c1(14,12,1966, fc);
+   
+   if (c1.Dia()==14) cout<<"Funcion Dia correcta"<<endl;
+   if (c1.Mes()==12) cout<<"Funcion Mes correcta"<<endl;
+   if (c1.Anyo()==1966) cout<<"Funcion Anyo correcta"<<endl;         
 }

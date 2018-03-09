@@ -1,4 +1,6 @@
+
 #include "tvectorcalendario.h"
+
 
 TCalendario 
 TVectorCalendario::operator[] (const int pos) const
@@ -6,7 +8,7 @@ TVectorCalendario::operator[] (const int pos) const
     TCalendario vacio;
 
     bool rango = pos >= 1 && pos <= _tamano;
-    if ( rango && _c != nullptr)
+    if ( rango && _c != NULL)
         return _c[pos-1];
     else
         return vacio;
@@ -40,7 +42,7 @@ TVectorCalendario::Ocupadas() const
  
     TCalendario vacio;
     
-    if (_c != nullptr)
+    if (_c != NULL)
     {
 		for (int i = 0; i < _tamano; ++i)
 			if ( _c[i] != vacio)
@@ -56,7 +58,7 @@ TVectorCalendario::operator[] (const int pos)
 {
     bool rango = pos >= 1 && pos <= _tamano;
     
-    if (rango && _c != nullptr)
+    if (rango && _c != NULL)
         return _c[pos-1];
     else
         return _error;
@@ -71,7 +73,7 @@ TVectorCalendario::operator=(TVectorCalendario& v)
 	_tamano = v.Tamano();
 	
 	// si v no está vacio
-	if (v.Calendarios() != nullptr)
+	if (v.Calendarios() != NULL)
 	{
 		_c = new TCalendario[_tamano];
 
@@ -79,7 +81,7 @@ TVectorCalendario::operator=(TVectorCalendario& v)
 			_c[i] = v[i+1];
 	}
 	else
-		_c = nullptr;
+		_c = NULL;
 	
 	return *this;
 }
@@ -126,7 +128,7 @@ void
 TVectorCalendario::MostrarMensajes (
 	const int d, const int m, const int a)
 {
-    const char* men = nullptr;
+    const char* men = NULL;
 	TCalendario p_cal(d,m,a,men);
 
 	bool mayor;
@@ -176,7 +178,10 @@ TVectorCalendario::operator != (const TVectorCalendario& v) const
 
 
 
-//-----------------------------------------------------------------auxiliares
+//
+//------------------------------------------------- FUNCIONES AUXILIARES
+//
+
 bool 
 TVectorCalendario::igualFechas (const TCalendario& c1, const TCalendario& c2)
 {
