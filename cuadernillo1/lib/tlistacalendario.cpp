@@ -233,9 +233,10 @@ TListaCalendario::Insertar (const TCalendario& c)
 	TNodoCalendario* nodo = new TNodoCalendario();
 	nodo->_c = c;
 
-    // "INSERTAR: en lista vacia \n";
+	// "INSERTAR: en lista vacia \n";
 	if(_primero == NULL) 
 	{
+		std::clog << "Insertar vacia \n";
 		_primero = nodo;
 		return true;
 	}
@@ -246,6 +247,7 @@ TListaCalendario::Insertar (const TCalendario& c)
 	    // "INSERTAR: en cabeza \n";
         if (c < _primero->_c)
         { 
+        	std::clog << "Insertar cabeza\n";
             nodo->_sig = _primero;
             _primero = nodo;
             return true;
@@ -258,6 +260,7 @@ TListaCalendario::Insertar (const TCalendario& c)
             if ((c > it->_c) && (c < it->_sig->_c))
             {
                 // "INSERTAR: intermedia \n";
+                std::clog << "Insertar intermedia \n";
                 nodo->_sig = it->_sig;
                 it->_sig = nodo;
                 return true;
@@ -266,6 +269,7 @@ TListaCalendario::Insertar (const TCalendario& c)
         }
         
         // "INSERTAR: ultimo \n";
+        std::clog << "Insertar ultimo \n";
         it->_sig = nodo;
 	}
 

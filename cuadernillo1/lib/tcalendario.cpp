@@ -339,23 +339,30 @@ TCalendario
 TCalendario::operator- (int num)
 {
     TCalendario aux(*this);
+    TCalendario vacio;
 
+    
+    if (aux == vacio)
+        return aux;
+       
+  	else if (_dia == 1 && _mes == 1 && _anyo == 1900)
+        this->ModMensaje((char*) "");
+	
+    else if (_dia == 1 && _mes == 1 && _anyo == 1900)
+    {
+        if (_mensaje != NULL)
+        {
+            delete [] _mensaje;
+            this->ModMensaje((char*) "");
+        }
+    }
+    
     if (num > 0)
     {
         while (num > 0)
         {
             --aux;
             num--;
-        }
-    }
-    
-    // si la fecha resultante es la menor, mensaje = ""
-    if (_dia == 1 && _mes == 1 && _anyo == 1900)
-    {
-        if (_mensaje != NULL)
-        {
-            delete [] _mensaje;
-            this->ModMensaje((char*) "");
         }
     }
     
