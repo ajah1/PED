@@ -59,12 +59,12 @@ TCalendario::operator == (const TCalendario& c) const
 				 
     if (_mensaje == NULL && c.Mensaje() != NULL)
 	    mensaje = false;
-	
+
 	else if (_mensaje != NULL && c.Mensaje() == NULL)
-	    mensaje = false;
-	    
+		mensaje = false;
+		
 	else if (_mensaje == NULL && c.Mensaje() == NULL )
-	    mensaje = true;
+		mensaje = true;
 	    
     else if (strcmp(_mensaje, c.Mensaje()) != 0)    
         mensaje = false;
@@ -84,30 +84,33 @@ TCalendario::operator != (const TCalendario& c) const
 bool
 TCalendario::operator > (const TCalendario& c) const
 {
-    //bool rf  = 
-    return mayorFecha (*this, c);
-    /*bool rms = mayorMensaje (_mensaje, c.Mensaje());
-    
-    if (*this == c)
-        return false;
-    if (rf)
-        return true;
-    else if (rms)
-        return true;
-           
-	return false;*/
+	bool fechaIgual = (c._dia  == _dia) && 
+			 (c._mes  == _mes) &&
+			 (c._anyo == _anyo); 
+	
+	if (*this == c)
+		return false;
+	
+	else if (mayorFecha(*this,c))
+		return true;
+		
+	else if (fechaIgual)
+	{
+		if (mayorMensaje(_mensaje,c._mensaje))
+			return true;
+	}
+
+    return false;
 }	
 
 
 bool
 TCalendario::operator < (const TCalendario& c) const
 {
-/*
-    if ( (*this > c) || (*this == c) )
-        return false;
-        
-    return true;*/
-    return  mayorFecha (c,*this);
+	if ((*this == c)  || (*this > c))
+		return false;
+		
+	return true;
 }
 
 
@@ -427,7 +430,10 @@ TCalendario::mayorMensaje (const char* c1, const char* c2) const
     if (!c1vacia || !c1espacio)
     	return true;	
     
-    return strcmp(c1, c2);
+    else if (strlen(c1) > strlen(c2))
+    	return true;
+    	
+	return false;
 }
 
 bool 
