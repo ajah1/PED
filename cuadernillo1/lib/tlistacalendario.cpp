@@ -347,6 +347,7 @@ TListaCalendario::Borrar (const TCalendario& c)
         // borrar primera posicion
         if (c == Obtener(Primera()))
         {
+        	std::clog << "Borrar primera \n";
            _primero = siguiente._pos;
            return true;
         }
@@ -356,6 +357,7 @@ TListaCalendario::Borrar (const TCalendario& c)
             // encontramos el calendario en la siguiente
             if (c == Obtener(siguiente))
             {
+            	std::cout << "Borrar intermedia/ultima \n";
                 if (siguiente == Ultima())
                     actual._pos->_sig = NULL;
                 else
@@ -452,3 +454,52 @@ TListaCalendario::Borrar (const int d, const int m, const int a)
 
     return false;
 }
+
+TListaCalendario& 
+TListaCalendario::operator= (const TListaCalendario& p_l)
+{
+	if (this != &p_l)
+	{
+		TNodoCalendario* it = p_l._primero;
+		while (it != NULL)
+		{
+			Insertar(it->_c);
+			it = it->_sig;
+		}
+	}
+	
+	return *this;
+}
+
+TListaCalendario 
+TListaCalendario::operator + (const TListaCalendario& p_l) const
+{
+	TListaCalendario lista;
+	
+	bool leftEmpty  = !_primero && p_l._primero; 
+	bool rightEmpty = _primero && !p_l._primero;
+	
+	if (leftEmpty)
+		lista = p_l;
+		
+	else if (rightEmpty)
+		lista = *this;
+		
+	else
+	{
+		lista = p_l;
+	
+		TNodoCalendario* it = _primero;
+		while (it)
+		{
+			lista.Insertar(it->_c);
+			it = it->_sig;
+		}
+	}
+	
+	return lista;
+}
+
+
+
+

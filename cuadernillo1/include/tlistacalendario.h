@@ -83,4 +83,5 @@ public:
 	TListaPos Ultima() const;
 	
 	TCalendario Obtener(const TListaPos &) const;
+	TListaCalendario operator+ (const TListaCalendario &) const;
 };

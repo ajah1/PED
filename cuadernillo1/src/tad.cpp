@@ -8,27 +8,32 @@ using namespace std;
 int
 main(void)
 {
-  TCalendario a(1, 1, 1977, (char*) "uno");
-  TCalendario b(1, 1, 1980, (char*) "dos");
-  TListaCalendario l1;
+  TCalendario a(10,10,2006, (char*) "mensaje 1");
+  TCalendario b(11,10,2006, (char*) "mensaje 2");
+  TCalendario c(12,10,2006, (char*) "mensaje 3");
+  TCalendario d(13,10,2006, (char*) "mensaje 4");
+  TCalendario e(14,10,2006, (char*) "mensaje 5");
+  TCalendario f(15,10,2006, (char*) "mensaje 6");
+  TCalendario g(16,10,2006, (char*) "mensaje 7");
+  TCalendario h(17,10,2006, (char*) "mensaje 8");
+  TCalendario i(18,10,2006, (char*) "mensaje 9");
+  TCalendario j(19,10,2006, (char*) "mensaje 10");
+  TCalendario k(20,10,2006, (char*) "mensaje 11");
+  TCalendario l(21,10,2006, (char*) "mensaje 12");
 
-  if(l1.EsVacia())
-    cout << "Lista vacia" << endl;
-  else
-    cout << "Lista no vacia" << endl;
-  
-  l1.Insertar(b);
-  cout << l1.Obtener(l1.Primera()) << endl;
-  
-  l1.Insertar(a);
-  cout << l1.Obtener(l1.Primera()) << endl;
 
-  cout << "l1 = " << l1 << endl;
+  TListaCalendario lista;
+  TListaCalendario lista2;
+  TListaCalendario lista3;
+  TListaPos p;
+
+  lista.Insertar(a);
+  lista.Insertar(b);
+  lista2.Insertar(c);
+  lista2.Insertar(d);
+
+  lista3=lista+lista2;
   
-  if(l1.EsVacia())
-    cout << "Lista vacia" << endl;
-  else
-    cout << "Lista no vacia" << endl;
-  
-  return 0;
+  cout<<lista3<<endl;
+
 }
