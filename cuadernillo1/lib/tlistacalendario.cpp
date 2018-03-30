@@ -236,7 +236,6 @@ TListaCalendario::Insertar (const TCalendario& c)
 	// "INSERTAR: en lista vacia \n";
 	if(_primero == NULL) 
 	{
-		std::clog << "Insertar vacia \n";
 		_primero = nodo;
 		return true;
 	}
@@ -244,32 +243,29 @@ TListaCalendario::Insertar (const TCalendario& c)
 	// "Calendario no encontrado, pasando a insertar \n";
 	else if (!Buscar(c))
 	{
-	    // "INSERTAR: en cabeza \n";
-        if (c < _primero->_c)
-        { 
-        	std::clog << "Insertar cabeza\n";
-            nodo->_sig = _primero;
-            _primero = nodo;
-            return true;
-        }
-        
-        //buscando posicion a insertar \n";
-        TNodoCalendario* it = _primero;
-        while (it->_sig != NULL)
-        {
-            if ((c > it->_c) && (c < it->_sig->_c))
-            {
-                // "INSERTAR: intermedia \n";
-                std::clog << "Insertar intermedia \n";
-                nodo->_sig = it->_sig;
-                it->_sig = nodo;
-                return true;
-            }
-            it = it->_sig;
+		    // "INSERTAR: en cabeza \n";
+		if (c < _primero->_c)
+		{
+		    nodo->_sig = _primero;
+		    _primero = nodo;
+		    return true;
+		}
+		
+		//buscando posicion a insertar \n";
+		TNodoCalendario* it = _primero;
+		while (it->_sig != NULL)
+		{
+		    if ((c > it->_c) && (c < it->_sig->_c))
+		    {
+		        // "INSERTAR: intermedia \n";
+		        nodo->_sig = it->_sig;
+		        it->_sig = nodo;
+		        return true;
+		    }
+		    it = it->_sig;
         }
         
         // "INSERTAR: ultimo \n";
-        std::clog << "Insertar ultimo \n";
         it->_sig = nodo;
 	}
 

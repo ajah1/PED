@@ -84,8 +84,9 @@ TCalendario::operator != (const TCalendario& c) const
 bool
 TCalendario::operator > (const TCalendario& c) const
 {
-    bool rf  = mayorFecha (*this, c);
-    bool rms = mayorMensaje (_mensaje, c.Mensaje());
+    //bool rf  = 
+    return mayorFecha (*this, c);
+    /*bool rms = mayorMensaje (_mensaje, c.Mensaje());
     
     if (*this == c)
         return false;
@@ -94,17 +95,19 @@ TCalendario::operator > (const TCalendario& c) const
     else if (rms)
         return true;
            
-	return false;
+	return false;*/
 }	
 
 
 bool
 TCalendario::operator < (const TCalendario& c) const
 {
+/*
     if ( (*this > c) || (*this == c) )
         return false;
         
-    return true;
+    return true;*/
+    return  mayorFecha (c,*this);
 }
 
 
@@ -418,22 +421,13 @@ TCalendario::mayorMensaje (const char* c1, const char* c2) const
     else if (c1 != NULL && c2 == NULL)
         return true;
     
-    
-    bool c2vacio = c2 == "" && c2 == " ";
-    bool c1vacio = c1 == "" && c1 == " ";
-    bool otro    = c2 == "" && c1 == " ";
-    
-    if (!c1vacio && c2vacio)
-        return true;
-        
-    else if (!c1vacio && !c2vacio)
-        if ( *c1 > *c2)
-            return true;
-            
-    else if (otro || (c2 == " " && !c1vacio))
-        return true;
+    bool c1vacia = 	 c1 == "" && c2 != "";    
+	bool c1espacio = c1 == " " && c2 != " ";
 
-    return false;
+    if (!c1vacia || !c1espacio)
+    	return true;	
+    
+    return strcmp(c1, c2);
 }
 
 bool 
