@@ -18,6 +18,7 @@ class TABBCalendario {
 private:
     // Puntero al nodo raíz
     TNodoABB* _raiz;
+    TCalendario _item_error;
     
     // AUXILIAR: devuelve el recorrido en inorden
     void InordenAux (const TVectorCalendario&, const int&) const;

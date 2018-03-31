@@ -50,8 +50,8 @@ TABBCalendario::TABBCalendario () :
 
 TABBCalendario::TABBCalendario (const TABBCalendario& p_abb) 
 {
-    if (this != &p_abb && p_abb._raiz)
-        CopiarArbol(p_abb);
+	if (this != &p_abb)
+		CopiarArbol(p_abb);
 }
 
 TABBCalendario::~TABBCalendario () 
@@ -75,7 +75,7 @@ TABBCalendario::operator= (const TABBCalendario& p_abb)
     if (this != &p_abb)
     {
         this->~TABBCalendario();
-        CopiarArbol(p_abb);       
+        CopiarArbol(p_abb);
     }
     
     return *this;
@@ -94,22 +94,28 @@ TABBCalendario::operator= (const TABBCalendario& p_abb)
 TCalendario 
 TABBCalendario::Raiz () const
 {
-    return _raiz->_item;
+	if (_raiz)
+    	return _raiz->_item;
+	else
+		return _item_error;
 }
 
 ////////FUNCIONES AUXILIARES///////////////////////////
 void 
 TABBCalendario::CopiarArbol (const TABBCalendario p_abb)
 {
-    if (_raiz)
-        _raiz = new TNodoABB();
-
+	if (!_raiz)
+		_raiz = new TNodoABB();
+		
     // caso resursivo: arbol no vacio
     if (p_abb._raiz)
     {
         // nuevo nodo del arbol
         TNodoABB* nabb_aux = new TNodoABB();
         nabb_aux->_item = p_abb._raiz->_item;
+        
+        // apuntar a la copia del nodo
+        _raiz = nabb_aux;
     
         // llamar a copiar iz/de
         (_raiz->_iz).CopiarArbol(p_abb._raiz->_iz);
