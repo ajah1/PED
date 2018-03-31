@@ -26,6 +26,9 @@ private:
     // AUXILIAR: devuelve el recorrido en postorden
     void PostordenAux (const TVectorCalendario&, const int&) const;
     
+    // AUXILIAR: copia el arbol
+    void CopiarArbol (const TABBCalendario p_abb);
+    
 public:
     // Constructor por defecto
     TABBCalendario ();

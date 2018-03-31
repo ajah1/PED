@@ -76,7 +76,7 @@ TABBCalendario::operator= (const TABBCalendario& p_abb)
     if (this != &p_abb)
     {
         this->~TABBCalendario();
-        //CopiarArbol(p_abb);       
+        CopiarArbol(p_abb);       
     }
     
     return *this;
@@ -99,7 +99,11 @@ TABBCalendario::Raiz () const
 }
 
 ////////FUNCIONES AUXILIARES///////////////////////////
-
+void 
+TABBCalendario::CopiarArbol (const TABBCalendario p_abb)
+{
+    
+}
 
 
 
