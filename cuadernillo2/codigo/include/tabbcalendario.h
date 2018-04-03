@@ -28,7 +28,9 @@ private:
     void PostordenAux (const TVectorCalendario&, const int&) const;
     
     // AUXILIAR: copia el arbol
-    void CopiarArbol (const TABBCalendario p_abb);
+    void CopiarArbol (const TABBCalendario& p_abb);
+    // AUXILIAR: devuelve true si el arbol es hoja
+    bool Hoja () const;
     
 public:
     // Constructor por defecto

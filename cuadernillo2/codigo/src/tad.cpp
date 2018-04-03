@@ -21,7 +21,7 @@ main(void)
   TABBCalendario b (a);
   
   c = b;
-  /*
+  
   if (a == b)
   	cout << "IGUALES" << endl;
   else 
@@ -31,6 +31,7 @@ main(void)
   	cout << "IGUALES" << endl;
   else 
 	cout << "DISTINTOS" << endl;
-*/
+	
+	//std::cout << std::boolalpha << (a == b) << std::endl;
   return 0;
 }

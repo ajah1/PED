@@ -1,4 +1,5 @@
 #include "tabbcalendario.h"
+#include "tvectorcalendario.h"
 
 ////////////////////////////////////
 //            TNodoABB            //
@@ -84,11 +85,45 @@ TABBCalendario::operator= (const TABBCalendario& p_abb)
 }
 
 
-////////SOBRECARGAS OPERADORES <,>, ==, +,-////////////
+////////SOBRECARGAS OPERADORES////////////
+bool
+TABBCalendario::operator== (const TABBCalendario& p_abb) const
+{
+	if (Inorden() == p_abb.Inorden())
+		return true;
+	
+	return false;
+}
 
 ////////RECORRIDOS INORDEN PREORDEN POSTORDEN NIVELES//
+TVectorCalendario
+TABBCalendario::Inorden () const
+{
+	int posicion = 1;
+
+	TVectorCalendario v(Nodos());
+	InordenAux(v, posicion);
+	
+	return v;	
+}
+
+void 
+TABBCalendario::InordenAux 
+	(const TVectorCalendario& p_v, const int& p_pos) const
+{
+	
+}
 
 ////////ALTURA NODOS NODOSHOJA/////////////////////////
+int
+TABBCalendario::Nodos () const
+{
+	if (_raiz)
+		return 1 + _raiz->_iz.Nodos() 
+			     + _raiz->_de.Nodos();
+	else
+		return 1;
+}
 
 ////////ESVACIO INSERTAR BORRAR BUSCAR/////////////////
 bool
@@ -113,7 +148,7 @@ TABBCalendario::Insertar (const TCalendario& p_c)
 		//insertar( enraizar( i, x, d ), y ) =
 			//	enraizar( i, x, insertar( d, y ) )
 	else if (p_c > _raiz->_item)
-		(_raiz->_de).Insertar(p_c);
+		return (_raiz->_de).Insertar(p_c);
 		
 	return false;
 }
@@ -130,7 +165,7 @@ TABBCalendario::Raiz () const
 
 ////////FUNCIONES AUXILIARES///////////////////////////
 void 
-TABBCalendario::CopiarArbol (const TABBCalendario p_abb)
+TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
 {
     // caso resursivo: arbol no vacio
     if (p_abb._raiz)
@@ -151,15 +186,12 @@ TABBCalendario::CopiarArbol (const TABBCalendario p_abb)
         _raiz = NULL;
 }
 
+bool
+TABBCalendario::Hoja () const
+{
+	if (_raiz->_iz._raiz && _raiz->_de._raiz)
+		return true; 
 
-
-
-
-
-
-
-
-
-
-
+	return false;
+}
 
