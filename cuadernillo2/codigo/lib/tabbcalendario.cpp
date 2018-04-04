@@ -148,7 +148,7 @@ TABBCalendario::NodosHoja () const
 {
 	if (_raiz->_iz._raiz && _raiz->_de._raiz)
 		return _raiz->_iz.NodosHoja() + 
-			   _raiz->_iz.NodosHoja(); 
+			   _raiz->_de.NodosHoja(); 
 	else
 		return 1;
 }
