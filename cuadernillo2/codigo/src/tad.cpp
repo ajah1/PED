@@ -25,7 +25,7 @@ main(void)
  
   cout <<"Altura: "<<a.Altura()<<endl;
   cout <<"Nodos: "<<a.Nodos()<<endl;
-  //cout <<"NodosHoja: "<<a.NodosHoja()<<endl;
+  cout <<"NodosHoja: "<<a.NodosHoja()<<endl;
 
   return 0; 
 

@@ -133,7 +133,8 @@ TABBCalendario::Nodos () const
 		return 0;
 }
 
-int TABBCalendario::Altura () const
+int 
+TABBCalendario::Altura () const
 {
 	if (_raiz)
 		return 1 + std::max (_raiz->_iz.Altura(),
@@ -142,6 +143,15 @@ int TABBCalendario::Altura () const
 		return 0;
 }
 
+int
+TABBCalendario::NodosHoja () const
+{
+	if (_raiz->_iz._raiz && _raiz->_de._raiz)
+		return _raiz->_iz.NodosHoja() + 
+			   _raiz->_iz.NodosHoja(); 
+	else
+		return 1;
+}
 ////////ESVACIO INSERTAR BORRAR BUSCAR/////////////////
 bool
 TABBCalendario::Buscar (const TCalendario& p_c) const
