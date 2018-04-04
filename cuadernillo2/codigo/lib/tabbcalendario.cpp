@@ -1,7 +1,7 @@
 #include "tabbcalendario.h"
 #include "tvectorcalendario.h"
 
-#include <algorithm>    // std::max
+#include <algorithm> // std::max
 
 ////////////////////////////////////
 //            TNodoABB            //
@@ -91,8 +91,9 @@ TABBCalendario::operator= (const TABBCalendario& p_abb)
 bool
 TABBCalendario::operator== (const TABBCalendario& p_abb) const
 {
-	if (Inorden() == p_abb.Inorden())
-		return true;
+	//if (NodosHoja() == p_abb.NodosHoja())
+		if (Inorden() == p_abb.Inorden())
+			return true;
 	
 	return false;
 }
@@ -106,10 +107,32 @@ TABBCalendario::Inorden () const
 	TVectorCalendario v(Nodos());
 	InordenAux(v, posicion);
 	
-	return v;	
+	return v;
 }
 
-void  
+TVectorCalendario
+TABBCalendario::Preorden () const
+{
+	int posicion = 1;
+
+	TVectorCalendario v(Nodos());
+	PreordenAux(v, posicion);
+	
+	return v;
+}
+
+TVectorCalendario
+TABBCalendario::Postorden () const
+{
+	int posicion = 1;
+
+	TVectorCalendario v(Nodos());
+	PostordenAux(v, posicion);
+	
+	return v;
+}
+
+void
 TABBCalendario::InordenAux 
 	(TVectorCalendario& p_v, int& p_pos) const
 {
@@ -119,6 +142,32 @@ TABBCalendario::InordenAux
 		p_v[p_pos] = _raiz->_item;
 		p_pos++;
 		_raiz->_de.InordenAux(p_v, p_pos);
+	}
+}
+
+void
+TABBCalendario::PreordenAux 
+	(TVectorCalendario& p_v, int& p_pos) const
+{
+	if (_raiz)
+	{
+		p_v[p_pos] = _raiz->_item;
+		p_pos++;
+		_raiz->_iz.InordenAux(p_v, p_pos);
+		_raiz->_de.InordenAux(p_v, p_pos);
+	}
+}
+
+void
+TABBCalendario::PostordenAux 
+	(TVectorCalendario& p_v, int& p_pos) const
+{
+	if (_raiz)
+	{
+		_raiz->_iz.InordenAux(p_v, p_pos);
+		_raiz->_de.InordenAux(p_v, p_pos);
+		p_v[p_pos] = _raiz->_item;
+		p_pos++;
 	}
 }
 
@@ -146,12 +195,13 @@ TABBCalendario::Altura () const
 int
 TABBCalendario::NodosHoja () const
 {
-	if (_raiz->_iz._raiz && _raiz->_de._raiz)
+	if (!Hoja())
 		return _raiz->_iz.NodosHoja() + 
 			   _raiz->_de.NodosHoja(); 
 	else
 		return 1;
 }
+
 ////////ESVACIO INSERTAR BORRAR BUSCAR/////////////////
 bool
 TABBCalendario::Buscar (const TCalendario& p_c) const
@@ -161,7 +211,7 @@ TABBCalendario::Buscar (const TCalendario& p_c) const
 		if (_raiz->_item == p_c)
 			return true;
 			
-		return _raiz->_iz.Buscar(p_c) &&
+		return _raiz->_iz.Buscar(p_c) ||
 				_raiz->_de.Buscar(p_c);
 	}
 	return false;
@@ -170,8 +220,6 @@ TABBCalendario::Buscar (const TCalendario& p_c) const
 bool
 TABBCalendario::Insertar (const TCalendario& p_c)
 {	
-	TCalendario vacio;
-
 	//Insertar( crea_arbin( ), x ) =
 		//enraizar( crea_arbin( ), x, crea_arbin( ) )
 	if (!Buscar(p_c))
@@ -193,7 +241,7 @@ TABBCalendario::Insertar (const TCalendario& p_c)
 			//insertar( enraizar( i, x, d ), y ) =
 				//	enraizar( i, x, insertar( d, y ) )
 		else if (p_c > _raiz->_item)
-			return (_raiz->_de).Insertar(p_c);
+			return (_raiz->_de).Insertar (p_c);
 	}
 		
 	return false;
@@ -235,7 +283,7 @@ TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
 bool
 TABBCalendario::Hoja () const
 {
-	if (_raiz->_iz._raiz && _raiz->_de._raiz)
+	if (!_raiz->_iz._raiz && !_raiz->_de._raiz)
 		return true; 
 
 	return false;

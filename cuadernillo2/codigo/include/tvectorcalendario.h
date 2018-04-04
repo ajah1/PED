@@ -25,7 +25,7 @@ public:
 	//TVectorCalendario(TVectorCalendario &);
 	inline ~TVectorCalendario();
 	
-    TVectorCalendario & operator=(TVectorCalendario &);
+    TVectorCalendario & operator=(const TVectorCalendario &);
 	
     TCalendario operator[](const int) const;
     TCalendario& operator[](const int);

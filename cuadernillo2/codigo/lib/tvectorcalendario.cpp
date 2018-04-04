@@ -69,7 +69,7 @@ TVectorCalendario::operator[] (const int pos)
 
 
 TVectorCalendario& 
-TVectorCalendario::operator=(TVectorCalendario& v)
+TVectorCalendario::operator=(const TVectorCalendario& v)
 {
 	this->~TVectorCalendario();
 	
