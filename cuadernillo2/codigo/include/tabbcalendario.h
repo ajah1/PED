@@ -21,11 +21,11 @@ private:
     TCalendario _item_error;
     
     // AUXILIAR: devuelve el recorrido en inorden
-    void InordenAux (const TVectorCalendario&, const int&) const;
+    void InordenAux (TVectorCalendario&, int&) const;
     // AUXILIAR: devuelve el recorrido en preorden
-    void PreordenAux (const TVectorCalendario&, const int&) const;
+    void PreordenAux (TVectorCalendario&, int&) const;
     // AUXILIAR: devuelve el recorrido en postorden
-    void PostordenAux (const TVectorCalendario&, const int&) const;
+    void PostordenAux (TVectorCalendario&, int&) const;
     
     // AUXILIAR: copia el arbol
     void CopiarArbol (const TABBCalendario& p_abb);

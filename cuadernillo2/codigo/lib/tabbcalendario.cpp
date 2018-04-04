@@ -1,6 +1,8 @@
 #include "tabbcalendario.h"
 #include "tvectorcalendario.h"
 
+#include <algorithm>    // std::max
+
 ////////////////////////////////////
 //            TNodoABB            //
 ////////////////////////////////////
@@ -107,11 +109,17 @@ TABBCalendario::Inorden () const
 	return v;	
 }
 
-void 
+void  
 TABBCalendario::InordenAux 
-	(const TVectorCalendario& p_v, const int& p_pos) const
+	(TVectorCalendario& p_v, int& p_pos) const
 {
-	
+	if (_raiz)
+	{
+		_raiz->_iz.InordenAux(p_v, p_pos);
+		p_v[p_pos] = _raiz->_item;
+		p_pos++;
+		_raiz->_de.InordenAux(p_v, p_pos);
+	}
 }
 
 ////////ALTURA NODOS NODOSHOJA/////////////////////////
@@ -122,33 +130,61 @@ TABBCalendario::Nodos () const
 		return 1 + _raiz->_iz.Nodos() 
 			     + _raiz->_de.Nodos();
 	else
-		return 1;
+		return 0;
+}
+
+int TABBCalendario::Altura () const
+{
+	if (_raiz)
+		return 1 + std::max (_raiz->_iz.Altura(),
+		  					 _raiz->_de.Altura());
+	else
+		return 0;
 }
 
 ////////ESVACIO INSERTAR BORRAR BUSCAR/////////////////
 bool
+TABBCalendario::Buscar (const TCalendario& p_c) const
+{
+	if (_raiz)
+	{
+		if (_raiz->_item == p_c)
+			return true;
+			
+		return _raiz->_iz.Buscar(p_c) &&
+				_raiz->_de.Buscar(p_c);
+	}
+	return false;
+}
+
+bool
 TABBCalendario::Insertar (const TCalendario& p_c)
 {	
+	TCalendario vacio;
+
 	//Insertar( crea_arbin( ), x ) =
 		//enraizar( crea_arbin( ), x, crea_arbin( ) )
-	if (!_raiz)
+	if (!Buscar(p_c))
 	{
-		_raiz = new TNodoABB();
-		_raiz->_item = p_c;
-		return true;
-	}
-	
-	//si ( y < x ) entonces
-		//insertar( enraizar( i, x, d ), y ) =
-			//enraizar( insertar( i, y ), x, d )
-	else if (p_c < _raiz->_item)
-		return (_raiz->_iz).Insertar (p_c);
+		if (!_raiz)
+		{
+			_raiz = new TNodoABB();
+			_raiz->_item = p_c;
+			return true;
+		}
 		
-	//si no si ( y > x ) 
-		//insertar( enraizar( i, x, d ), y ) =
-			//	enraizar( i, x, insertar( d, y ) )
-	else if (p_c > _raiz->_item)
-		return (_raiz->_de).Insertar(p_c);
+		//si ( y < x ) entonces
+			//insertar( enraizar( i, x, d ), y ) =
+				//enraizar( insertar( i, y ), x, d )
+		else if (p_c < _raiz->_item)
+			return (_raiz->_iz).Insertar (p_c);
+			
+		//si no si ( y > x ) 
+			//insertar( enraizar( i, x, d ), y ) =
+				//	enraizar( i, x, insertar( d, y ) )
+		else if (p_c > _raiz->_item)
+			return (_raiz->_de).Insertar(p_c);
+	}
 		
 	return false;
 }
