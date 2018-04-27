@@ -329,7 +329,7 @@ TABBCalendario::Borrar (const TCalendario& p_cal)
 		}
 		
 		// el nodo a borrar solo tiene un hijo
-		
+				
 		/*si ( y==x ) y no esvacio( d ) y no esvacio( i ) entonces
 		borrar( enraizar( i, x, d ), y ) =
 		enraizar( i, min( d ), borrar( d, min( d ) ) ) fsi*/
