@@ -51,6 +51,8 @@ TABBCalendario::TABBCalendario () :
     _raiz(NULL)
 {}
 
+
+
 TABBCalendario::TABBCalendario (const TABBCalendario& p_abb) 
 {
 	if (this != &p_abb && _raiz)
@@ -58,6 +60,8 @@ TABBCalendario::TABBCalendario (const TABBCalendario& p_abb)
 	else
 		_raiz = NULL;
 }
+
+
 
 TABBCalendario::~TABBCalendario () 
 {
@@ -73,6 +77,8 @@ TABBCalendario::~TABBCalendario ()
         _raiz = NULL;
     }
 }
+
+
 
 TABBCalendario&
 TABBCalendario::operator= (const TABBCalendario& p_abb)
@@ -98,6 +104,25 @@ TABBCalendario::operator== (const TABBCalendario& p_abb) const
 	return false;
 }
 
+
+TABBCalendario 
+TABBCalendario::operator+ (const TABBCalendario& p_abb) const
+{
+	TABBCalendario aux_abb = *this;
+
+	if (!p_abb._raiz)
+		return aux_abb;
+		
+	
+	TVectorCalendario aux_vector;
+	aux_vector = p_abb.Inorden();
+	
+	for (int i = 1; i <= p_abb.Nodos(); ++i)
+		aux_abb.Insertar (aux_vector[i]);
+	
+	return aux_abb;
+}
+
 ////////RECORRIDOS INORDEN PREORDEN POSTORDEN NIVELES//
 TVectorCalendario
 TABBCalendario::Inorden () const
@@ -110,6 +135,7 @@ TABBCalendario::Inorden () const
 	return v;
 }
 
+
 TVectorCalendario
 TABBCalendario::Preorden () const
 {
@@ -121,6 +147,7 @@ TABBCalendario::Preorden () const
 	return v;
 }
 
+
 TVectorCalendario
 TABBCalendario::Postorden () const
 {
@@ -131,6 +158,7 @@ TABBCalendario::Postorden () const
 	
 	return v;
 }
+
 
 void
 TABBCalendario::InordenAux 
@@ -145,11 +173,12 @@ TABBCalendario::InordenAux
 	}
 }
 
+
 void
 TABBCalendario::PreordenAux 
 	(TVectorCalendario& p_v, int& p_pos) const
 {
-	if (_raiz)
+	if (_raiz != nullptr)
 	{
 		p_v[p_pos] = _raiz->_item;
 		p_pos++;
@@ -157,6 +186,7 @@ TABBCalendario::PreordenAux
 		_raiz->_de.InordenAux(p_v, p_pos);
 	}
 }
+
 
 void
 TABBCalendario::PostordenAux 
@@ -171,6 +201,7 @@ TABBCalendario::PostordenAux
 	}
 }
 
+
 ////////ALTURA NODOS NODOSHOJA/////////////////////////
 int
 TABBCalendario::Nodos () const
@@ -181,6 +212,7 @@ TABBCalendario::Nodos () const
 	else
 		return 0;
 }
+
 
 int 
 TABBCalendario::Altura () const
@@ -202,6 +234,7 @@ TABBCalendario::NodosHoja () const
 		return 1;
 }
 
+
 ////////ESVACIO INSERTAR BORRAR BUSCAR/////////////////
 bool
 TABBCalendario::Buscar (const TCalendario& p_c) const
@@ -217,13 +250,14 @@ TABBCalendario::Buscar (const TCalendario& p_c) const
 	return false;
 }
 
+
 bool
 TABBCalendario::Insertar (const TCalendario& p_c)
 {	
-	//Insertar( crea_arbin( ), x ) =
-		//enraizar( crea_arbin( ), x, crea_arbin( ) )
 	if (!Buscar(p_c))
 	{
+		//Insertar( crea_arbin( ), x ) =
+		//enraizar( crea_arbin( ), x, crea_arbin( ) )
 		if (!_raiz)
 		{
 			_raiz = new TNodoABB();
@@ -247,6 +281,7 @@ TABBCalendario::Insertar (const TCalendario& p_c)
 	return false;
 }
 
+
 /////////////////////GETTERS///////////////////////////
 TCalendario 
 TABBCalendario::Raiz () const
@@ -256,6 +291,7 @@ TABBCalendario::Raiz () const
 	else
 		return _item_error;
 }
+
 
 ////////FUNCIONES AUXILIARES///////////////////////////
 void 
@@ -280,6 +316,7 @@ TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
         _raiz = NULL;
 }
 
+
 bool
 TABBCalendario::Hoja () const
 {
@@ -288,4 +325,3 @@ TABBCalendario::Hoja () const
 
 	return false;
 }
-
