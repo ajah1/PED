@@ -21,7 +21,7 @@ main(void)
 
   b.Insertar(c1);
 
-  //resta = a-b;
+  resta = a-b;
 
   vec = resta.Inorden();
 
@@ -31,8 +31,3 @@ main(void)
 
 }
 
-/*
-
-Inorden Resta: [(1) 02/01/2011 "Fecha2", (2) 03/01/2011 "Fecha3"]
-
-*/

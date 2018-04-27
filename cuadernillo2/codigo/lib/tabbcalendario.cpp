@@ -110,11 +110,10 @@ TABBCalendario::operator== (const TABBCalendario& p_abb) const
 TABBCalendario 
 TABBCalendario::operator+ (const TABBCalendario& p_abb) const
 {
-	TABBCalendario aux_abb = *this;
+	TABBCalendario aux_abb (*this);
 
 	if (!p_abb._raiz)
 		return aux_abb;
-		
 	
 	TVectorCalendario aux_vector;
 	aux_vector = p_abb.Inorden();
@@ -125,11 +124,14 @@ TABBCalendario::operator+ (const TABBCalendario& p_abb) const
 	return aux_abb;
 }
 
-/*
+
 TABBCalendario
 TABBCalendario::operator- (const TABBCalendario& p_abb) const
-{}
-*/
+{
+	TABBCalendario aux_abb;
+	return aux_abb;
+}
+
 
 ////////RECORRIDOS INORDEN PREORDEN POSTORDEN NIVELES//
 TVectorCalendario
@@ -190,8 +192,8 @@ TABBCalendario::PreordenAux
 	{
 		p_v[p_pos] = _raiz->_item;
 		p_pos++;
-		_raiz->_iz.InordenAux(p_v, p_pos);
-		_raiz->_de.InordenAux(p_v, p_pos);
+		_raiz->_iz.PreordenAux(p_v, p_pos);
+		_raiz->_de.PreordenAux(p_v, p_pos);
 	}
 }
 
@@ -202,8 +204,8 @@ TABBCalendario::PostordenAux
 {
 	if (_raiz)
 	{
-		_raiz->_iz.InordenAux(p_v, p_pos);
-		_raiz->_de.InordenAux(p_v, p_pos);
+		_raiz->_iz.PostordenAux(p_v, p_pos);
+		_raiz->_de.PostordenAux(p_v, p_pos);
 		p_v[p_pos] = _raiz->_item;
 		p_pos++;
 	}
@@ -297,6 +299,52 @@ TABBCalendario::Insertar (const TCalendario& p_c)
 }
 
 
+bool
+TABBCalendario::Borrar (const TCalendario& p_cal)
+{
+	//borrar( crea_arbin( ), x ) = crea_arbin( )
+	if (Buscar(p_cal))
+	{
+		/*si ( y < x ) entonces
+		borrar( enraizar( i, x, d ), y ) =
+		enraizar( borrar( i, y ), x, d )*/
+		if (p_cal < _raiz->_item)
+			_raiz->_iz.Borrar (p_cal);
+		
+		/*si no si ( y > x ) entonces
+		borrar( enraizar( i, x, d ), y ) =
+		enraizar( i, x, borrar( d, y ) ) fsi*/
+		else if (p_cal > _raiz->_item)
+			_raiz->_de.Borrar (p_cal);
+		
+		/*si ( y==x ) y esvacio( d ) entonces
+		borrar( enraizar( i, x, d ), y ) = i fsi*/
+		/*si ( y==x ) y esvacio( i ) entonces
+		borrar( enraizar( i, x, d ), y ) = d fsi*/
+		
+		// el nodo a borrar es hoja
+		else if (p_cal == _raiz->_item && Hoja())
+		{
+			
+		}
+		
+		// el nodo a borrar solo tiene un hijo
+		
+		/*si ( y==x ) y no esvacio( d ) y no esvacio( i ) entonces
+		borrar( enraizar( i, x, d ), y ) =
+		enraizar( i, min( d ), borrar( d, min( d ) ) ) fsi*/
+		else if (p_cal == _raiz->_item && 
+					!_raiz->_iz.EsVacio() &&
+					!_raiz->_de.EsVacio())
+		{}
+		
+		return true;
+	}
+
+	return false;
+}
+
+
 /////////////////////GETTERS///////////////////////////
 TCalendario 
 TABBCalendario::Raiz () const
@@ -331,6 +379,22 @@ TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
         _raiz = NULL;
 }
 
+
+TCalendario
+TABBCalendario::MayorIzquierda () const
+{
+	TCalendario aux_cal;
+	
+	return aux_cal;	
+}
+
+TCalendario
+TABBCalendario::MenorDerecha () const
+{
+	TCalendario aux_cal;
+	
+	return aux_cal;
+}
 
 bool
 TABBCalendario::Hoja () const

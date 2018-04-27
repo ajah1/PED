@@ -32,6 +32,11 @@ private:
     // AUXILIAR: devuelve true si el arbol es hoja
     bool Hoja () const;
     
+    // AUXILIAR: devuelve el mayor nodo de la izquierda
+    TCalendario MayorIzquierda () const;
+    // AUXILIAR: devuelve el menor nodo de la derecha
+	TCalendario MenorDerecha () const;
+    
 public:
     // Constructor por defecto
     TABBCalendario ();
