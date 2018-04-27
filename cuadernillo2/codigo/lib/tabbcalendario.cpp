@@ -9,6 +9,7 @@
 
 TNodoABB::TNodoABB () {}
 
+
 TNodoABB::TNodoABB (const TNodoABB& p_nodo) 
 {
     if (this != &p_nodo)
@@ -19,12 +20,14 @@ TNodoABB::TNodoABB (const TNodoABB& p_nodo)
     }
 }
 
+
 TNodoABB::~TNodoABB () 
 {
     _item.~TCalendario();
     _iz.~TABBCalendario();
     _de.~TABBCalendario();
 }
+
 
 TNodoABB& TNodoABB::operator= (const TNodoABB& p_nodo) 
 {
@@ -79,7 +82,6 @@ TABBCalendario::~TABBCalendario ()
 }
 
 
-
 TABBCalendario&
 TABBCalendario::operator= (const TABBCalendario& p_abb)
 {
@@ -122,6 +124,12 @@ TABBCalendario::operator+ (const TABBCalendario& p_abb) const
 	
 	return aux_abb;
 }
+
+/*
+TABBCalendario
+TABBCalendario::operator- (const TABBCalendario& p_abb) const
+{}
+*/
 
 ////////RECORRIDOS INORDEN PREORDEN POSTORDEN NIVELES//
 TVectorCalendario
@@ -224,6 +232,7 @@ TABBCalendario::Altura () const
 		return 0;
 }
 
+
 int
 TABBCalendario::NodosHoja () const
 {
@@ -236,6 +245,12 @@ TABBCalendario::NodosHoja () const
 
 
 ////////ESVACIO INSERTAR BORRAR BUSCAR/////////////////
+bool
+TABBCalendario::EsVacio () const
+{
+	return (_raiz);
+}
+
 bool
 TABBCalendario::Buscar (const TCalendario& p_c) const
 {
