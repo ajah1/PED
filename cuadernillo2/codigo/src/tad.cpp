@@ -19,9 +19,9 @@ main(void)
   a.Insertar(c1);
   a.Insertar(c3);
 
-  b.Insertar(c1);
+  b.Insertar(c3);
 
-  resta = a-b;
+  resta = a - b;
 
   vec = resta.Inorden();
 

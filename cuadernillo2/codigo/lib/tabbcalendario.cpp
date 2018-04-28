@@ -55,7 +55,6 @@ TABBCalendario::TABBCalendario () :
 {}
 
 
-
 TABBCalendario::TABBCalendario (const TABBCalendario& p_abb)
 {
 	if (this != &p_abb && _raiz)
@@ -63,7 +62,6 @@ TABBCalendario::TABBCalendario (const TABBCalendario& p_abb)
 	else
 		_raiz = NULL;
 }
-
 
 
 TABBCalendario::~TABBCalendario ()
@@ -128,7 +126,17 @@ TABBCalendario::operator+ (const TABBCalendario& p_abb) const
 TABBCalendario
 TABBCalendario::operator- (const TABBCalendario& p_abb) const
 {
-	TABBCalendario aux_abb;
+	TABBCalendario aux_abb (*this);
+
+  TVectorCalendario p_inorden;
+  p_inorden = p_abb.Inorden();
+
+  for (int i = 1; i <= p_abb.Nodos(); ++i)
+  {
+    if (Buscar(p_inorden[i]))
+      aux_abb.Borrar (p_inorden[i]);
+  }
+
 	return aux_abb;
 }
 

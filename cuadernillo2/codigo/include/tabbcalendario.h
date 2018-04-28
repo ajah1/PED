@@ -9,9 +9,8 @@
 // forward declaration
 class TNodoABB;
 
-
-class TABBCalendario {
-
+class TABBCalendario
+{
     // Sobrecarga del operador salida
     friend std::ostream& operator<< (std::ostream&, TABBCalendario&);
 
