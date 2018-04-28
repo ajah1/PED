@@ -19,15 +19,18 @@ main(void)
   a.Insertar(c1);
   a.Insertar(c3);
 
-  b.Insertar(c1);
+  // b.Insertar(c1);
 
-  resta = a-b;
+  std::cout << "a: " << a.Inorden() << endl;
+  a.Borrar (c3);
+  std::cout << "a: " << a.Inorden() << endl;
 
-  vec = resta.Inorden();
+  //resta = a-b;
 
-  cout <<"Inorden Resta: "<< vec << endl;
+  //vec = resta.Inorden();
 
-  return 0; 
+  //cout <<"Inorden Resta: "<< vec << endl;
+
+  return 0;
 
 }
-

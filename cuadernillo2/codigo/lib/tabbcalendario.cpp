@@ -10,7 +10,7 @@
 TNodoABB::TNodoABB () {}
 
 
-TNodoABB::TNodoABB (const TNodoABB& p_nodo) 
+TNodoABB::TNodoABB (const TNodoABB& p_nodo)
 {
     if (this != &p_nodo)
     {
@@ -21,7 +21,7 @@ TNodoABB::TNodoABB (const TNodoABB& p_nodo)
 }
 
 
-TNodoABB::~TNodoABB () 
+TNodoABB::~TNodoABB ()
 {
     _item.~TCalendario();
     _iz.~TABBCalendario();
@@ -29,13 +29,13 @@ TNodoABB::~TNodoABB ()
 }
 
 
-TNodoABB& TNodoABB::operator= (const TNodoABB& p_nodo) 
+TNodoABB& TNodoABB::operator= (const TNodoABB& p_nodo)
 {
     if (this != &p_nodo)
     {
         _item = p_nodo._item;
         _iz = p_nodo._iz;
-        _de = p_nodo._de;        
+        _de = p_nodo._de;
     }
 
     return *this;
@@ -56,7 +56,7 @@ TABBCalendario::TABBCalendario () :
 
 
 
-TABBCalendario::TABBCalendario (const TABBCalendario& p_abb) 
+TABBCalendario::TABBCalendario (const TABBCalendario& p_abb)
 {
 	if (this != &p_abb && _raiz)
 		CopiarArbol(p_abb);
@@ -66,16 +66,16 @@ TABBCalendario::TABBCalendario (const TABBCalendario& p_abb)
 
 
 
-TABBCalendario::~TABBCalendario () 
+TABBCalendario::~TABBCalendario ()
 {
     if (_raiz)
     {
         if (_raiz->_de._raiz)
             _raiz->_de.~TABBCalendario();
-            
+
         if (_raiz->_iz._raiz)
             _raiz->_iz.~TABBCalendario();
-            
+
         delete _raiz;
         _raiz = NULL;
     }
@@ -90,7 +90,7 @@ TABBCalendario::operator= (const TABBCalendario& p_abb)
         this->~TABBCalendario();
         CopiarArbol(p_abb);
     }
-    
+
     return *this;
 }
 
@@ -102,25 +102,25 @@ TABBCalendario::operator== (const TABBCalendario& p_abb) const
 	//if (NodosHoja() == p_abb.NodosHoja())
 		if (Inorden() == p_abb.Inorden())
 			return true;
-	
+
 	return false;
 }
 
 
-TABBCalendario 
+TABBCalendario
 TABBCalendario::operator+ (const TABBCalendario& p_abb) const
 {
 	TABBCalendario aux_abb (*this);
 
 	if (!p_abb._raiz)
 		return aux_abb;
-	
+
 	TVectorCalendario aux_vector;
 	aux_vector = p_abb.Inorden();
-	
+
 	for (int i = 1; i <= p_abb.Nodos(); ++i)
 		aux_abb.Insertar (aux_vector[i]);
-	
+
 	return aux_abb;
 }
 
@@ -141,7 +141,7 @@ TABBCalendario::Inorden () const
 
 	TVectorCalendario v(Nodos());
 	InordenAux(v, posicion);
-	
+
 	return v;
 }
 
@@ -153,7 +153,7 @@ TABBCalendario::Preorden () const
 
 	TVectorCalendario v(Nodos());
 	PreordenAux(v, posicion);
-	
+
 	return v;
 }
 
@@ -165,13 +165,13 @@ TABBCalendario::Postorden () const
 
 	TVectorCalendario v(Nodos());
 	PostordenAux(v, posicion);
-	
+
 	return v;
 }
 
 
 void
-TABBCalendario::InordenAux 
+TABBCalendario::InordenAux
 	(TVectorCalendario& p_v, int& p_pos) const
 {
 	if (_raiz)
@@ -185,7 +185,7 @@ TABBCalendario::InordenAux
 
 
 void
-TABBCalendario::PreordenAux 
+TABBCalendario::PreordenAux
 	(TVectorCalendario& p_v, int& p_pos) const
 {
 	if (_raiz != nullptr)
@@ -199,7 +199,7 @@ TABBCalendario::PreordenAux
 
 
 void
-TABBCalendario::PostordenAux 
+TABBCalendario::PostordenAux
 	(TVectorCalendario& p_v, int& p_pos) const
 {
 	if (_raiz)
@@ -217,14 +217,14 @@ int
 TABBCalendario::Nodos () const
 {
 	if (_raiz)
-		return 1 + _raiz->_iz.Nodos() 
+		return 1 + _raiz->_iz.Nodos()
 			     + _raiz->_de.Nodos();
 	else
 		return 0;
 }
 
 
-int 
+int
 TABBCalendario::Altura () const
 {
 	if (_raiz)
@@ -239,8 +239,8 @@ int
 TABBCalendario::NodosHoja () const
 {
 	if (!Hoja())
-		return _raiz->_iz.NodosHoja() + 
-			   _raiz->_de.NodosHoja(); 
+		return _raiz->_iz.NodosHoja() +
+			   _raiz->_de.NodosHoja();
 	else
 		return 1;
 }
@@ -250,7 +250,7 @@ TABBCalendario::NodosHoja () const
 bool
 TABBCalendario::EsVacio () const
 {
-	return (_raiz);
+	return (!_raiz);
 }
 
 bool
@@ -260,7 +260,7 @@ TABBCalendario::Buscar (const TCalendario& p_c) const
 	{
 		if (_raiz->_item == p_c)
 			return true;
-			
+
 		return _raiz->_iz.Buscar(p_c) ||
 				_raiz->_de.Buscar(p_c);
 	}
@@ -270,7 +270,7 @@ TABBCalendario::Buscar (const TCalendario& p_c) const
 
 bool
 TABBCalendario::Insertar (const TCalendario& p_c)
-{	
+{
 	if (!Buscar(p_c))
 	{
 		//Insertar( crea_arbin( ), x ) =
@@ -281,27 +281,28 @@ TABBCalendario::Insertar (const TCalendario& p_c)
 			_raiz->_item = p_c;
 			return true;
 		}
-		
+
 		//si ( y < x ) entonces
 			//insertar( enraizar( i, x, d ), y ) =
 				//enraizar( insertar( i, y ), x, d )
 		else if (p_c < _raiz->_item)
 			return (_raiz->_iz).Insertar (p_c);
-			
-		//si no si ( y > x ) 
+
+		//si no si ( y > x )
 			//insertar( enraizar( i, x, d ), y ) =
 				//	enraizar( i, x, insertar( d, y ) )
 		else if (p_c > _raiz->_item)
 			return (_raiz->_de).Insertar (p_c);
 	}
-		
+
 	return false;
 }
-
 
 bool
 TABBCalendario::Borrar (const TCalendario& p_cal)
 {
+  TNodoABB* aux_raiz;
+
 	//borrar( crea_arbin( ), x ) = crea_arbin( )
 	if (Buscar(p_cal))
 	{
@@ -309,40 +310,33 @@ TABBCalendario::Borrar (const TCalendario& p_cal)
 		enraizar( borrar( i, y ), x, d )*/
 		if (p_cal < _raiz->_item)
 			_raiz->_iz.Borrar (p_cal);
-		
+
 		/*si no si ( y > x ) entonces
 		enraizar( i, x, borrar( d, y ) ) fsi*/
 		else if (p_cal > _raiz->_item)
 			_raiz->_de.Borrar (p_cal);
-		
+
 		/* si ( y==x ) */
-		else if (p_cal == _raiz->_item && Hoja())
+		else if (p_cal == _raiz->_item)
 		{
 			// C1. el nodo a borrar es hoja
 			if (Hoja())
-			{
-				delete _raiz;
-				_raiz = NULL;
-			}
-		
+        BorrarHoja ();
+
 			// C2. el nodo a borrar solo tiene un hijo
-			else if (_raiz->_iz.EsVacio())
-			{}
-			
-			else if (_raiz->_de.EsVacio())
-			{}
+			else if (_raiz->_iz.EsVacio() || _raiz->_iz.EsVacio())
+        BorrarHijo ();
 
 			// C3. no esvacio( d ) y no esvacio( i )
 			else
 			{
+        std::clog << "BORRAR [C3]: menorDerecha" << std::endl;
 				TCalendario menorDerecha = MenorDerecha();
-				
 				_raiz->_iz.Borrar (menorDerecha);
-
 				_raiz->_item = menorDerecha;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -351,7 +345,7 @@ TABBCalendario::Borrar (const TCalendario& p_cal)
 
 
 /////////////////////GETTERS///////////////////////////
-TCalendario 
+TCalendario
 TABBCalendario::Raiz () const
 {
 	if (_raiz)
@@ -362,7 +356,7 @@ TABBCalendario::Raiz () const
 
 
 ////////FUNCIONES AUXILIARES///////////////////////////
-void 
+void
 TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
 {
     // caso resursivo: arbol no vacio
@@ -371,10 +365,10 @@ TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
         // nuevo nodo del arbol
         TNodoABB* nabb_aux = new TNodoABB();
         nabb_aux->_item = p_abb._raiz->_item;
-        
+
         // apuntar a la copia del nodo
         _raiz = nabb_aux;
-    
+
         // llamar a copiar iz/de
         (_raiz->_iz).CopiarArbol(p_abb._raiz->_iz);
         (_raiz->_de).CopiarArbol(p_abb._raiz->_de);
@@ -389,7 +383,8 @@ TCalendario
 TABBCalendario::MenorDerecha () const
 {
 	TCalendario aux_cal;
-	
+
+  std::clog << "MENORDERECHA: " << aux_cal << std::endl;
 	return aux_cal;
 }
 
@@ -398,7 +393,44 @@ bool
 TABBCalendario::Hoja () const
 {
 	if (!_raiz->_iz._raiz && !_raiz->_de._raiz)
-		return true; 
+		return true;
 
 	return false;
+}
+
+
+void
+TABBCalendario::BorrarHoja ()
+{
+  delete _raiz;
+  _raiz = NULL;
+}
+
+void
+TABBCalendario::BorrarHijo ()
+{
+  TNodoABB* aux_raiz;
+
+  if (_raiz->_iz.EsVacio())
+  {
+    std::clog << "BORRAR [C2]: nodo 1 hijo, iz vacio" << std::endl;
+    // borrar el nodo apuntando la raiz al hijo no vacio
+    aux_raiz = _raiz;
+    _raiz = _raiz->_de._raiz;
+    // liberar memoria del nodo a borrar
+    aux_raiz->_de._raiz = NULL;
+    delete aux_raiz;
+    aux_raiz = NULL;
+  }
+
+  else if (_raiz->_de.EsVacio())
+  {
+    std::clog << "BORRAR [C2]: nodo 1 hijo, iz vacio" << std::endl;
+    aux_raiz = _raiz;
+    _raiz = _raiz->_iz._raiz;
+
+    aux_raiz->_iz._raiz = NULL;
+    delete aux_raiz;
+    aux_raiz = NULL;
+  }
 }
