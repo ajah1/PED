@@ -196,7 +196,7 @@ void
 TABBCalendario::PreordenAux
 	(TVectorCalendario& p_v, int& p_pos) const
 {
-	if (_raiz != nullptr)
+	if (_raiz != NULL)
 	{
 		p_v[p_pos] = _raiz->_item;
 		p_pos++;
