@@ -298,11 +298,10 @@ TABBCalendario::Insertar (const TCalendario& p_c)
 	return false;
 }
 
+
 bool
 TABBCalendario::Borrar (const TCalendario& p_cal)
 {
-  TNodoABB* aux_raiz;
-
 	//borrar( crea_arbin( ), x ) = crea_arbin( )
 	if (Buscar(p_cal))
 	{
@@ -329,12 +328,7 @@ TABBCalendario::Borrar (const TCalendario& p_cal)
 
 			// C3. no esvacio( d ) y no esvacio( i )
 			else
-			{
-        std::clog << "BORRAR [C3]: menorDerecha" << std::endl;
-				TCalendario menorDerecha = MenorDerecha();
-				_raiz->_iz.Borrar (menorDerecha);
-				_raiz->_item = menorDerecha;
-			}
+        BorrarConCriterio ();
 		}
 
 		return true;
@@ -382,10 +376,28 @@ TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
 TCalendario
 TABBCalendario::MenorDerecha () const
 {
-	TCalendario aux_cal;
+  TCalendario c_izq;
+  TCalendario c_der;
 
-  std::clog << "MENORDERECHA: " << aux_cal << std::endl;
-	return aux_cal;
+  if (Hoja())
+    return _raiz->_item;
+
+  else
+  {
+    c_izq = _raiz->_iz.MenorDerecha();
+    c_der = _raiz->_de.MenorDerecha();
+
+    if (_raiz->_item < c_izq && _raiz->_item < c_izq)
+      return _raiz->_item;
+
+    else if (c_izq < _raiz->_item && c_izq < _raiz->_item)
+      return c_izq;
+
+    else
+      return c_der;
+  }
+
+	return _item_error;
 }
 
 
@@ -406,6 +418,17 @@ TABBCalendario::BorrarHoja ()
   _raiz = NULL;
 }
 
+
+void
+TABBCalendario::BorrarConCriterio ()
+{
+  TCalendario menorDerecha = MenorDerecha();
+
+  _raiz->_iz.Borrar (menorDerecha);
+  _raiz->_item = menorDerecha;
+}
+
+
 void
 TABBCalendario::BorrarHijo ()
 {
@@ -413,7 +436,6 @@ TABBCalendario::BorrarHijo ()
 
   if (_raiz->_iz.EsVacio())
   {
-    std::clog << "BORRAR [C2]: nodo 1 hijo, iz vacio" << std::endl;
     // borrar el nodo apuntando la raiz al hijo no vacio
     aux_raiz = _raiz;
     _raiz = _raiz->_de._raiz;
@@ -425,7 +447,6 @@ TABBCalendario::BorrarHijo ()
 
   else if (_raiz->_de.EsVacio())
   {
-    std::clog << "BORRAR [C2]: nodo 1 hijo, iz vacio" << std::endl;
     aux_raiz = _raiz;
     _raiz = _raiz->_iz._raiz;
 

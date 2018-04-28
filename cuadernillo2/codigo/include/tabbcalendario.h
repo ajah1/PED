@@ -41,6 +41,8 @@ private:
      void BorrarHoja ();
      // AUXILIAR: borrar el hijo no nulo
      void BorrarHijo ();
+     // AUXILIAR: borrar aplicando criterio (menor derecha)
+     void BorrarConCriterio ();
 
 public:
     // Constructor por defecto
