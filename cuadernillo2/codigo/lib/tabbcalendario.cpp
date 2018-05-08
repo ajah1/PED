@@ -246,11 +246,15 @@ TABBCalendario::Altura () const
 int
 TABBCalendario::NodosHoja () const
 {
-	if (!Hoja())
-		return _raiz->_iz.NodosHoja() +
-			   _raiz->_de.NodosHoja();
-	else
-		return 1;
+  if (_raiz== NULL)
+    return 0;
+
+	else if (Hoja())
+    return 1;
+
+  else
+    return _raiz->_iz.NodosHoja() +
+          _raiz->_de.NodosHoja();
 }
 
 
@@ -449,8 +453,8 @@ TABBCalendario::BorrarHijo ()
     _raiz = _raiz->_de._raiz;
     // liberar memoria del nodo a borrar
     aux_raiz->_de._raiz = NULL;
-    delete aux_raiz;
-    aux_raiz = NULL;
+    //delete aux_raiz;
+    //aux_raiz = NULL;
   }
 
   else if (_raiz->_de.EsVacio())
@@ -459,7 +463,7 @@ TABBCalendario::BorrarHijo ()
     _raiz = _raiz->_iz._raiz;
 
     aux_raiz->_iz._raiz = NULL;
-    delete aux_raiz;
-    aux_raiz = NULL;
+    //delete aux_raiz;
+    //aux_raiz = NULL;
   }
 }
