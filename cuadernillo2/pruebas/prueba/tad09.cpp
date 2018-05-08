@@ -5,9 +5,6 @@ using namespace std;
 int
 main(void)
 {
-/***************************************************/
-/***************** SUMA,INORDEN 	           */
-/***************************************************/
   TABBCalendario a,b, suma;
   TVectorCalendario vec;
 
@@ -30,7 +27,6 @@ main(void)
 
   cout <<"Inorden Suma: "<< vec << endl;
 
-  return 0; 
+  return 0;
 
 }
-

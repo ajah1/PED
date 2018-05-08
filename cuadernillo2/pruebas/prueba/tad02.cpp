@@ -6,14 +6,14 @@ int
 main(void)
 {
 /************************************************/
-/* CONSTRUCTOR COPIA Y ASIGNACION ARBOLES VACIOS		
+/* CONSTRUCTOR COPIA Y ASIGNACION ARBOLES VACIOS*/
 /************************************************/
   TABBCalendario a,c;
 
   TABBCalendario b(a);
-  
+
   c=b;
-  
+
   cout << "No hace nada" << endl;
   return 0;
 }
