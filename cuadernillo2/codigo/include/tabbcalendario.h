@@ -31,11 +31,6 @@ private:
     // AUXILIAR: devuelve true si el arbol es hoja
     bool Hoja () const;
 
-    // AUXILIAR: devuelve el mayor nodo de la izquierda
-    TCalendario MayorIzquierda () const;
-    // AUXILIAR: devuelve el menor nodo de la derecha
-	   TCalendario MenorDerecha () const;
-
      // AUXILIAR: borrar nodo Hoja
      void BorrarHoja ();
      // AUXILIAR: borrar el hijo no nulo
@@ -88,6 +83,9 @@ public:
     TABBCalendario operator+ (const TABBCalendario&) const;
     // Resta de dos ABB
     TABBCalendario operator- (const TABBCalendario&) const;
+
+    // AUXILIAR: devuelve el menor nodo de la derecha
+    TCalendario MayorIzquierda () const;
 };
 
 

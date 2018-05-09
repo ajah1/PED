@@ -57,7 +57,7 @@ TABBCalendario::TABBCalendario () :
 
 TABBCalendario::TABBCalendario (const TABBCalendario& p_abb)
 {
-	if (this != &p_abb && _raiz)
+	if (this != &p_abb)
 		CopiarArbol(p_abb);
 	else
 		_raiz = NULL;
@@ -386,30 +386,16 @@ TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
 
 
 TCalendario
-TABBCalendario::MenorDerecha () const
+TABBCalendario::MayorIzquierda () const
 {
-  TCalendario c_izq;
-  TCalendario c_der;
-
   if (Hoja())
     return _raiz->_item;
 
+  else if (!_raiz->_de.EsVacio())
+    return _raiz->_de.MayorIzquierda();
+
   else
-  {
-    c_izq = _raiz->_iz.MenorDerecha();
-    c_der = _raiz->_de.MenorDerecha();
-
-    if (_raiz->_item < c_izq && _raiz->_item < c_izq)
-      return _raiz->_item;
-
-    else if (c_izq < _raiz->_item && c_izq < _raiz->_item)
-      return c_izq;
-
-    else
-      return c_der;
-  }
-
-	return _item_error;
+    return _raiz->_iz.MayorIzquierda();
 }
 
 
@@ -434,36 +420,27 @@ TABBCalendario::BorrarHoja ()
 void
 TABBCalendario::BorrarConCriterio ()
 {
-  TCalendario menorDerecha = MenorDerecha();
+  TCalendario mayorizq = _raiz->_iz.MayorIzquierda();
 
-  _raiz->_iz.Borrar (menorDerecha);
-  _raiz->_item = menorDerecha;
+  _raiz->_iz.Borrar (mayorizq);
+  _raiz->_item = mayorizq;
 }
 
 
 void
 TABBCalendario::BorrarHijo ()
 {
-  TNodoABB* aux_raiz;
+  TNodoABB* aux_raiz = _raiz;
 
   if (_raiz->_iz.EsVacio())
-  {
-    // borrar el nodo apuntando la raiz al hijo no vacio
-    aux_raiz = _raiz;
     _raiz = _raiz->_de._raiz;
-    // liberar memoria del nodo a borrar
-    aux_raiz->_de._raiz = NULL;
-    //delete aux_raiz;
-    //aux_raiz = NULL;
-  }
 
   else if (_raiz->_de.EsVacio())
-  {
-    aux_raiz = _raiz;
     _raiz = _raiz->_iz._raiz;
 
-    aux_raiz->_iz._raiz = NULL;
-    //delete aux_raiz;
-    //aux_raiz = NULL;
-  }
+  aux_raiz->_de._raiz = NULL;
+  aux_raiz->_iz._raiz = NULL;
+
+  delete aux_raiz;
+  aux_raiz = NULL;
 }
