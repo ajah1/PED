@@ -36,8 +36,12 @@ public:
   bool operator!= (const TAVLCalendario& p_avl) const;
 
   bool Insertar (const TCalendario &);
+  bool Borrar (const TCalendario &);
+
   bool Buscar (const TCalendario &) const;
   bool Hoja () const;
+
+  bool EsVacio () const;
 
   int Nodos () const;
   int Altura () const;
@@ -52,6 +56,13 @@ public:
   int NodosHoja () const;
 
   TCalendario Raiz() const;
+
+
+  bool Reestructuracion (bool&, bool&, bool&, bool&);
+  bool BorrarAux (const TCalendario&, bool&);
+  TCalendario MayorIzquierda () const;
+  void DecreceDerecha (bool &);
+  void DecreceIzquierda (bool &);
 };
 
 
