@@ -26,7 +26,10 @@ main()
 
   cout << arb1.Raiz()<<endl;
 
-  cout<<arb1<<endl;
+  //cout<<arb1<<endl;
+  /*
 
+  
+  */
   return 0;
 }

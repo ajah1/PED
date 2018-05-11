@@ -1,43 +1,41 @@
 /************************************************************
-** INSERTAR, ALTURA, PREORDEN
+** ESVACIO, BORRAR EN UN ARBOL DE 1 ELEMENTO
 *************************************************************/
 #include <iostream>
 #include "tavlcalendario.h"
 
 using namespace std;
 
+
 int
-main(void)
+main()
 {
-  TAVLCalendario a;
-  TCalendario cal1(1,1,2011,(char *)"uno");
-  TCalendario cal2(2,1,2011,(char *)"dos");
-  TCalendario cal3(3,1,2011,(char *)"tres");
-  TCalendario cal4(4,1,2011,(char *)"cuatro");
+  TAVLCalendario arb1;
+  TVectorCalendario vec;
 
+  TCalendario b1(1,1,2011,(char *)"uno");
+ 
+  if (arb1.EsVacio())
+	cout<<"Arbol vacio"<<endl;
+  else cout<<"Arbol no vacio"<<endl;
+ 
+  if (arb1.Borrar(b1))
+  	cout<<"Elemento borrado"<<endl;
+  else cout<<"Elemento no borrado"<<endl;
 
-  a.Insertar(cal3);
+  arb1.Insertar(b1);
+ 
+  if (arb1.EsVacio())
+	cout<<"Arbol vacio"<<endl;
+  else cout<<"Arbol no vacio"<<endl;
 
-  a.Insertar(cal2);
-  /*
-  std::cout << boolalpha << "buscar: " << a.Buscar (cal2) << endl;
-  std::cout << "nodos: " << a.Nodos() << endl;
-  std::cout << a.Inorden () << endl;
-  std::cout << "***************" << endl;
-  */
+  if (arb1.Borrar(b1))
+  	cout<<"Elemento borrado"<<endl;
+  else cout<<"Elemento no borrado"<<endl;
+    
+  if (arb1.EsVacio())
+	cout<<"Arbol vacio"<<endl;
+  else cout<<"Arbol no vacio"<<endl;
 
-  a.Insertar(cal1);
-  std::cout << a.Inorden () << endl;
-  /*
-  if (a.Insertar(cal4))
-	cout<<"Insertado"<<endl;
-  else cout<<"No insertado"<<endl;
-  if (a.Insertar(cal3))
-	cout<<"Insertado"<<endl;
-  else cout<<"No insertado"<<endl;
-
-  cout << "Altura: " << a.Altura() << endl;
-  cout << a.Preorden() <<endl;
-  */
-  return 0;
+  return 0; 
 }

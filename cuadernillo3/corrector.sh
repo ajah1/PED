@@ -1,3 +1,5 @@
+clear
+
 carpetaConPruebas="prueba"
 dirTads="pruebas/$carpetaConPruebas/"
 dirMain="codigo/src/tad.cpp"

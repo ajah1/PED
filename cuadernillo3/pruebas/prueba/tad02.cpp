@@ -18,10 +18,10 @@ main(void)
   a.Insertar(cal1);
   a.Insertar(cal2);
   a.Insertar(cal3);
-  if (a.Insertar(cal4)) 
+  if (a.Insertar(cal4))
 	cout<<"Insertado"<<endl;
-  else cout<<"No insertado"<<endl;   
-  if (a.Insertar(cal3)) 
+  else cout<<"No insertado"<<endl;
+  if (a.Insertar(cal3))
 	cout<<"Insertado"<<endl;
   else cout<<"No insertado"<<endl;
 

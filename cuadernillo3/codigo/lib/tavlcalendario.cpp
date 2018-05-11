@@ -1,9 +1,11 @@
 #include "tavlcalendario.h"
 #include "tabbcalendario.h"
 
-////////////////////////////////////
-//            TNodoAVL            //
-////////////////////////////////////
+#include <algorithm>
+
+///////////////////////////////////////////////////////////////////////////////
+//                          TNodoAVL                                         //
+///////////////////////////////////////////////////////////////////////////////
 
 TNodoAVL::TNodoAVL () :
   _fe(0)
@@ -45,11 +47,9 @@ TNodoAVL::CopiarNodoAVL (const TNodoAVL& p_nodo)
 
 
 
-
-////////////////////////////////////
-//         TAVLCalendario         //
-////////////////////////////////////
-
+///////////////////////////////////////////////////////////////////////////////
+//                          TAVLCalendario                                   //
+///////////////////////////////////////////////////////////////////////////////
 
 TAVLCalendario::TAVLCalendario () :
   _raiz(NULL)
@@ -77,7 +77,7 @@ TAVLCalendario::~TAVLCalendario ()
   }
 }
 
-
+/////////////////////////////////////////////// SOBRECARGAS ////////////////////
 TAVLCalendario&
 TAVLCalendario::operator= (const TAVLCalendario& p_avl)
 {
@@ -87,45 +87,188 @@ TAVLCalendario::operator= (const TAVLCalendario& p_avl)
   return *this;
 }
 
+bool
+TAVLCalendario::operator== (const TAVLCalendario& p_avl) const
+{
+  return Inorden() == p_avl.Inorden();
+}
 
-////////////////// INSERTAR  ////////////////////////
+bool
+TAVLCalendario::operator!= (const TAVLCalendario& p_avl) const
+{
+  return !(Inorden() == p_avl.Inorden());
+}
+
+
+//////////////////////////////////////////// INSERTAR  ////////////////////////
 bool
 TAVLCalendario::Insertar (const TCalendario& p_cal)
 {
-  bool creceDer = false;
-  bool creceIzq = false;
-  bool crece = false;
+	bool crece;
 
-  if (!Buscar (p_cal))
+  if (!Buscar(p_cal))
+	 return InsertarAux (p_cal, crece);
+
+  else
+    return false;
+}
+
+
+bool
+TAVLCalendario::InsertarAux (const TCalendario& p_cal, bool& crece)
+{
+  bool insertado = false;
+  bool creceiz = false;
+  bool crecede = false;
+
+  if (!_raiz)
   {
-    // Insertar en arbol vacio
-    if (!_raiz)
-    {
-      _raiz = new TNodoAVL();
+      _raiz = new TNodoAVL;
+      _raiz->_fe = 0;
       _raiz->_item = p_cal;
-    }
-
-    else
-    {
-      InsertarHoja (p_cal, creceDer, creceIzq);
-    }
-
-    return true;
+      insertado = true;
+      crece = true;
   }
 
-  return false;
+  if (p_cal > _raiz->_item)
+      insertado = _raiz->_de.InsertarAux(p_cal, crecede);
+
+  else if (p_cal < _raiz->_item)
+      insertado = _raiz->_iz.InsertarAux(p_cal, creceiz);
+
+  // RECALCULAR FE Y ROTAR
+  if (creceiz)
+    CreceIzquierda (crece);
+
+  else if (crecede)
+    CreceDerecha (crece);
+
+  return insertado;
 }
 
-
-void TAVLCalendario::II ()
+//////////////////////////////// ROTACIONES II DD ID DI ///////////////////////
+void
+TAVLCalendario::II ()
 {
+	// TNodoAVL auxiliar
+	TNodoAVL *nodoraiz;
+
+	// reordenar
+	nodoraiz = _raiz;
+	_raiz = nodoraiz->_iz._raiz;
+	nodoraiz->_iz._raiz = _raiz->_de._raiz;
+	_raiz->_de._raiz = nodoraiz;
+
+	// recalcular f.equilibrio
+	if (_raiz->_fe == 0)
+	{
+		_raiz->_fe = 1;
+		_raiz->_de._raiz->_fe = -1;
+	}
+	else
+	{
+		_raiz->_fe = 0;
+		_raiz->_de._raiz->_fe = 0;
+	}
 }
 
-////////////////// BUSCAR NODOS  ////////////////////////
+
+void
+TAVLCalendario::DD()
+{
+	TNodoAVL *nodoraiz;
+
+	nodoraiz = _raiz;
+	_raiz = nodoraiz->_de._raiz;
+	nodoraiz->_de._raiz = _raiz->_iz._raiz;
+	_raiz->_iz._raiz = nodoraiz;
+
+	if (_raiz->_fe == 0)
+	{
+		_raiz->_fe = -1;
+		_raiz->_iz._raiz->_fe = 1;
+	}
+	else
+	{
+		_raiz->_fe = 0;
+		_raiz->_iz._raiz->_fe = 0;
+	}
+}
+
+
+void
+TAVLCalendario::ID ()
+{
+	TNodoAVL *auxR, *auxIz, *auxDe;
+
+	auxR = _raiz;
+	_raiz = _raiz->_iz._raiz->_de._raiz;
+	auxIz = _raiz->_iz._raiz;
+	auxDe = _raiz->_de._raiz;
+
+	_raiz->_iz._raiz = auxR->_iz._raiz;
+	_raiz->_de._raiz = auxR;
+	auxR->_iz._raiz = auxDe;
+	_raiz->_iz._raiz->_de._raiz = auxIz;
+
+	if (_raiz->_fe == 0)
+		_raiz->_fe = _raiz->_iz._raiz->_fe = _raiz->_de._raiz->_fe = 0;
+
+  else if(_raiz->_fe == -1)
+	{
+		_raiz->_fe = 0;
+		_raiz->_iz._raiz->_fe = 0;
+		_raiz->_de._raiz->_fe = 1;
+	}
+
+	else
+	{
+		_raiz->_fe = 0;
+		_raiz->_iz._raiz->_fe = -1;
+		_raiz->_de._raiz->_fe = 0;
+	}
+}
+
+
+void
+TAVLCalendario::DI()
+{
+	TNodoAVL *auxR, *auxIz, *auxDe;
+
+	auxR = _raiz;
+	_raiz = _raiz->_de._raiz->_iz._raiz;
+	auxIz = _raiz->_iz._raiz;
+	auxDe = _raiz->_de._raiz;
+
+	_raiz->_de._raiz = auxR->_de._raiz;
+	_raiz->_iz._raiz = auxR;
+	auxR->_de._raiz = auxIz;
+	_raiz->_de._raiz->_iz._raiz = auxDe;
+
+	if (_raiz->_fe == 0)
+		_raiz->_fe = _raiz->_iz._raiz->_fe = _raiz->_de._raiz->_fe = 0;
+
+	else if (_raiz->_fe == -1)
+	{
+		_raiz->_fe = 0;
+		_raiz->_iz._raiz->_fe = 0;
+		_raiz->_de._raiz->_fe = 1;
+	}
+
+	else
+	{
+		_raiz->_fe = 0;
+		_raiz->_iz._raiz->_fe = -1;
+		_raiz->_de._raiz->_fe = 0;
+	}
+}
+
+
+///////////////////////RAIZ NODOSHOJA BUSCAR NODOS ALTURA //////////////////////
 bool
 TAVLCalendario::Buscar (const TCalendario& p_cal) const
 {
-  if (_raiz == NULL)
+  if (!_raiz)
     return false;
 
   else if (_raiz->_item == p_cal)
@@ -148,7 +291,38 @@ TAVLCalendario::Nodos () const
 }
 
 
-//////////// RECORRIDOS EN PROFUNDIDAD ///////////////
+int
+TAVLCalendario::Altura () const
+{
+	if (_raiz)
+		return 1 + std::max (
+                 _raiz->_iz.Altura(),
+		  					 _raiz->_de.Altura());
+	else
+		return 0;
+}
+
+
+int
+TAVLCalendario::NodosHoja () const
+{
+  if (_raiz== NULL)
+    return 0;
+
+	else if (Hoja())
+    return 1;
+
+  else
+    return _raiz->_iz.NodosHoja() +
+          _raiz->_de.NodosHoja();
+}
+
+TCalendario
+TAVLCalendario::Raiz() const
+{
+  return _raiz->_item;
+}
+///////////////////////////////////// RECORRIDOS EN PROFUNDIDAD ///////////////
 TVectorCalendario
 TAVLCalendario::Inorden() const
 {
@@ -160,20 +334,74 @@ TAVLCalendario::Inorden() const
 	return v;
 }
 
-
-void
-TAVLCalendario::InordenAux (TVectorCalendario& p_v, int& p_pos) const
+TVectorCalendario
+TAVLCalendario::Preorden () const
 {
-  if (_raiz)
-	{
-		_raiz->_iz.InordenAux (p_v, p_pos);
-		p_v[p_pos++] = _raiz->_item;
-		_raiz->_de.InordenAux (p_v, p_pos);
-	}
+	int posicion = 1;
+
+	TVectorCalendario v(Nodos());
+	PreordenAux(v, posicion);
+
+	return v;
+}
+
+TVectorCalendario
+TAVLCalendario::Postorden () const
+{
+	int posicion = 1;
+
+	TVectorCalendario v(Nodos());
+	PostordenAux(v, posicion);
+
+	return v;
 }
 
 
 ///////////////////// AUXILIARES /////////////////////
+void
+TAVLCalendario::CreceIzquierda (bool& crece)
+{
+  _raiz->_fe--;
+  if (_raiz->_fe == 0)
+      crece = false;
+
+  else if (_raiz->_fe == -1)
+      crece = true;
+
+  else if (_raiz->_fe == -2)
+  {
+      crece = false;
+      if (_raiz->_iz._raiz->_fe == -1)
+          II();
+
+      if (_raiz->_iz._raiz->_fe == 1)
+          ID();
+  }
+}
+
+void
+TAVLCalendario::CreceDerecha (bool& crece)
+{
+  _raiz->_fe++;
+
+  if (_raiz->_fe == 0)
+      crece = false;
+
+  else if (_raiz->_fe == 1)
+      crece = true;
+
+  else if (_raiz->_fe == 2)
+  {
+      crece = false;
+      if (_raiz->_de._raiz->_fe == -1)
+          DI();
+
+      if (_raiz->_de._raiz->_fe == 1)
+          DD();
+  }
+}
+
+
 void
 TAVLCalendario::CopiarAVL (const TAVLCalendario& p_avl)
 {
@@ -200,29 +428,39 @@ TAVLCalendario::Hoja () const
 
 
 void
-TAVLCalendario::InsertarHoja (
-    const TCalendario& p_cal,
-    bool& creceDer, bool& creceIzq)
+TAVLCalendario::PreordenAux (
+  TVectorCalendario& p_v, int& p_pos) const
 {
-  if (Hoja())
-  {
-    if (p_cal < _raiz->_item)
-    {
-      _raiz->_iz._raiz = new TNodoAVL();
-      _raiz->_iz._raiz->_item = p_cal;
-      creceIzq = true;
-    }
-    else
-    {
-      _raiz->_de._raiz = new TNodoAVL();
-      _raiz->_de._raiz->_item = p_cal;
-      creceDer = true;
-    }
-  }
+	if (_raiz)
+	{
+		p_v[p_pos++] = _raiz->_item;
+		_raiz->_iz.PreordenAux(p_v, p_pos);
+		_raiz->_de.PreordenAux(p_v, p_pos);
+	}
+}
 
-  else if (p_cal < _raiz->_item)
-    _raiz->_iz.InsertarHoja (p_cal, creceDer, creceIzq);
 
-  else
-    _raiz->_de.InsertarHoja (p_cal, creceDer, creceIzq);
+void
+TAVLCalendario::PostordenAux (
+  TVectorCalendario& p_v, int& p_pos) const
+{
+	if (_raiz)
+	{
+		_raiz->_iz.PostordenAux(p_v, p_pos);
+		_raiz->_de.PostordenAux(p_v, p_pos);
+		p_v[p_pos++] = _raiz->_item;
+	}
+}
+
+
+void
+TAVLCalendario::InordenAux (
+  TVectorCalendario& p_v, int& p_pos) const
+{
+  if (_raiz)
+	{
+		_raiz->_iz.InordenAux (p_v, p_pos);
+		p_v[p_pos++] = _raiz->_item;
+		_raiz->_de.InordenAux (p_v, p_pos);
+	}
 }
