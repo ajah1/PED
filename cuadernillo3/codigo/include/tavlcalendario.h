@@ -1,12 +1,13 @@
 #pragma once
 
 #include "tcalendario.h"
+#include "tvectorcalendario.h"
 
 class TNodoAVL;
 
 class TAVLCalendario
 {
-friend class TNodoAVL;
+  friend class TNodoAVL;
 
 private:
   // Puntero al nodo raíz
@@ -14,6 +15,13 @@ private:
 
   // codigo repetitivo
   void CopiarAVL (const TAVLCalendario &);
+  // Devuelve el recorrido en inorden
+  void InordenAux (TVectorCalendario &, int &) const;
+
+
+  // AUXILIARES
+  bool Hoja () const;
+  void InsertarHoja (const TCalendario&, bool&, bool&);
 
 public:
   // Constructor por defecto
@@ -25,6 +33,15 @@ public:
 
   // Sobrecarga del operador asignación
   TAVLCalendario& operator= (const TAVLCalendario &);
+
+  bool Insertar (const TCalendario &);
+  bool Buscar (const TCalendario &) const;
+
+  TVectorCalendario Inorden () const;
+
+  int Nodos () const;
+
+  void II ();
 };
 
 
@@ -55,5 +72,4 @@ public:
   ~TNodoAVL ();
   // Sobrecarga del operador asignación
   TNodoAVL& operator=(const TNodoAVL &);
-
 };
