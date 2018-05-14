@@ -1,7 +1,5 @@
-#include "tavlcalendario.h"
-#include "tabbcalendario.h"
 
-#include <algorithm>
+#include "tavlcalendario.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //                          TNodoAVL                                         //
@@ -18,11 +16,12 @@ TNodoAVL::TNodoAVL (const TNodoAVL& p_nodo)
 }
 
 
-TNodoAVL::~TNodoAVL ()
+TNodoAVL::~TNodoAVL()
 {
-  _item.~TCalendario();
-  _iz.~TAVLCalendario();
-  _de.~TAVLCalendario();
+	_item.~TCalendario();
+	_iz.~TAVLCalendario();
+	_de.~TAVLCalendario();
+	_fe = 0;
 }
 
 
@@ -34,7 +33,6 @@ TNodoAVL::operator= (const TNodoAVL& p_nodo)
 
     return *this;
 }
-
 
 ///////////////////// AUXILIARES /////////////////////
 void
@@ -48,7 +46,7 @@ TNodoAVL::CopiarNodoAVL (const TNodoAVL& p_nodo)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//                          TAVLCalendario                                   //
+//                          TAVL                                             //
 ///////////////////////////////////////////////////////////////////////////////
 
 TAVLCalendario::TAVLCalendario () :
@@ -77,6 +75,7 @@ TAVLCalendario::~TAVLCalendario ()
   }
 }
 
+
 /////////////////////////////////////////////// SOBRECARGAS ////////////////////
 TAVLCalendario&
 TAVLCalendario::operator= (const TAVLCalendario& p_avl)
@@ -87,11 +86,13 @@ TAVLCalendario::operator= (const TAVLCalendario& p_avl)
   return *this;
 }
 
+
 bool
 TAVLCalendario::operator== (const TAVLCalendario& p_avl) const
 {
   return Inorden() == p_avl.Inorden();
 }
+
 
 bool
 TAVLCalendario::operator!= (const TAVLCalendario& p_avl) const
@@ -100,207 +101,7 @@ TAVLCalendario::operator!= (const TAVLCalendario& p_avl) const
 }
 
 
-//////////////////////////////////////////// INSERTAR  ////////////////////////
-bool
-TAVLCalendario::Insertar (const TCalendario& p_cal)
-{
-	bool crece;
-
-  if (!Buscar(p_cal))
-	 return InsertarAux (p_cal, crece);
-
-  else
-    return false;
-}
-
-bool
-TAVLCalendario::Borrar (const TCalendario& p_cal)
-{
-  bool decrece = false;
-  return BorrarAux (p_cal, decrece);
-}
-
-bool
-TAVLCalendario::BorrarAux (const TCalendario& p_cal, bool& decrece)
-{
-  TCalendario mayor;
-
-  bool decreceDer = false;
-  bool decreceIzq = false;
-  bool borrado = false;
-
-  if (_raiz != NULL)
-  {
-    if (p_cal < _raiz->_item)
-      _raiz->_iz.BorrarAux (p_cal, decreceIzq);
-
-    else if (p_cal > _raiz->_item)
-      _raiz->_de.BorrarAux (p_cal, decreceDer);
-
-    else if (_raiz->_item == p_cal)
-    {
-      if (Hoja())
-      {
-        delete _raiz;
-        _raiz = NULL;
-        decrece = true;
-        borrado = true;
-      }
-
-      else if (_raiz->_de.EsVacio())
-      {
-        _raiz = _raiz->_iz._raiz;
-        decrece = true;
-        borrado = true;
-      }
-
-      else if (_raiz->_iz.EsVacio())
-      {
-        _raiz = _raiz->_de._raiz;
-        decrece = true;
-        borrado = true;
-      }
-
-      else
-      {
-        TNodoAVL* aux_nodo;
-        mayor = _raiz->_iz.MayorIzquierda();
-        aux_nodo = _raiz;
-        borrado = BorrarAux (mayor, decrece);
-        aux_nodo->_item = mayor;
-      }
-    }
-
-    Reestructuracion (
-      borrado, decreceDer, decreceIzq, decrece
-    );
-  }
-
-  return borrado;
-}
-
-bool TAVLCalendario::Reestructuracion(
-  bool& borrado, bool& decreceDe, bool& decreceIz, bool& decrece)
-{
-	if(borrado)
-	{
-		if(decreceIz)
-      DecreceIzquierda (decrece);
-
-		else if(decreceDe)
-      DecreceDerecha (decrece);
-	}
-}
-
-
-///////////////////// REESTRUCTURACIONES /////////////////////
-void
-TAVLCalendario::DecreceIzquierda (bool& decrece)
-{
-  _raiz->_fe++;
-
-  if(_raiz->_fe == 0)
-    decrece = true;
-
-  else if(_raiz->_fe == 1)
-    decrece = false;
-
-  else if(_raiz->_fe == 2)
-  {
-    if (_raiz->_de._raiz->_fe == -1)
-    {
-      DI();
-      decrece = true;
-    }
-    else if (_raiz->_de._raiz->_fe == 0)
-    {
-      DD();
-      decrece = false;
-    }
-    else if (_raiz->_de._raiz->_fe == 1)
-    {
-      DD();
-      decrece = true;
-    }
-  }
-}
-
-void
-TAVLCalendario::DecreceDerecha (bool& decrece)
-{
-  _raiz->_fe--;
-
-  if(_raiz->_fe == 0)
-    decrece = true;
-
-  else if(_raiz->_fe == -1)
-      decrece = false;
-
-  else if(_raiz->_fe == -2)
-  {
-    if(_raiz->_de._raiz->_fe == -1)
-    {
-      II();
-      decrece = true;
-    }
-    else if(_raiz->_iz._raiz->_fe == 0)
-    {
-      II();
-      decrece = false;
-    }
-    else if(_raiz->_iz._raiz->_fe == 1)
-    {
-      ID();
-      decrece = true;
-    }
-  }
-}
-
-
-void
-TAVLCalendario::CreceIzquierda (bool& crece)
-{
-  _raiz->_fe--;
-  if (_raiz->_fe == 0)
-      crece = false;
-
-  else if (_raiz->_fe == -1)
-      crece = true;
-
-  else if (_raiz->_fe == -2)
-  {
-      crece = false;
-      if (_raiz->_iz._raiz->_fe == -1)
-          II();
-
-      if (_raiz->_iz._raiz->_fe == 1)
-          ID();
-  }
-}
-
-void
-TAVLCalendario::CreceDerecha (bool& crece)
-{
-  _raiz->_fe++;
-
-  if (_raiz->_fe == 0)
-      crece = false;
-
-  else if (_raiz->_fe == 1)
-      crece = true;
-
-  else if (_raiz->_fe == 2)
-  {
-      crece = false;
-      if (_raiz->_de._raiz->_fe == -1)
-          DI();
-
-      if (_raiz->_de._raiz->_fe == 1)
-          DD();
-  }
-}
-
-//////////////////////////////// ROTACIONES II DD ID DI ///////////////////////
+/////////////////////////////////////////////////ROTACIONES II DD ID DI/////////
 void
 TAVLCalendario::II ()
 {
@@ -418,55 +219,256 @@ TAVLCalendario::DI()
 }
 
 
-/////////////////////////////////  BOORRARAUX; INSERTARAUX /////////////////////
+////////////////////////////////////////////// INSERTAR ////////////////////////
+bool
+TAVLCalendario::Insertar (const TCalendario& complejo)
+{
+	bool crece;
+	return insertaraux(complejo,crece);
+}
+
 
 bool
-TAVLCalendario::InsertarAux (const TCalendario& p_cal, bool& crece)
+TAVLCalendario::insertaraux (const TCalendario& p_cal, bool& crece)
 {
-  bool insertado = false;
-  bool creceiz = false;
-  bool crecede = false;
+    bool insertado = false;
+    bool creceiz = false;
+    bool crecede = false;
 
-  if (!_raiz)
-  {
-      _raiz = new TNodoAVL;
-      _raiz->_fe = 0;
-      _raiz->_item = p_cal;
-      insertado = true;
-      crece = true;
-  }
+    if (EsVacio())
+    {
+        _raiz = new TNodoAVL;
+        _raiz->_fe = 0;
+        _raiz->_item = p_cal;
+        insertado = true;
+        crece = true;
+    }
 
-  if (p_cal > _raiz->_item)
-      insertado = _raiz->_de.InsertarAux(p_cal, crecede);
+    else if (_raiz->_item != p_cal)
+    {
+        if (p_cal > _raiz->_item)
+            insertado = _raiz->_de.insertaraux (p_cal, crecede);
 
-  else if (p_cal < _raiz->_item)
-      insertado = _raiz->_iz.InsertarAux(p_cal, creceiz);
+        else if (p_cal < _raiz->_item)
+            insertado = _raiz->_iz.insertaraux (p_cal, creceiz);
 
-  // RECALCULAR FE Y ROTAR
-  if (creceiz)
-    CreceIzquierda (crece);
+        if (creceiz)
+					CreceIzquierda (crece);
 
-  else if (crecede)
-    CreceDerecha (crece);
+        else if (crecede)
+					CreceDerecha (crece);
+    }
 
-  return insertado;
+    else
+    {
+        insertado = false;
+        crece = false;
+    }
+
+    return insertado;
 }
 
 
-/////////////////////// CONSULTORAS ////////////////////////////////////////////
-TCalendario
-TAVLCalendario::Raiz() const
+void TAVLCalendario::CreceIzquierda (bool& crece)
 {
-  return _raiz->_item;
+	_raiz->_fe--;
+	if (_raiz->_fe == 0)
+			crece = false;
+	if (_raiz->_fe == -1)
+			crece = true;
+	if (_raiz->_fe == -2)
+	{
+			crece = false;
+			if (_raiz->_iz._raiz->_fe == -1)
+					II();
+			if (_raiz->_iz._raiz->_fe == 1)
+					ID();
+	}
 }
+
+
+void TAVLCalendario::CreceDerecha (bool& crece)
+{
+	_raiz->_fe++;
+
+	if (_raiz->_fe == 0)
+			crece = false;
+
+	if (_raiz->_fe == 1)
+			crece = true;
+
+	if (_raiz->_fe == 2)
+	{
+			crece = false;
+			if (_raiz->_de._raiz->_fe == -1)
+					DI();
+
+			if (_raiz->_de._raiz->_fe == 1)
+					DD();
+	}
+}
+
+
+///////////////////////////////////////////////////////// BORRAR ///////////////
+bool
+TAVLCalendario::Borrar (const TCalendario& p_cal)
+{
+	bool decrece = false;
+	return BorrarAux(p_cal, decrece);
+}
+
 
 bool
-TAVLCalendario::EsVacio () const
+TAVLCalendario::BorrarAux (const TCalendario& p_cal, bool& decrece)
 {
-  return _raiz == NULL;
+	TNodoAVL* aux_nodo;
+
+	TCalendario mayorIz;
+
+	bool borrado = false;
+	bool decreceiz = false;
+	bool decrecede = false;
+
+	if (_raiz)
+	{
+		if (p_cal < _raiz->_item)
+			borrado = _raiz->_iz.BorrarAux (p_cal, decreceiz);
+
+		else if (p_cal > _raiz->_item)
+			borrado = _raiz->_de.BorrarAux (p_cal, decrecede);
+
+		else if (_raiz->_item == p_cal)
+		{
+			if (ComprobarHoja())
+			{
+				BorrarHoja ();
+				decrece = true;
+				borrado = true;
+			}
+
+			else if (_raiz->_de.EsVacio())
+			{
+				_raiz = _raiz->_iz._raiz;
+				decrece = true;
+				borrado = true;
+			}
+
+			else if (_raiz->_iz.EsVacio())
+			{
+				_raiz = _raiz->_de._raiz;
+				decrece = true;
+				borrado = true;
+			}
+
+			else
+			{
+				mayorIz = _raiz->_iz.BuscarMayor ();
+				aux_nodo = _raiz;
+				borrado = BorrarAux (mayorIz, decrece);
+				aux_nodo->_item = mayorIz;
+			}
+		}
+
+		Reestructuracion(
+			borrado, decrecede,
+			decreceiz, decrece
+		);
+	}
+
+	return borrado;
 }
 
-///////////////////////RAIZ NODOSHOJA BUSCAR NODOS ALTURA //////////////////////
+
+void
+TAVLCalendario::Reestructuracion (
+	bool& borrado,
+	bool& decreceDe,
+	bool& decreceIz,
+	bool& decrece)
+{
+	if (borrado)
+	{
+		if (decreceIz)
+			DecreceIzq (decrece);
+
+		else if (decreceDe)
+			DecreceDer (decrece);
+	}
+}
+
+
+void
+TAVLCalendario::DecreceDer (bool& decrece)
+{
+	_raiz->_fe--;
+
+	if(_raiz->_fe == 0)
+		decrece = true;
+
+	else if(_raiz->_fe == -1)
+			decrece = false;
+
+	else if(_raiz->_fe == -2)
+	{
+		if(_raiz->_iz._raiz->_fe == -1)
+		{
+			II();
+			decrece = true;
+		}
+		else if(_raiz->_iz._raiz->_fe == 0)
+		{
+			II();
+			decrece = false;
+		}
+		else if(_raiz->_iz._raiz->_fe == 1)
+		{
+			ID();
+			decrece = true;
+		}
+	}
+}
+
+
+void
+TAVLCalendario::DecreceIzq (bool& decrece)
+{
+	_raiz->_fe++;
+
+	if (_raiz->_fe == 0)
+		decrece = true;
+
+	else if(_raiz->_fe == 1)
+		decrece = false;
+
+	else if(_raiz->_fe == 2)
+	{
+		if (_raiz->_de._raiz->_fe == -1)
+		{
+			DI();
+			decrece = true;
+		}
+		else if (_raiz->_de._raiz->_fe == 0)
+		{
+			DD();
+			decrece = false;
+		}
+		else if (_raiz->_de._raiz->_fe == 1)
+		{
+			DD();
+			decrece = true;
+		}
+	}
+}
+
+
+///////////////////////////////// ESVACIO BUSCAR ALTURA NODOS NODOSHOJA RAIZ ///
+bool
+TAVLCalendario::EsVacio() const
+{
+	return !_raiz;
+}
+
+
 bool
 TAVLCalendario::Buscar (const TCalendario& p_cal) const
 {
@@ -483,17 +485,6 @@ TAVLCalendario::Buscar (const TCalendario& p_cal) const
 
 
 int
-TAVLCalendario::Nodos () const
-{
-  if (_raiz)
-		return 1 + _raiz->_iz.Nodos()
-			       + _raiz->_de.Nodos();
-	else
-		return 0;
-}
-
-
-int
 TAVLCalendario::Altura () const
 {
 	if (_raiz)
@@ -506,12 +497,23 @@ TAVLCalendario::Altura () const
 
 
 int
+TAVLCalendario::Nodos () const
+{
+  if (_raiz)
+		return 1 + _raiz->_iz.Nodos()
+			       + _raiz->_de.Nodos();
+	else
+		return 0;
+}
+
+
+int
 TAVLCalendario::NodosHoja () const
 {
   if (_raiz== NULL)
     return 0;
 
-	else if (Hoja())
+	else if (ComprobarHoja())
     return 1;
 
   else
@@ -519,20 +521,15 @@ TAVLCalendario::NodosHoja () const
           _raiz->_de.NodosHoja();
 }
 
+
 TCalendario
-TAVLCalendario::MayorIzquierda () const
+TAVLCalendario::Raiz() const
 {
-  if (Hoja())
-    return _raiz->_item;
-
-  else if (!_raiz->_de.EsVacio())
-    return _raiz->_de.MayorIzquierda();
-
-  else
-    return _raiz->_iz.MayorIzquierda();
+  return _raiz->_item;
 }
 
-///////////////////////////////////// RECORRIDOS EN PROFUNDIDAD ///////////////
+
+////////////////////////////////////////////////////// RECORRIDOS PROFUNDIDAD///
 TVectorCalendario
 TAVLCalendario::Inorden() const
 {
@@ -567,7 +564,24 @@ TAVLCalendario::Postorden () const
 }
 
 
-///////////////////////////// AUXILIARES //////////////////////////////////////
+////////////////////////////////////// AUXILIARES //////////////////////////////
+void TAVLCalendario::BorrarHoja ()
+{
+  delete _raiz;
+  _raiz = NULL;
+}
+
+bool
+TAVLCalendario::ComprobarHoja() const
+{
+	bool hoja = false;
+
+	if (_raiz->_de.EsVacio() && _raiz->_iz.EsVacio())
+		hoja = true;
+
+	return hoja;
+}
+
 void
 TAVLCalendario::CopiarAVL (const TAVLCalendario& p_avl)
 {
@@ -585,11 +599,17 @@ TAVLCalendario::CopiarAVL (const TAVLCalendario& p_avl)
       _raiz = NULL;
 }
 
-
-bool
-TAVLCalendario::Hoja () const
+TCalendario
+TAVLCalendario::BuscarMayor () const
 {
-  return (!_raiz->_iz._raiz && !_raiz->_de._raiz);
+  if (ComprobarHoja())
+    return _raiz->_item;
+
+  else if (!_raiz->_de.EsVacio())
+    return _raiz->_de.BuscarMayor();
+
+  else
+    return _raiz->_iz.BuscarMayor();
 }
 
 void
@@ -604,7 +624,6 @@ TAVLCalendario::PreordenAux (
 	}
 }
 
-
 void
 TAVLCalendario::PostordenAux (
   TVectorCalendario& p_v, int& p_pos) const
@@ -616,7 +635,6 @@ TAVLCalendario::PostordenAux (
 		p_v[p_pos++] = _raiz->_item;
 	}
 }
-
 
 void
 TAVLCalendario::InordenAux (

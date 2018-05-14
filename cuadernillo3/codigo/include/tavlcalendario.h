@@ -3,6 +3,7 @@
 #include "tcalendario.h"
 #include "tvectorcalendario.h"
 
+////// FORWARD DECLARATION ////
 class TNodoAVL;
 
 class TAVLCalendario
@@ -12,18 +13,39 @@ class TAVLCalendario
 private:
   TNodoAVL* _raiz;
 
+  ////////////////// FUNCIONES AUXILIARES //////////////
   void InordenAux (TVectorCalendario &, int &) const;
   void PreordenAux (TVectorCalendario &, int &) const;
   void PostordenAux (TVectorCalendario &, int &) const;
 
-  void CopiarAVL (const TAVLCalendario &);
+  bool InsertarAux(const TCalendario&, bool&);
+  bool insertaraux(const TCalendario&, bool&);
+  bool BorrarAux(const TCalendario&, bool&);
+
+  bool ComprobarHoja () const;
 
   void II();
   void DD();
   void DI();
   void ID();
 
-  bool InsertarAux(const TCalendario&, bool&);
+  void CreceDerecha (bool &);
+  void CreceIzquierda (bool &);
+	void DecreceIzq (bool &);
+	void DecreceDer (bool &);
+
+  void CopiarNodoAVL (const TNodoAVL&);
+  void CopiarAVL (const TAVLCalendario&);
+
+  void BorrarHoja ();
+  void BorrarConCriterio ();
+
+  void Reestructuracion (
+    bool&, bool&, bool&, bool&
+  );
+
+  TCalendario BuscarMayor() const;
+
 
 public:
   TAVLCalendario ();
@@ -37,32 +59,18 @@ public:
 
   bool Insertar (const TCalendario &);
   bool Borrar (const TCalendario &);
-
   bool Buscar (const TCalendario &) const;
-  bool Hoja () const;
-
   bool EsVacio () const;
 
   int Nodos () const;
   int Altura () const;
-
-  TVectorCalendario Inorden () const;
-  TVectorCalendario Preorden () const;
-  TVectorCalendario Postorden () const;
-
-  void CreceDerecha (bool &);
-  void CreceIzquierda (bool &);
-
   int NodosHoja () const;
 
   TCalendario Raiz() const;
 
-
-  bool Reestructuracion (bool&, bool&, bool&, bool&);
-  bool BorrarAux (const TCalendario&, bool&);
-  TCalendario MayorIzquierda () const;
-  void DecreceDerecha (bool &);
-  void DecreceIzquierda (bool &);
+  TVectorCalendario Inorden () const;
+  TVectorCalendario Preorden () const;
+  TVectorCalendario Postorden () const;
 };
 
 
@@ -78,6 +86,7 @@ private:
 
   int _fe;
 
+  ///////////////////////// AUXILIAR ///////////
   void CopiarNodoAVL (const TNodoAVL &);
 
 public:
