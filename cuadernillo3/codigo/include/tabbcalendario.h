@@ -4,6 +4,7 @@
 
 #include "tcalendario.h"
 #include "tvectorcalendario.h"
+#include "tlistacalendario.h"
 
 
 // forward declaration
@@ -86,6 +87,21 @@ public:
 
     // AUXILIAR: devuelve el menor nodo de la derecha
     TCalendario MayorIzquierda () const;
+
+    ///////////////////////////////////////////////// EJERCICIOS RANDOM
+    ////////////////////////////////////////EJERCICIO1
+    TNodoABB* ObtenerPuntero (const TCalendario& p_cal) const;
+    TListaCalendario ListaHojas (const TVectorCalendario& p_vec) const;
+    ////////////////////////////////////////EJERCICIO 2
+    int* Marcar (const TListaCalendario& p_l) const;
+    ////////////////////////////////////////EJERCICIO 3
+    TListaCalendario Hijos(const TCalendario &p) const;
+    ///////////////////////////////////////EJERCICIO ESTAENNIVEL
+    bool EstaEnNivel (const TCalendario& p_cal, int& niv) const;
+    /////////////////////////////////////// EJERCICIO 5
+    TVectorCalendario PadresDe (const TListaCalendario& p_l) const;
+    TCalendario SoyTuPadre (const TCalendario& p_cal) const;
+
 };
 
 

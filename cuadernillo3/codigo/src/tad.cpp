@@ -1,42 +1,43 @@
-/************************************************************
-** BORRAR CON ROTACION II
-*************************************************************/
 #include <iostream>
-#include "tavlcalendario.h"
+#include "tabbcalendario.h"
+#include "tcalendario.h"
+#include "tlistacalendario.h"
 
 using namespace std;
 
 int
-main()
+main(void)
 {
-  TAVLCalendario arb1, arb2;
-  TVectorCalendario vec, vec2;
+  TABBCalendario a;
 
-  TCalendario c1(1,1,2011,(char *)"uno");
-  TCalendario c2(2,2,2011,(char *)"dos");
-  TCalendario c3(3,3,2011,(char *)"tres");
-  TCalendario c4(4,4,2011,(char *)"cuatro");
-  TCalendario c5(5,5,2011,(char *)"cinco");
-  TCalendario c6(6,6,2011,(char *)"seis");
+  TCalendario c1(1,1,2011,"Fecha1");
+  TCalendario c2(2,1,2011,"Fecha2");
+  TCalendario c3(3,1,2011,"Fecha3");
+  TCalendario c4(4,1,2011,"Fecha4");
+  TCalendario c5(5,1,2011,"Fecha5");
+  TCalendario c6(6,1,2011,"Fecha6");
+  TCalendario c7(7,1,2011,"Fecha7");
 
-  arb1.Insertar(c6);
-  arb1.Insertar(c4);
-  arb1.Insertar(c2);
-  arb1.Insertar(c1);
-  arb1.Insertar(c3);
- cout<<arb1.Preorden()<<endl;
- if (arb1.Borrar(c5))
-  	cout<<"Elemento borrado"<<endl;
- else cout<<"Elemento no borrado"<<endl;
- 
- if (arb1.Borrar(c6))
-  	cout<<"Elemento borrado"<<endl;
-  else cout<<"Elemento no borrado"<<endl;
- 
- cout<<arb1.Raiz()<<endl;
- cout<<arb1.Preorden()<<endl;
- cout<<arb1.Inorden()<<endl;
- cout<<arb1.Postorden()<<endl;
-  
+  a.Insertar(c3);
+  a.Insertar(c4);
+  a.Insertar(c1);
+  a.Insertar(c2);
+  a.Insertar(c5);
+  a.Insertar(c6);
+
+  std::cout << "ARBOL A RECORRER: " << endl;
+  cout << a.Inorden() << "\n\n";
+
+  TListaCalendario l;
+  l.Insertar (c5);
+  l.Insertar (c1);
+  std::cout << "LISTA DE LOS HIJOS: \n" << l << endl;
+
+  std::cout << "\nLISTADO DE PADRES: \n";
+  TVectorCalendario resultado_padres;
+  resultado_padres = a.PadresDe (l);
+  std::cout << resultado_padres;
+  cout << "\n\n";
+
   return 0;
 }

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class TNodoCalendario 
+class TNodoCalendario
 {
 	friend class TListaCalendario;
 	friend class TListaPos;
@@ -22,7 +22,7 @@ public:
 	TNodoCalendario (const TNodoCalendario&);
 	~TNodoCalendario ();
 	TNodoCalendario& operator= (const TNodoCalendario&);
-	
+
 };
 
 
@@ -41,13 +41,15 @@ public:
 	TListaPos(const TListaPos &);
 	~TListaPos();
 	TListaPos & operator=(const TListaPos &);
-	
+
 	bool operator==(const TListaPos &) const;
 	bool operator!=(const TListaPos &) const;
-	
+
 	TListaPos Siguiente() const;
-	
+
 	bool EsVacia() const;
+
+	TCalendario Obtener() const {return _pos->_c;};
 
 };
 
@@ -55,7 +57,7 @@ public:
 
 class TListaCalendario
 {
-	friend 
+	friend
 	std::ostream & operator<<(std::ostream &, const TListaCalendario &);
 
 private:
@@ -72,16 +74,16 @@ public:
 	bool Insertar (const TCalendario &);
 	bool EsVacia () const;
 	bool Buscar (const TCalendario &) const;
-	
+
     bool Borrar (const TCalendario &);
 	bool Borrar (const TListaPos &);
 	bool Borrar (const int, const int, const int);
 
 	int Longitud() const;
-	
+
 	TListaPos Primera() const;
 	TListaPos Ultima() const;
-	
+
 	TCalendario Obtener(const TListaPos &) const;
 	TListaCalendario operator+ (const TListaCalendario &) const;
 };

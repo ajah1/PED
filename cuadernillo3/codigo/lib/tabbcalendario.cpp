@@ -330,11 +330,11 @@ TABBCalendario::Borrar (const TCalendario& p_cal)
 		/* si ( y==x ) */
 		else if (p_cal == _raiz->_item)
 		{
-			// C1. el nodo a borrar es hoja
+			// C1. el _raiz a borrar es hoja
 			if (Hoja())
         BorrarHoja ();
 
-			// C2. el nodo a borrar solo tiene un hijo
+			// C2. el _raiz a borrar solo tiene un hijo
 			else if (_raiz->_iz.EsVacio() || _raiz->_iz.EsVacio())
         BorrarHijo ();
 
@@ -368,14 +368,14 @@ TABBCalendario::CopiarArbol (const TABBCalendario& p_abb)
     // caso resursivo: arbol no vacio
     if (p_abb._raiz)
     {
-        // nuevo nodo del arbol
+        // nuevo _raiz del arbol
         TNodoABB* nabb_aux = new TNodoABB();
         nabb_aux->_item = p_abb._raiz->_item;
 
-        // apuntar a la copia del nodo
+        // apuntar a la copia del _raiz
         _raiz = nabb_aux;
 
-        // llamar a copiar iz/de
+        // llamar a copiar _iz/_de
         (_raiz->_iz).CopiarArbol(p_abb._raiz->_iz);
         (_raiz->_de).CopiarArbol(p_abb._raiz->_de);
     }
@@ -444,3 +444,202 @@ TABBCalendario::BorrarHijo ()
   delete aux_raiz;
   aux_raiz = NULL;
 }
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////// EJERCICIOS RANDOM /////////////////////////
+///////////////////////////////////////////////////////////////////////////
+/*
+// EJERCICIO1
+Devuelve una lista con los nodos que son hojas en el arbool _de los nodos del
+vector pasado como parametro.
+TLiscaCom listaHojas(const TVectorCom &up) const;
+bool esHoja(const TComplejo &p_cal) const;
+*/
+
+// AUXILIAR: devuelve el puntero al _raiz, el calendario a buscar
+// ya está previamente comprobado que esté en el abb
+TNodoABB*
+TABBCalendario::ObtenerPuntero (const TCalendario& p_cal) const
+{
+  if (_raiz->_item == p_cal)
+    return _raiz;
+
+  else if (_raiz->_iz.EsVacio())
+    return _raiz->_de.ObtenerPuntero (p_cal);
+
+  else if (_raiz->_de.EsVacio())
+    return _raiz->_iz.ObtenerPuntero (p_cal);
+}
+
+TListaCalendario
+TABBCalendario::ListaHojas (const TVectorCalendario& p_vec) const
+{
+  TCalendario aux_cal;
+  TNodoABB* aux_nodo;
+  TListaCalendario lista_hojas;
+
+  for (int i = 1; i <= p_vec.Tamano(); ++i)
+  {
+    if (Buscar(p_vec[i]))
+    {
+      aux_cal = p_vec[i];
+      aux_nodo = ObtenerPuntero (aux_cal);
+
+      if (!aux_nodo->_iz._raiz && !aux_nodo->_de._raiz)
+        lista_hojas.Insertar (p_vec[i]);
+    }
+  }
+  return lista_hojas;
+}
+
+
+/*
+// EJERCICIO2
+Comprobar si los nodos _de la lista estan en el arbol. Devuelve una lista con las
+ posiciones _de forma que si esta pone 1 sino pone 0
+int *TABBCom::marcar(const TListaCom &lista) const;
+*/
+int*
+TABBCalendario::Marcar (const TListaCalendario& p_l) const
+{
+  int* nodos_marcados = new int [p_l.Longitud()];
+  int i = 0;
+
+  TListaPos aux_i = p_l.Primera();
+
+  while (!aux_i.EsVacia())
+  {
+    if (Buscar (aux_i.Obtener()))
+      nodos_marcados[i] = 1;
+    else
+      nodos_marcados[i] = 0;
+
+    aux_i = aux_i.Siguiente();
+    i++;
+  }
+
+  return nodos_marcados;
+}
+
+/*
+  EJERCICIO3
+*/
+TListaCalendario
+TABBCalendario::Hijos (const TCalendario& p_cal) const
+{
+  TListaCalendario l;
+
+  if (_raiz != NULL)
+  {
+    if (p_cal < _raiz->_item)
+       _raiz->_iz.Hijos(p_cal);
+
+    else if(p_cal > _raiz->_item)
+      l=_raiz->_de.Hijos(p_cal);
+
+    else
+    {
+      if (_raiz->_iz._raiz!=NULL)
+        l.Insertar(_raiz->_iz._raiz->_item);
+
+      if (_raiz->_de._raiz!=NULL)
+        l.Insertar(_raiz->_de._raiz->_item);
+    }
+  }
+
+  	return l;
+}
+
+/*
+//devuelve verdadero si el Com esta en el nivel i del arbol
+bool TABBCom::estaEnNivel(const TComplejo &lp, int niv)const
+{
+*/
+bool
+TABBCalendario::EstaEnNivel (const TCalendario& p_cal, int& p_nivel) const
+{
+  if (_raiz != NULL)
+  {
+    if (p_nivel == 1 && _raiz->_item == p_cal)
+    {
+      return true;
+    }
+    else if (p_cal < _raiz->_item)
+      return _raiz->_iz.EstaEnNivel (p_cal, --p_nivel);
+
+    else if (p_cal > _raiz->_item)
+      return _raiz->_de.EstaEnNivel (p_cal, --p_nivel);
+  }
+  return false;
+}
+
+/*
+// EJERCICIO5
+devuelve un vector con los padres de los elementos en el arbol
+si no tiene padre se le pondra vacion en su posicion
+TComplejo soyTuPadre(const TComplejo& p) const;
+TVectorCom padresDe(const TListaCom& lp) const;
+*/
+
+TVectorCalendario
+TABBCalendario::PadresDe (const TListaCalendario& p_l) const
+{
+  TVectorCalendario padres (p_l.Longitud());
+  TCalendario cal_vacio;
+
+  TListaPos aux_pos = p_l.Primera();
+  int16_t i= 1;
+  while (!aux_pos.EsVacia())
+  {
+    padres [i] = SoyTuPadre (aux_pos.Obtener());
+
+    aux_pos = aux_pos.Siguiente();
+    i++;
+  }
+
+  return padres;
+}
+
+
+TCalendario
+TABBCalendario::SoyTuPadre (const TCalendario& p_cal) const
+{
+  TCalendario padre;
+
+  if (_raiz != NULL)
+  {
+    if (!_raiz->_iz.EsVacio() && _raiz->_iz._raiz->_item == p_cal) {
+      return _raiz->_item;
+    }
+    else if (!_raiz->_de.EsVacio() && _raiz->_de._raiz->_item == p_cal) {
+      return _raiz->_item;
+    }
+    else if (p_cal < _raiz->_item) {
+      return _raiz->_iz.SoyTuPadre (p_cal);
+    }
+    else if (p_cal > _raiz->_item) {
+      return _raiz->_de.SoyTuPadre (p_cal);
+    }
+  }
+  return padre;
+}
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
